@@ -1,13 +1,18 @@
 package de.jeanpierrehotz.drawyaownwallpapers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     private SeekBar         lines_unicolor_b_seekbar;
     private SeekBar         lines_linewidth_seekbar;
     private CheckBox        lines_linesave_checkbox;
+    private Button          lines_linesave_deleteLast_Button;
     private CheckBox        lines_linedrawBall_checkbox;
     private TextView        lines_linesballsize_caption;
     private SeekBar         lines_linesballsize_seekbar;
@@ -107,7 +113,6 @@ public class MainActivity extends AppCompatActivity{
             lines_unicolor_g_seekbar.setVisibility(vis);
             lines_unicolor_b_seekbar.setVisibility(vis);
         }
-        private void foo(){}
     };
     private SeekBar.OnSeekBarChangeListener         lines_unicolor_listener                             = new SeekBar.OnSeekBarChangeListener(){
         @Override
@@ -123,6 +128,12 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onStopTrackingTouch(SeekBar seekBar){}
     };
+    private CheckBox.OnCheckedChangeListener        lines_linesave_listener                             = new CompoundButton.OnCheckedChangeListener(){
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b){
+            lines_linesave_deleteLast_Button.setVisibility((lines_linesave_checkbox.isChecked())? View.VISIBLE: View.GONE);
+        }
+    };
     private CheckBox.OnCheckedChangeListener        lines_linedrawBall_checkbox_listener                = new CompoundButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
@@ -131,7 +142,6 @@ public class MainActivity extends AppCompatActivity{
             lines_linesballsize_caption.setVisibility(vis);
             lines_linesballsize_seekbar.setVisibility(vis);
         }
-        private void foo(){}
     };
     private RadioButton.OnCheckedChangeListener     lines_linesfade_listener                            = new CompoundButton.OnCheckedChangeListener(){
         @Override
@@ -144,7 +154,6 @@ public class MainActivity extends AppCompatActivity{
             lines_linesfadeslowlyActionTime_caption_textview.setVisibility(fadeVis);
             lines_linesfadeslowlyActionTime_seekbar.setVisibility(fadeVis);
         }
-        private void foo(){}
     };
     private CheckBox.OnCheckedChangeListener        background_backgroundpicture_checkbox_listener      = new CompoundButton.OnCheckedChangeListener(){
         @Override
@@ -158,7 +167,6 @@ public class MainActivity extends AppCompatActivity{
             background_backgroundcolor_g_Seekbar.setVisibility(colorVis);
             background_backgroundcolor_b_Seekbar.setVisibility(colorVis);
         }
-        private void foo(){}
     };
     private SeekBar.OnSeekBarChangeListener         background_backgroundcolor_listener                 = new SeekBar.OnSeekBarChangeListener(){
         @Override
@@ -187,7 +195,6 @@ public class MainActivity extends AppCompatActivity{
             clock_clockdiameter_seekbar.setVisibility(vis);
             clock_clockchooser_radiogroup.setVisibility(vis);
         }
-        private void foo(){}
     };
     private RadioButton.OnCheckedChangeListener     clock_clockSelected_listener                        = new CompoundButton.OnCheckedChangeListener(){
         @Override
@@ -212,7 +219,6 @@ public class MainActivity extends AppCompatActivity{
             clock_clock_simpleclock_color_sekunde_g_seekbar.setVisibility(simpleClockVis);
             clock_clock_simpleclock_color_sekunde_b_seekbar.setVisibility(simpleClockVis);
         }
-        private void foo(){}
     };
     private SeekBar.OnSeekBarChangeListener         clock_clock_simpleclock_color_stunde_listener       = new SeekBar.OnSeekBarChangeListener(){
         @Override
@@ -264,6 +270,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        settings_index = 0;
 
         /*
          * First initialize layout, so it will work
@@ -279,7 +286,10 @@ public class MainActivity extends AppCompatActivity{
         lines_unicolor_b_seekbar.setOnSeekBarChangeListener(lines_unicolor_listener);
 
         lines_linewidth_seekbar                                 = (SeekBar)         findViewById(R.id.linewidth_seekbar);
+
         lines_linesave_checkbox                                 = (CheckBox)        findViewById(R.id.linesave_checkbox);
+        lines_linesave_deleteLast_Button                        = (Button)          findViewById(R.id.linesave_deleteLast_Button);
+        lines_linesave_checkbox.setOnCheckedChangeListener(lines_linesave_listener);
 
         lines_linedrawBall_checkbox                             = (CheckBox)        findViewById(R.id.linedrawBall_checkbox);
         lines_linesballsize_caption                             = (TextView)        findViewById(R.id.linesballsize_caption);
@@ -347,14 +357,14 @@ public class MainActivity extends AppCompatActivity{
         clock_clock_simpleclock_color_sekunde_b_seekbar.setOnSeekBarChangeListener(clock_clock_simpleclock_color_sekunde_listener);
         clock_clock_simpleclock_radiobtn.setOnCheckedChangeListener(clock_clockSelected_listener);
 
-
-
         /*
          * Make the drop-down layout responsive to set-Calls
          *  -> make it show nothing and if it's set to true it will show its stuff
          */
         lines_unicolor_checkbox.setChecked(true);
         lines_unicolor_checkbox.setChecked(false);
+        lines_linesave_checkbox.setChecked(true);
+        lines_linesave_checkbox.setChecked(false);
         lines_linedrawBall_checkbox.setChecked(true);
         lines_linedrawBall_checkbox.setChecked(false);
         lines_linesfadecomplete_radiobutton.setChecked(true);
@@ -366,49 +376,120 @@ public class MainActivity extends AppCompatActivity{
         /*
         Then load and show settings, so the layout will (hopefully) handle itself
          */
+        if(getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE).getBoolean("firstTime", true)){
+            getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE).edit().putBoolean("firstTime", false).apply();
 
+            lines_unicolor_checkbox.setChecked(false);
+            lines_unicolor_r_seekbar.setProgress(255);
+            lines_linewidth_seekbar.setProgress(120);
+            lines_linesave_checkbox.setChecked(false);
+            lines_linedrawBall_checkbox.setChecked(false);
+            lines_linesballsize_seekbar.setProgress(240);
+            lines_linesfadeslowly_radiobutton.setChecked(true);
+            lines_linesfadecompletetime_seekbar.setProgress(20);
+            lines_linesfadeslowlyActionTime_seekbar.setProgress(50);
+
+            background_backgroundpicture_checkbox.setChecked(false);
+            background_backgroundcolor_r_Seekbar.setProgress(243);
+            background_backgroundcolor_g_Seekbar.setProgress(168);
+            background_backgroundcolor_b_Seekbar.setProgress(168);
+
+            clock_clockenable_checkbox.setChecked(false);
+            clock_clockxposition_seekbar.setProgress(500);
+            clock_clockyposition_seekbar.setProgress(500);
+            clock_clockdiameter_seekbar.setProgress(800);
+
+            clock_clock_simpleclock_radiobtn.setChecked(true);
+            clock_clock_simpleclock_alphabehind_seekbar.setProgress(192);
+            clock_clock_simpleclock_color_stunde_r_seekbar.setProgress(255);
+            clock_clock_simpleclock_color_minute_g_seekbar.setProgress(255);
+            clock_clock_simpleclock_color_sekunde_b_seekbar.setProgress(255);
+        }else{
+            int temp = 0;
+
+            SharedPreferences prefs = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
+
+            lines_unicolor_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false));
+            temp = prefs.getInt(getString(R.string.lines_unicolor_color_preferences), 0xFF0000);
+            lines_unicolor_r_seekbar.setProgress(Color.red(temp));
+            lines_unicolor_g_seekbar.setProgress(Color.green(temp));
+            lines_unicolor_b_seekbar.setProgress(Color.blue(temp));
+
+            lines_linewidth_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.lines_width_preferences), 12f) * 10));
+
+            lines_linesave_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_permanent_preferences), false));
+
+            lines_linedrawBall_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_drawBall_preferences), false));
+            lines_linesballsize_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.lines_ballSize_preferences), 24f) * 10));
+
+            lines_linesfadecomplete_radiobutton.setChecked(prefs.getBoolean(getString(R.string.lines_fadeComplete_preferences), false));
+            lines_linesfadecompletetime_seekbar.setProgress(prefs.getInt(getString(R.string.lines_fadeComplete_time_preferences), 5000) / 100);
+            lines_linesfadeslowly_radiobutton.setChecked(prefs.getBoolean(getString(R.string.lines_fadeSlowly_preferences), true));
+            lines_linesfadeparasite_radiobutton.setChecked(prefs.getBoolean(getString(R.string.lines_fadeParasite_preferences), false));
+            lines_linesfadeslowlyActionTime_seekbar.setProgress(prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50));
+
+            background_backgroundpicture_checkbox.setChecked(prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false));
+            temp = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
+            background_backgroundcolor_r_Seekbar.setProgress(Color.red(temp));
+            background_backgroundcolor_g_Seekbar.setProgress(Color.green(temp));
+            background_backgroundcolor_b_Seekbar.setProgress(Color.blue(temp));
+
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+
+            float diam = prefs.getFloat(getString(R.string.clock_diameter_preferences), ((width > height)? height: width) * 0.800f);
+
+            clock_clockdiameter_seekbar.setProgress((int) (diam * 1000 / ((width > height)? height: width)));
+            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), (width - diam) * 0.5f) * 1000 / (width - diam)));
+            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), (height - diam) * 0.5f) * 1000 / (height - diam)));
+
+            clock_clock_simpleclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true));
+
+            clock_clock_simpleclock_alphabehind_seekbar.setProgress(Color.alpha(prefs.getInt(getString(R.string.clock_simpleclock_alphaColor_preferences), 0xC0000000)));
+
+            temp = prefs.getInt(getString(R.string.clock_simpleclock_stdcolor_preferences), 0xFF0000);
+            clock_clock_simpleclock_color_stunde_r_seekbar.setProgress(Color.red(temp));
+            clock_clock_simpleclock_color_stunde_g_seekbar.setProgress(Color.green(temp));
+            clock_clock_simpleclock_color_stunde_b_seekbar.setProgress(Color.blue(temp));
+
+            temp = prefs.getInt(getString(R.string.clock_simpleclock_mincolor_preferences), 0x00FF00);
+            clock_clock_simpleclock_color_minute_r_seekbar.setProgress(Color.red(temp));
+            clock_clock_simpleclock_color_minute_g_seekbar.setProgress(Color.green(temp));
+            clock_clock_simpleclock_color_minute_b_seekbar.setProgress(Color.blue(temp));
+
+            temp = prefs.getInt(getString(R.string.clock_simpleclock_seccolor_preferences), 0x0000FF);
+            clock_clock_simpleclock_color_sekunde_r_seekbar.setProgress(Color.red(temp));
+            clock_clock_simpleclock_color_sekunde_g_seekbar.setProgress(Color.green(temp));
+            clock_clock_simpleclock_color_sekunde_b_seekbar.setProgress(Color.blue(temp));
+        }
 
         /*
          * Calculate a product of prime numbers out of a given number n
          * Then apply this algorithm to the clocktime where n is built by hours * 100 + minutes
          */
-
-        /**
-         * FUCK DIFFERENT SETTINGS! ONLY SUPPORTING ONE FROM NOW ON!
-         */
-//        if(getSharedPreferences(getString(R.string.indexPreferences), MODE_PRIVATE).getBoolean(getString(R.string.firstTimePreferences), true)){
-//            changeSettings(0);
-//        }else{
-//            captions = new ArrayList<>();
-//
-//            int length = getSharedPreferences(getString(R.string.indexPreferences), MODE_PRIVATE).getInt(getString(R.string.lengthOfSettingsPreferences), 0);
-//
-//            for(int i = 0; i < length; i++){
-//
-//            }
-//        }
-
-//        theImageV = (ImageView) findViewById(R.id.imageView);
-
-//        clockDropDownImage = (ImageView) findViewById(R.id.clockDropDownImageID);
-
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-//                Intent i = new Intent(
-//                        Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-//                startActivityForResult(i, REQUEST_CHOOSE_IMAGE);
-            }
-        });
-*/
     }//end of onCreate()
+
+    private int settings_index;
+
+    public void deleteLastPermanentLine(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Letzte permanente Linie löschen?")
+                .setMessage("Wollen sie die letzte permanente Linie wirklich löschen? Dies kann nicht rückgängig gemacht werden!")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        /*TODO: Delete last line*/
+//                        ArrayList<Line> lines = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+//                        lines.remove(lines.size() - 1);
+//                        Line.saveToSharedPreferences(lines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+                    }
+                })
+                .setNegativeButton("Nein", null)
+                .show();
+    }
 
     private static  final int REQUEST_CHOOSE_IMAGE = 12345;
 
@@ -430,13 +511,14 @@ public class MainActivity extends AppCompatActivity{
 
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
 
-                getSharedPreferences(getString(R.string.settingsAt) + 0, MODE_PRIVATE).edit().putString(getString(R.string.backgroundPreferences), picturePath).apply();
+                getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), picturePath).apply();
             }
         }
     }
@@ -448,8 +530,62 @@ public class MainActivity extends AppCompatActivity{
         /**
          * SAVE ALL VALUES!!
          */
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        float clockDiam = ((width > height)? height: width) * clock_clockdiameter_seekbar.getProgress() * 0.001f;
+        float clockX = (width - clockDiam) * clock_clockxposition_seekbar.getProgress() * 0.001f;
+        float clockY = (height - clockDiam) * clock_clockyposition_seekbar.getProgress() * 0.001f;
+
+        getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE).edit()
+                .putBoolean(getString(R.string.lines_unicolor_preferences), lines_unicolor_checkbox.isChecked())
+                .putInt(getString(R.string.lines_unicolor_color_preferences), Color.rgb(
+                        lines_unicolor_r_seekbar.getProgress(),
+                        lines_unicolor_g_seekbar.getProgress(),
+                        lines_unicolor_b_seekbar.getProgress()
+                ))
+                .putFloat(getString(R.string.lines_width_preferences), lines_linewidth_seekbar.getProgress() * 0.1f)
+                .putBoolean(getString(R.string.lines_permanent_preferences), lines_linesave_checkbox.isChecked())
+                .putBoolean(getString(R.string.lines_drawBall_preferences), lines_linedrawBall_checkbox.isChecked())
+                .putFloat(getString(R.string.lines_ballSize_preferences), lines_linesballsize_seekbar.getProgress() * 0.1f)
+                .putBoolean(getString(R.string.lines_fadeComplete_preferences), lines_linesfadecomplete_radiobutton.isChecked())
+                .putInt(getString(R.string.lines_fadeComplete_time_preferences), lines_linesfadecompletetime_seekbar.getProgress() * 100)
+                .putBoolean(getString(R.string.lines_fadeSlowly_preferences), lines_linesfadeslowly_radiobutton.isChecked())
+                .putBoolean(getString(R.string.lines_fadeParasite_preferences), lines_linesfadeparasite_radiobutton.isChecked())
+                .putInt(getString(R.string.lines_fadeActionTime_preferences), lines_linesfadeslowlyActionTime_seekbar.getProgress())
+                .putBoolean(getString(R.string.background_pictureshown_preferences), background_backgroundpicture_checkbox.isChecked())
+                .putInt(getString(R.string.background_alternateColor_preferences), Color.rgb(
+                        background_backgroundcolor_r_Seekbar.getProgress(),
+                        background_backgroundcolor_g_Seekbar.getProgress(),
+                        background_backgroundcolor_b_Seekbar.getProgress()
+                ))
+                .putBoolean(getString(R.string.clock_drawClock_preferences), clock_clockenable_checkbox.isChecked())
+                .putFloat(getString(R.string.clock_xposition_preferences), clockX)
+                .putFloat(getString(R.string.clock_yposition_preferences), clockY)
+                .putFloat(getString(R.string.clock_diameter_preferences), clockDiam)
+                .putBoolean(getString(R.string.clock_simpleClockchosen_preferences), clock_clock_simpleclock_radiobtn.isChecked())
+                .putInt(getString(R.string.clock_simpleclock_alphaColor_preferences), Color.argb(clock_clock_simpleclock_alphabehind_seekbar.getProgress(), 0xFF, 0xFF, 0xFF))
+                .putInt(getString(R.string.clock_simpleclock_stdcolor_preferences), Color.rgb(
+                        clock_clock_simpleclock_color_stunde_r_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_stunde_g_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_stunde_b_seekbar.getProgress()
+                ))
+                .putInt(getString(R.string.clock_simpleclock_mincolor_preferences), Color.rgb(
+                        clock_clock_simpleclock_color_minute_r_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_minute_g_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_minute_b_seekbar.getProgress()
+                ))
+                .putInt(getString(R.string.clock_simpleclock_seccolor_preferences), Color.rgb(
+                        clock_clock_simpleclock_color_sekunde_r_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_sekunde_g_seekbar.getProgress(),
+                        clock_clock_simpleclock_color_sekunde_b_seekbar.getProgress()
+                ))
+                .apply();
     }
-    
+
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu){
 //        // Inflate the menu; this adds items to the action bar if it is present.

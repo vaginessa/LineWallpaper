@@ -7,14 +7,39 @@
     <string name="indexPreferences">this is the index of the setting we will be using</string>
     <string name="indexOfSettingsPreferences">inexlkdaslkfasnflkadgvlkndsyhgkjnw hivkdjn vsdnvis ghösdvas</string>
 
-    <string name="settingsAt">These are the settings at the given index i =</string>
-    <string name="backgroundPreferences">this will five you the background whih we wan tu dro. Zis will bi osam!!!!</string>
-
     <string name="permanentlines_lineSP">asdasdasdasdlkasjdlkajflkh wevbywjvbrjwygbvkjsdgp04ewqit0234tu80pßsdilms jgbsyd vnse,floiguj mas,.ölfpg,.R4523g1ry35v20w raw438ti f</string>
     <string name="permanentlines_length">Die Länge der ArrayList für permanente Listen und bla alskdhaslkdhasofihzeawofg,dbvcaq f47wefgv5w20e7gv52e7fgv5sd87gbvwraywrhs c</string>
     <string name="permanentlines_dotsinlinenr">this gives you the number of dots in the line at index numero:</string>
     <string name="permanentlines_xvalueinnr">the x value in line number: aäsdfkasöfdkasölfkasölfkaölfaksölfkaölfkaöslkdöalskdölasrowpeiqpori309214809137458931265129 vuejycfqagtfxes</string>
     <string name="permanentlines_yvalueinnr">this gives you the y value in number alsdjaslkdfjaslkfdjaslkdfjaslkdjaslkdjalkhfoe8</string>
     <string name="permanentlines_colorinnr">FUCK DAT SGHITWEOÖAGLDJAÖDLGJSADÖLJDÖLJ</string>
+
+    <string name="settingsAt">These are the settings at the given index i =</string>
+
+    <string name="lines_unicolor_preferences">is every line drawn in one color?</string>
+    <string name="lines_unicolor_color_preferences">in which color are the lines drawn?</string>
+    <string name="lines_width_preferences">How thick are those lines ;) :P</string>
+    <string name="lines_permanent_preferences">Do we have to keep this really?!?!?</string>
+    <string name="lines_drawBall_preferences">I GOT YA.... BY THE BALLS!!!!</string>
+    <string name="lines_ballSize_preferences">How big are ya balls?</string>
+    <string name="lines_fadeComplete_preferences">Are they completely disappearing?!?</string>
+    <string name="lines_fadeComplete_time_preferences">How long are they gonna take?</string>
+    <string name="lines_fadeSlowly_preferences">Im fading!!!!!!!!!!!!!!!!!!!!! DUNDUN DUADUAUDSAPDUASÖDOASDÖ</string>
+    <string name="lines_fadeParasite_preferences">GET THAT THING OUT OF ME!!!! FASTEETETERTEWTWTPKQETÖLWJKGÖBLDFÖOHjsfögl</string>
+    <string name="lines_fadeActionTime_preferences">in what steps are they made=</string>
+
+    <string name="background_pictureshown_preferences">Solln wa übahaubt da so n Teil reinhaun? :o</string>
+    <string name="background_picturepath_preferences">this will five you the background whih we wan tu dro. Zis will bi osam!!!!</string>
+    <string name="background_alternateColor_preferences">What are we supposed to do when there is no backgroundpisture? :o</string>
+
+    <string name="clock_drawClock_preferences">are we drawing something like a clock?</string>
+    <string name="clock_xposition_preferences">where do we draw it?</string>
+    <string name="clock_yposition_preferences">no srsly… where do we draw it?!?!?!?!?!?!?!?!?§!asdasdasdasdasd</string>
+    <string name="clock_diameter_preferences">and how big is it?</string>
+    <string name="clock_simpleClockchosen_preferences">are we taking the simple way?</string>
+    <string name="clock_simpleclock_alphaColor_preferences">background is transparent?!?!?!?!?</string>
+    <string name="clock_simpleclock_stdcolor_preferences">WUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTTTTTTT?!</string>
+    <string name="clock_simpleclock_mincolor_preferences">Each of those fucking pointers…</string>
+    <string name="clock_simpleclock_seccolor_preferences">…gets its own color?! Hows that possible?</string>
 
 </resources>
