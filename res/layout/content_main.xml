@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.jeanpierrehotz.drawyaownwallpapers.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sollen alle (neuen) Linien die gleiche Farbe bekommen?"
+            android:id="@+id/unicolor_checkbox"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/unicolor_colortextview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/unicolor_r_Seekbar"
+            android:max="255"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/unicolor_g_Seekbar"
+            android:max="255"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/unicolor_b_Seekbar"
+            android:max="255"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Linienstärke:"
+            android:id="@+id/textView2"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linewidth_seekbar"
+            android:max="500"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sollen die neuen Linien gespeichert werden?"
+            android:id="@+id/linesave_checkbox"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sollen Bälle am Ende einer Linie gezeichnet werden? (Auch rückwirkend gültig!)"
+            android:id="@+id/linedrawBall_checkbox"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ballgröße:"
+            android:id="@+id/linesballsize_caption"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linesballsize_seekbar"
+            android:max="1000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verschwinden der nicht gespeicherten Linien:"
+            android:id="@+id/textView4"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Komplette Linie verschwindet plötzlich"
+                android:id="@+id/linesfadecomplete_radiobutton"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zeit bis zum kompletten Verschwinden:"
+                android:id="@+id/linesfadecomplete_caption_textview"/>
+
+            <!-- Complete time will be <<progress> * 250>ms -->
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linesfadecompletetime_seekbar"
+                android:max="1280"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Linie fadet langsam aus dem Bild"
+                android:id="@+id/linesfadeslowly_radiobutton"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Linie frisst sich langsam selbst auf"
+                android:id="@+id/linesfadeparasite_radiobutton"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zeit bis eine Aktion geschieht:"
+                android:id="@+id/linesfadeslowlyActionTime_caption_textview"/>
+
+            <!-- Action time will be <<progress> * 1>ms -->
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linesfadeslowlyActionTime_seekbar"
+                android:max="500"/>
+
+        </RadioGroup>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hintergrundbild soll eingefügt werden"
+            android:id="@+id/backgroundpicture_checkbox"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wähle Hintergrundbild aus"
+            android:onClick="selectBackgroundPicture"
+            android:id="@+id/backgroundpicture_button"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/backgroundcolor_colortextview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/backgroundcolor_r_Seekbar"
+            android:max="255"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/backgroundcolor_g_Seekbar"
+            android:max="255"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/backgroundcolor_b_Seekbar"
+            android:max="255"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Soll eine Uhr angezeigt werden?"
+            android:id="@+id/clockenable_checkbox"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="x-Position der Uhr:"
+            android:id="@+id/clockxposition_caption_texview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/clockxposition_seekbar"
+            android:max="1000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="y-Position der Uhr:"
+            android:id="@+id/clockyposition_caption_textview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/clockyposition_seekbar"
+            android:maxEms="1000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Durchmesser der Uhr:"
+            android:id="@+id/clockdiameter_caption_textview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/clockdiameter_seekbar"
+            android:maxEms="1000"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/clockchooser_radiogroup">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simple Uhr"
+                android:id="@+id/clock_simpleclock_radiobtn"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alpha hinter der Uhr:"
+                android:id="@+id/clock_simpleclock_alphabehind_caption_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_alphabehind_seekbar"
+                android:maxEms="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Stundenzeigers der Uhr:"
+                android:id="@+id/clock_simpleclock_color_stunde_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_simpleclock_color_stunde_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_stunde_r_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_stunde_g_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_stunde_b_seekbar"
+                android:maxEms="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Minutenzeigers der Uhr:"
+                android:id="@+id/clock_simpleclock_color_minute_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_simpleclock_color_minute_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_minute_r_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_minute_g_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_minute_b_seekbar"
+                android:maxEms="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Sekundenzeigers der Uhr:"
+                android:id="@+id/clock_simpleclock_color_sekunde_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_simpleclock_color_sekunde_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_sekunde_r_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_sekunde_g_seekbar"
+                android:maxEms="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_simpleclock_color_sekunde_b_seekbar"
+                android:maxEms="255"/>
+
+        </RadioGroup>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="32dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

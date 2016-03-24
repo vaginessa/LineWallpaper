@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">DrawYaOwnWallpapers</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="indexPreferences">this is the index of the setting we will be using</string>
+    <string name="indexOfSettingsPreferences">inexlkdaslkfasnflkadgvlkndsyhgkjnw hivkdjn vsdnvis ghösdvas</string>
+
+    <string name="settingsAt">These are the settings at the given index i =</string>
+    <string name="backgroundPreferences">this will five you the background whih we wan tu dro. Zis will bi osam!!!!</string>
+
+    <string name="permanentlines_lineSP">asdasdasdasdlkasjdlkajflkh wevbywjvbrjwygbvkjsdgp04ewqit0234tu80pßsdilms jgbsyd vnse,floiguj mas,.ölfpg,.R4523g1ry35v20w raw438ti f</string>
+    <string name="permanentlines_length">Die Länge der ArrayList für permanente Listen und bla alskdhaslkdhasofihzeawofg,dbvcaq f47wefgv5w20e7gv52e7fgv5sd87gbvwraywrhs c</string>
+    <string name="permanentlines_dotsinlinenr">this gives you the number of dots in the line at index numero:</string>
+    <string name="permanentlines_xvalueinnr">the x value in line number: aäsdfkasöfdkasölfkasölfkaölfaksölfkaölfkaöslkdöalskdölasrowpeiqpori309214809137458931265129 vuejycfqagtfxes</string>
+    <string name="permanentlines_yvalueinnr">this gives you the y value in number alsdjaslkdfjaslkfdjaslkdfjaslkdjaslkdjalkhfoe8</string>
+    <string name="permanentlines_colorinnr">FUCK DAT SGHITWEOÖAGLDJAÖDLGJSADÖLJDÖLJ</string>
+
+</resources>
