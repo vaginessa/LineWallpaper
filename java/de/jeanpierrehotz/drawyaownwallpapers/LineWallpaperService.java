@@ -73,7 +73,7 @@ public class LineWallpaperService extends WallpaperService{
 
             lines_remove = false;
             lines_fading = true;
-            lines_drawBalls = false;
+            lines_drawBalls = true;
             lines_currentlyPermanent = false;
             lines_timeUntilRemoved = 5000;
             lines_timeUntilActionPerformed = 50;
@@ -108,7 +108,7 @@ public class LineWallpaperService extends WallpaperService{
             SharedPreferences prefs = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
 
             try{
-                Bitmap temp = BitmapFactory.decodeFile(prefs.getString(getString(R.string.backgroundPreferences), ""));
+                Bitmap temp = BitmapFactory.decodeFile(prefs.getString(getString(R.string.background_picturepath_preferences), ""));
 
                 double widthRatio = x / (double) temp.getWidth();
                 double heightRatio = y / (double) temp.getHeight();

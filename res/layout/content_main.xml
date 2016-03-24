@@ -63,6 +63,13 @@
             android:text="Sollen die neuen Linien gespeichert werden?"
             android:id="@+id/linesave_checkbox"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Letzte permanente Linie löschen"
+            android:id="@+id/linesave_deleteLast_Button"
+            android:onClick="deleteLastPermanentLine"/>
+
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -241,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_alphabehind_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -259,19 +266,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_stunde_r_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_stunde_g_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_stunde_b_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -289,19 +296,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_minute_r_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_minute_g_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_minute_b_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -319,19 +326,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_sekunde_r_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_sekunde_g_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_sekunde_b_seekbar"
-                android:maxEms="255"/>
+                android:max="255"/>
 
         </RadioGroup>
 
