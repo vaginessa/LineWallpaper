@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
@@ -21,6 +22,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -481,10 +484,21 @@ public class MainActivity extends AppCompatActivity{
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i){
-                        /*TODO: Delete last line*/
-//                        ArrayList<Line> lines = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
-//                        lines.remove(lines.size() - 1);
-//                        Line.saveToSharedPreferences(lines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+                        ArrayList<Line> lines = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+
+                        if(lines.size() >= 1){
+                            lines.remove(lines.size() - 1);
+                            Line.saveToSharedPreferences(lines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+                        }else{
+                            final Snackbar sb = Snackbar.make(findViewById(R.id.space), "Es sind derzeitig keine permanenten Linien vorhanden!", Snackbar.LENGTH_INDEFINITE);
+//                            sb.setAction("OK", v -> sb.dismiss());
+                            sb.setAction("OK", new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view){
+                                    sb.dismiss();
+                                }
+                            }).show();
+                        }
                     }
                 })
                 .setNegativeButton("Nein", null)

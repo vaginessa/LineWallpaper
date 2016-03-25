@@ -68,29 +68,30 @@ public class LineWallpaperService extends WallpaperService{
 
             tempLines = new ArrayList<>();
             permLines = new ArrayList<>();
-            background_drawPicture = true;
-            background_color = Color.WHITE;
 
-            lines_remove = false;
-            lines_fading = true;
-            lines_drawBalls = true;
-            lines_currentlyPermanent = false;
-            lines_timeUntilRemoved = 5000;
-            lines_timeUntilActionPerformed = 50;
-            lines_width = 12f;
-            lines_color = Color.GREEN;
-            lines_UniColor = false;
-            lines_ballsRadius = 24f;
-
-            clk = new SimpleClock(
-                    Color.argb(0xC0, 0xFF, 0xFF, 0xFF),
-                    Color.rgb(0xFF, 0x00, 0x00),
-                    Color.rgb(0x00, 0xFF, 0x00),
-                    Color.rgb(0x00, 0x00, 0xFF)
-            );
-            clk_diameter = 540;
-            clk_xCoordinate = 100;
-            clk_yCoordinate = 100;
+//            background_drawPicture = true;
+//            background_color = Color.WHITE;
+//
+//            lines_remove = false;
+//            lines_fading = true;
+//            lines_drawBalls = true;
+//            lines_currentlyPermanent = false;
+//            lines_timeUntilRemoved = 5000;
+//            lines_timeUntilActionPerformed = 50;
+//            lines_width = 12f;
+//            lines_color = Color.GREEN;
+//            lines_UniColor = false;
+//            lines_ballsRadius = 24f;
+//
+//            clk = new SimpleClock(
+//                    Color.argb(0xC0, 0xFF, 0xFF, 0xFF),
+//                    Color.rgb(0xFF, 0x00, 0x00),
+//                    Color.rgb(0x00, 0xFF, 0x00),
+//                    Color.rgb(0x00, 0x00, 0xFF)
+//            );
+//            clk_diameter = 540;
+//            clk_xCoordinate = 100;
+//            clk_yCoordinate = 100;
 
             /*TODO: Initialize line arraylists and clock*/
             loadPreferences();
@@ -104,35 +105,67 @@ public class LineWallpaperService extends WallpaperService{
         }
 
         private void loadPreferences(){
-            settings_index = 0;//getSharedPreferences(getString(R.string.indexPreferences), MODE_PRIVATE).getInt(getString(R.string.indexOfSettingsPreferences), 0);
-            SharedPreferences prefs = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
+            settings_index                      = 0;//getSharedPreferences(getString(R.string.indexPreferences), MODE_PRIVATE).getInt(getString(R.string.indexOfSettingsPreferences), 0);
+            SharedPreferences prefs             = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
 
-            try{
-                Bitmap temp = BitmapFactory.decodeFile(prefs.getString(getString(R.string.background_picturepath_preferences), ""));
+            lines_UniColor                      = prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false);
+            lines_color                         = prefs.getInt(getString(R.string.lines_unicolor_color_preferences), 0xFF0000);
+            lines_width                         = prefs.getFloat(getString(R.string.lines_width_preferences), 12f);
+            lines_currentlyPermanent            = prefs.getBoolean(getString(R.string.lines_permanent_preferences), false);
+            lines_drawBalls                     = prefs.getBoolean(getString(R.string.lines_drawBall_preferences), false);
+            lines_ballsRadius                   = prefs.getFloat(getString(R.string.lines_ballSize_preferences), 24f);
+            lines_remove                        = prefs.getBoolean(getString(R.string.lines_fadeComplete_preferences), false);
+            lines_fading                        = prefs.getBoolean(getString(R.string.lines_fadeSlowly_preferences), true);
+            lines_timeUntilRemoved              = prefs.getInt(getString(R.string.lines_fadeComplete_time_preferences), 5000);
+            lines_timeUntilActionPerformed      = prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50);
+            background_drawPicture              = prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false);
+            background_color                    = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
-                double widthRatio = x / (double) temp.getWidth();
-                double heightRatio = y / (double) temp.getHeight();
+            if(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false)){
+                clk_xCoordinate                 = prefs.getFloat(getString(R.string.clock_xposition_preferences), 0f);
+                clk_yCoordinate                 = prefs.getFloat(getString(R.string.clock_yposition_preferences), 0f);
+                clk_diameter                    = prefs.getFloat(getString(R.string.clock_diameter_preferences), 500f);
 
-                if(widthRatio > heightRatio){
-                    background_bitmap = Bitmap.createScaledBitmap(temp, (int) (widthRatio * temp.getWidth()), (int) (widthRatio * temp.getHeight()), false);
-                }else{
-                    background_bitmap = Bitmap.createScaledBitmap(temp, (int) (heightRatio * temp.getWidth()), (int) (heightRatio * temp.getHeight()), false);
+                if(prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true)){
+                    clk                         = new SimpleClock(
+                            prefs.getInt(getString(R.string.clock_simpleclock_alphaColor_preferences), 0xC0000000),
+                            prefs.getInt(getString(R.string.clock_simpleclock_stdcolor_preferences), 0xFF0000),
+                            prefs.getInt(getString(R.string.clock_simpleclock_mincolor_preferences), 0x00FF00),
+                            prefs.getInt(getString(R.string.clock_simpleclock_seccolor_preferences), 0x0000FF)
+                    );
                 }
-
-                background_Offset_X = (background_bitmap.getWidth() - x) / 2;
-                background_Offset_Y = (background_bitmap.getHeight() - y) / 2;
-
-            }catch(Exception exc){
-                System.out.println("Either background doesn't exist or is not wanted!");
-                background_bitmap = null;
+            }else{
+                clk = null;
             }
 
-            permLines = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
+            if(background_drawPicture){
+                try{
+                    Bitmap temp                 = BitmapFactory.decodeFile(prefs.getString(getString(R.string.background_picturepath_preferences), ""));
 
-//            System.out.println("loaded.");
+                    double widthRatio           = x / (double) temp.getWidth();
+                    double heightRatio          = y / (double) temp.getHeight();
+
+                    if(widthRatio > heightRatio){
+                        background_bitmap       = Bitmap.createScaledBitmap(temp, (int) (widthRatio * temp.getWidth()), (int) (widthRatio * temp.getHeight()), false);
+                    }else{
+                        background_bitmap       = Bitmap.createScaledBitmap(temp, (int) (heightRatio * temp.getWidth()), (int) (heightRatio * temp.getHeight()), false);
+                    }
+
+                    background_Offset_X         = (background_bitmap.getWidth() - x) / 2;
+                    background_Offset_Y         = (background_bitmap.getHeight() - y) / 2;
+
+                }catch(Exception exc){
+                    System.out.println("background doesn't exist!");
+                    background_bitmap           = null;
+                }
+            }
+
+            System.out.println("Loaded by wallpaper");
+            permLines                           = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
         public void savePermanentLines(){
+            System.out.println("Saved by wallpaper");
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
@@ -260,12 +293,11 @@ public class LineWallpaperService extends WallpaperService{
         public void onVisibilityChanged(boolean v){
             visible = v;
 
-            savePermanentLines();
-            loadPreferences();
-
             if(v){
+                loadPreferences();
                 draw();
             }else{
+                savePermanentLines();
                 handler.removeCallbacks(run);
             }
             /**
