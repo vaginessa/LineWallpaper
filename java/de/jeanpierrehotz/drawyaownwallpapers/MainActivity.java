@@ -437,17 +437,23 @@ public class MainActivity extends AppCompatActivity{
             background_backgroundcolor_g_Seekbar.setProgress(Color.green(temp));
             background_backgroundcolor_b_Seekbar.setProgress(Color.blue(temp));
 
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-            int height = size.y;
+//            Display display = getWindowManager().getDefaultDisplay();
+//            Point size = new Point();
+//            display.getSize(size);
+//            int width = size.x;
+//            int height = size.y;
+//
+//            float diam = prefs.getFloat(getString(R.string.clock_diameter_preferences), ((width > height)? height: width) * 0.800f);
+//
+//            clock_clockdiameter_seekbar.setProgress((int) (diam * 1000 / ((width > height)? height: width)));
+//            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), (width - diam) * 0.5f) * 1000 / (width - diam)));
+//            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), (height - diam) * 0.5f) * 1000 / (height - diam)));
 
-            float diam = prefs.getFloat(getString(R.string.clock_diameter_preferences), ((width > height)? height: width) * 0.800f);
+            clock_clockenable_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false));
 
-            clock_clockdiameter_seekbar.setProgress((int) (diam * 1000 / ((width > height)? height: width)));
-            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), (width - diam) * 0.5f) * 1000 / (width - diam)));
-            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), (height - diam) * 0.5f) * 1000 / (height - diam)));
+            clock_clockdiameter_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f) * 1000));
+            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), 0.5f) * 1000));
+            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), 0.5f) * 1000));
 
             clock_clock_simpleclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true));
 
@@ -544,15 +550,15 @@ public class MainActivity extends AppCompatActivity{
         /**
          * SAVE ALL VALUES!!
          */
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        float clockDiam = ((width > height)? height: width) * clock_clockdiameter_seekbar.getProgress() * 0.001f;
-        float clockX = (width - clockDiam) * clock_clockxposition_seekbar.getProgress() * 0.001f;
-        float clockY = (height - clockDiam) * clock_clockyposition_seekbar.getProgress() * 0.001f;
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+//        int height = size.y;
+//
+//        float clockDiam = ((width > height)? height: width) * clock_clockdiameter_seekbar.getProgress() * 0.001f;
+//        float clockX = (width - clockDiam) * clock_clockxposition_seekbar.getProgress() * 0.001f;
+//        float clockY = (height - clockDiam) * clock_clockyposition_seekbar.getProgress() * 0.001f;
 
         getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE).edit()
                 .putBoolean(getString(R.string.lines_unicolor_preferences), lines_unicolor_checkbox.isChecked())
@@ -577,9 +583,13 @@ public class MainActivity extends AppCompatActivity{
                         background_backgroundcolor_b_Seekbar.getProgress()
                 ))
                 .putBoolean(getString(R.string.clock_drawClock_preferences), clock_clockenable_checkbox.isChecked())
-                .putFloat(getString(R.string.clock_xposition_preferences), clockX)
-                .putFloat(getString(R.string.clock_yposition_preferences), clockY)
-                .putFloat(getString(R.string.clock_diameter_preferences), clockDiam)
+//                .putFloat(getString(R.string.clock_xposition_preferences), clockX)
+//                .putFloat(getString(R.string.clock_yposition_preferences), clockY)
+//                .putFloat(getString(R.string.clock_diameter_preferences), clockDiam)
+                .putFloat(getString(R.string.clock_diameter_preferences), (float) clock_clockdiameter_seekbar.getProgress() / 1000f)
+                .putFloat(getString(R.string.clock_xposition_preferences), (float) clock_clockxposition_seekbar.getProgress() / 1000f)
+                .putFloat(getString(R.string.clock_yposition_preferences), (float) clock_clockyposition_seekbar.getProgress() / 1000f)
+
                 .putBoolean(getString(R.string.clock_simpleClockchosen_preferences), clock_clock_simpleclock_radiobtn.isChecked())
                 .putInt(getString(R.string.clock_simpleclock_alphaColor_preferences), Color.argb(clock_clock_simpleclock_alphabehind_seekbar.getProgress(), 0xFF, 0xFF, 0xFF))
                 .putInt(getString(R.string.clock_simpleclock_stdcolor_preferences), Color.rgb(
