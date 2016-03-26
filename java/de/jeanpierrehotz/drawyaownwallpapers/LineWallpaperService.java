@@ -122,9 +122,13 @@ public class LineWallpaperService extends WallpaperService{
             background_color                    = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
             if(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false)){
-                clk_xCoordinate                 = prefs.getFloat(getString(R.string.clock_xposition_preferences), 0f);
-                clk_yCoordinate                 = prefs.getFloat(getString(R.string.clock_yposition_preferences), 0f);
-                clk_diameter                    = prefs.getFloat(getString(R.string.clock_diameter_preferences), 500f);
+//                clk_xCoordinate                 = prefs.getFloat(getString(R.string.clock_xposition_preferences), 0f);
+//                clk_yCoordinate                 = prefs.getFloat(getString(R.string.clock_yposition_preferences), 0f);
+//                clk_diameter                    = prefs.getFloat(getString(R.string.clock_diameter_preferences), 500f);
+
+                clk_diameter                    = ((x > y)? y: x) * prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f);
+                clk_xCoordinate                 = (x - clk_diameter) * prefs.getFloat(getString(R.string.clock_xposition_preferences), 05f);
+                clk_yCoordinate                 = (y - clk_diameter) * prefs.getFloat(getString(R.string.clock_yposition_preferences), 0.5f);
 
                 if(prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true)){
                     clk                         = new SimpleClock(
@@ -160,12 +164,12 @@ public class LineWallpaperService extends WallpaperService{
                 }
             }
 
-            System.out.println("Loaded by wallpaper");
+//            System.out.println("Loaded by wallpaper");
             permLines                           = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
         public void savePermanentLines(){
-            System.out.println("Saved by wallpaper");
+//            System.out.println("Saved by wallpaper");
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
@@ -284,6 +288,7 @@ public class LineWallpaperService extends WallpaperService{
         public void onDestroy(){
             super.onDestroy();
 
+//            System.out.println("Saving in onDestroy()");
             savePermanentLines();
             handler.removeCallbacks(run);
 //            System.out.println("onDestroy()");
@@ -297,6 +302,7 @@ public class LineWallpaperService extends WallpaperService{
                 loadPreferences();
                 draw();
             }else{
+//                System.out.println("Saving in onVisibilityChanged()");
                 savePermanentLines();
                 handler.removeCallbacks(run);
             }
@@ -319,6 +325,8 @@ public class LineWallpaperService extends WallpaperService{
         public void onSurfaceDestroyed(SurfaceHolder holder){
             super.onSurfaceDestroyed(holder);
             visible = false;
+
+//            System.out.println("Saving in onSurfaceDestroyed()");
             savePermanentLines();
             handler.removeCallbacks(run);
 //            System.out.println("onSurfaceDestroyed()");

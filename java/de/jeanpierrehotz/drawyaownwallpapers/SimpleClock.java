@@ -72,6 +72,11 @@ public class SimpleClock extends Clock{
             }
         }
 
+        p.setTextAlign(Paint.Align.CENTER);
+        p.setStrokeWidth(4f);
+        p.setColor(Color.BLACK);
+        c.drawText(eve, x + (3 * rad / 2f), y + rad, p);
+
         p.setStrokeWidth(18f);
 
         float sDeg = sec * 6;
@@ -108,11 +113,6 @@ public class SimpleClock extends Clock{
         p.setStyle(Paint.Style.FILL);
         p.setColor(Color.rgb(0xF4, 0x51, 0x1E));
         c.drawCircle(x + rad, y + rad, 20, p);
-
-        p.setTextAlign(Paint.Align.CENTER);
-        p.setStrokeWidth(4f);
-        p.setColor(Color.BLACK);
-        c.drawText(eve, x + (3 * rad / 2f), y + rad, p);
 
         p.setStrokeWidth(tempStrokeWidth);
         p.setColor(tempColor);
