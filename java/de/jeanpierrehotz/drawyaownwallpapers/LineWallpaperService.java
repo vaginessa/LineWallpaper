@@ -137,7 +137,24 @@ public class LineWallpaperService extends WallpaperService{
                             prefs.getInt(getString(R.string.clock_simpleclock_mincolor_preferences), 0x00FF00),
                             prefs.getInt(getString(R.string.clock_simpleclock_seccolor_preferences), 0x0000FF)
                     );
+                }else if(prefs.getBoolean(getString(R.string.clock_pointerOnlyClockchosen_preferences), true)){
+                    clk                         = new PointerOnlyClock(
+                            prefs.getInt(getString(R.string.clock_pointeronlyclock_stdcolor_preferences), 0xFF0000),
+                            prefs.getInt(getString(R.string.clock_pointeronlyclock_mincolor_preferences), 0x00FF00),
+                            prefs.getInt(getString(R.string.clock_pointeronlyclock_seccolor_preferences), 0x0000FF)
+                    );
+                }else if(prefs.getBoolean(getString(R.string.clock_parabolaclockchosen_preferences), true)){
+                    clk                         = new ParabolaClock(
+                            prefs.getInt(getString(R.string.clock_parabolaclock_alphaColor_preferences), 0xC0FFFFFF),
+                            prefs.getInt(getString(R.string.clock_parabolaclock_stdmincolor_preferences), 0xFF7F00),
+                            prefs.getInt(getString(R.string.clock_parabolaclock_minsekcolor_preferences), 0x007FFF)
+                    );
+                }else if(prefs.getBoolean(getString(R.string.clock_digitalClockchosen_preferences), true)){
+                    clk                         = new DigitalClock(
+                            prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true)
+                    );
                 }
+//                clk = new DigitalClock(true);
             }else{
                 clk = null;
             }
@@ -173,6 +190,9 @@ public class LineWallpaperService extends WallpaperService{
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
+        boolean draw = true;
+        long counter = 0;
+
         private void draw(){
             final SurfaceHolder holder = getSurfaceHolder();
             Canvas c = null;
@@ -207,6 +227,14 @@ public class LineWallpaperService extends WallpaperService{
                     if(clk != null){
                         clk.draw(clk_xCoordinate, clk_yCoordinate, clk_diameter, c, p);
                     }
+
+//                    if(System.currentTimeMillis() - counter >= 500/*(counter = (counter + 1) % 25) == 0*/){
+//                        draw = !draw;
+//                        counter = System.currentTimeMillis();
+//                    }
+//                    if(draw){
+//                        c.drawCircle(100, 100, 30, p);
+//                    }
                 }
             }finally{
                 if(c != null){
@@ -214,8 +242,12 @@ public class LineWallpaperService extends WallpaperService{
                 }
             }
             handler.removeCallbacks(run);
-            if(visible){
+            if(visible && clk != null){
+//                System.out.println("Redraw! w/ Clock");
                 handler.postDelayed(run, 20);
+            }else if(visible){
+//                System.out.println("Redraw! w/o Clock");
+                handler.postDelayed(run, lines_timeUntilActionPerformed);
             }
         }
 

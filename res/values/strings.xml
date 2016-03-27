@@ -41,5 +41,15 @@
     <string name="clock_simpleclock_stdcolor_preferences">WUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUTTTTTTT?!</string>
     <string name="clock_simpleclock_mincolor_preferences">Each of those fucking pointers…</string>
     <string name="clock_simpleclock_seccolor_preferences">…gets its own color?! Hows that possible?</string>
+    <string name="clock_pointerOnlyClockchosen_preferences">Soll die Uhr ohne das ganze aussenrum gemalt werden?</string>
+    <string name="clock_pointeronlyclock_stdcolor_preferences">Die Farbe des stundenzeigers einer Uhr ohne aussenrum</string>
+    <string name="clock_pointeronlyclock_mincolor_preferences">Die Farbe des Minutenzeigers einer Uhr ohne das aussenrum</string>
+    <string name="clock_pointeronlyclock_seccolor_preferences">Die Farbe des Sekundenzeigers einer Uhr ohne das aussenrum</string>
+    <string name="clock_parabolaclockchosen_preferences">Warum Parabeln?! WARUM MATHE AUSSERHALB DER SCHULE?!?!?!?!?</string>
+    <string name="clock_parabolaclock_alphaColor_preferences">Ein Hintergrund?! Mal was ganz neues Kappa</string>
+    <string name="clock_parabolaclock_stdmincolor_preferences">Warum werden zwei Zeiger in derselben Farbe gemalt?</string>
+    <string name="clock_parabolaclock_minsekcolor_preferences">Und vor allem der Minutenzeiger wird doppelt gemalt?!?!?!?!?!?!?!!!!!?!??!??????!?!?!</string>
+    <string name="clock_digitalClockchosen_preferences">Wie viele Uhren willst du denn noch anbieten??</string>
+    <string name="clock_digitalClock_dotsblinking_preferences">Ist das dann alles?!?!?</string>
 
 </resources>

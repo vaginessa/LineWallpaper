@@ -70,6 +70,13 @@
             android:id="@+id/linesave_deleteLast_Button"
             android:onClick="deleteLastPermanentLine"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alle permanente Linien löschen"
+            android:id="@+id/linesave_deleteAll_Button"
+            android:onClick="deleteAllPermanentLines"/>
+
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -232,6 +239,12 @@
             android:orientation="vertical"
             android:id="@+id/clockchooser_radiogroup">
 
+            <!--
+
+            SIMPLE CLOCK:
+
+            -->
+
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -339,6 +352,210 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/clock_simpleclock_color_sekunde_b_seekbar"
                 android:max="255"/>
+
+            <!--
+
+            POINTER-ONLY CLOCK:
+
+            -->
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uhr nur mit Zeigern"
+                android:id="@+id/clock_pointeronly_radiobtn"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Stundenzeigers der Uhr:"
+                android:id="@+id/clock_pointeronly_color_stunde_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_pointeronly_color_stunde_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_stunde_r_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_stunde_g_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_stunde_b_seekbar"
+                android:max="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Minutenzeigers der Uhr:"
+                android:id="@+id/clock_pointeronly_color_minute_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_pointeronly_color_minute_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_minute_r_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_minute_g_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_minute_b_seekbar"
+                android:max="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Sekundenzeigers der Uhr:"
+                android:id="@+id/clock_pointeronly_color_sekunde_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_pointeronly_color_sekunde_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_sekunde_r_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_sekunde_g_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_pointeronly_color_sekunde_b_seekbar"
+                android:max="255"/>
+
+            <!--
+
+            PARABLE CLOCK:
+
+            -->
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parabeluhr"
+                android:id="@+id/clock_parabolaclock_radiobtn"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alpha hinter der Uhr:"
+                android:id="@+id/clock_parabolaclock_alphabehind_caption_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_alphabehind_seekbar"
+                android:max="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Stunden- und Minutenzeigers der Uhr:"
+                android:id="@+id/clock_parabolaclock_color_stundeminute_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_parabolaclock_color_stundeminute_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_stundeminute_r_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_stundeminute_g_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_stundeminute_b_seekbar"
+                android:max="255"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Farbe des Minuten- und Sekundenzeigers der Uhr:"
+                android:id="@+id/clock_parabolaclock_color_minutesekunde_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/clock_parabolaclock_color_minutesekunde_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_minutesekunde_r_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_minutesekunde_g_seekbar"
+                android:max="255"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clock_parabolaclock_color_minutesekunde_b_seekbar"
+                android:max="255"/>
+
+            <!--
+
+            DIGITAL CLOCK:
+
+            -->
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Digitaluhr"
+                android:id="@+id/clock_digitalclock_radiobtn"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sollen die Punkte blinken?"
+                android:id="@+id/clock_digitalclock_dotsblinking_checkbox"/>
 
         </RadioGroup>
 
