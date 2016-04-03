@@ -2,15 +2,18 @@ package de.jeanpierrehotz.drawyaownwallpapers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
 import android.os.Handler;
 
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 20.03.2016.
+ *
  */
 public class Line{
 
@@ -25,7 +28,13 @@ public class Line{
 
     private boolean killed;
 
-    public Line(float x, float y){
+    private boolean rainbowColor;
+
+    private boolean isRainbowColor(){
+        return rainbowColor;
+    }
+
+    public Line(float x, float y, boolean rainb, int rainbsteps){
         xPoints = new ArrayList<>();
         yPoints = new ArrayList<>();
 
@@ -39,9 +48,12 @@ public class Line{
                 (int) (Math.random() * 256),
                 (int) (Math.random() * 256)
         );
+
+        rainbowColor = rainb;
+        rainbowsteps = rainbsteps;
     }
 
-    public Line(float x, float y, int color){
+    public Line(float x, float y, int color, boolean rainb, int rainbsteps){
         xPoints = new ArrayList<>();
         yPoints = new ArrayList<>();
 
@@ -51,6 +63,9 @@ public class Line{
         killed = false;
 
         col = color;
+
+        rainbowColor = rainb;
+        rainbowsteps = rainbsteps;
     }
 
     public void addPoint(float x, float y){
@@ -110,12 +125,27 @@ public class Line{
         }).start();
     }
 
+    private int rainbowsteps;
+
+    private int getRainbowsteps(){
+        return rainbowsteps;
+    }
+
     public void draw(Canvas c, Paint p, boolean drawBalls, float ballsRadius){
 //        this.draw(c, p, drawBalls, col);
         if(xPoints.size() != 0){
             int temp = p.getColor();
 
             p.setColor(col);
+
+            if(drawBalls){
+                c.drawCircle(
+                        xPoints.get(0),
+                        yPoints.get(0),
+                        ballsRadius, p
+                );
+            }
+
             for(int i = 0; i < xPoints.size() - 1; i++){
                 c.drawLine(
                         xPoints.get(i),
@@ -123,8 +153,22 @@ public class Line{
                         xPoints.get(i + 1),
                         yPoints.get(i + 1), p
                 );
+
+                if(rainbowColor){
+                    p.setColor(RainbowColor.getIn(rainbowsteps, p.getColor()));
+                }
             }
 
+            if(drawBalls){
+                c.drawCircle(
+                        xPoints.get(xPoints.size() - 1),
+                        yPoints.get(yPoints.size() - 1),
+                        ballsRadius, p
+                );
+            }
+
+
+/*
             if(drawBalls){
                 c.drawCircle(
                         xPoints.get(0),
@@ -137,6 +181,7 @@ public class Line{
                         ballsRadius, p
                 );
             }
+*/
 
             p.setColor(temp);
         }
@@ -152,7 +197,9 @@ public class Line{
             loaded.add(new Line(
                     load.getFloat(c.getString(R.string.permanentlines_xvalueinnr) + i + "" + 0, 0f),
                     load.getFloat(c.getString(R.string.permanentlines_yvalueinnr) + i + "" + 0, 0f),
-                    load.getInt(c.getString(R.string.permanentlines_colorinnr) + i, Color.BLACK)
+                    load.getInt(c.getString(R.string.permanentlines_colorinnr) + i, Color.BLACK),
+                    load.getBoolean(c.getString(R.string.permanentLines_rainbowColor) + i, false),
+                    load.getInt(c.getString(R.string.permanentLines_rainbowColorSteps) + i, 10)
             ));
 
             for(int dot = 1; dot < pointsInLine; dot++){
@@ -175,6 +222,8 @@ public class Line{
         for(int i = 0; i < lines.size(); i++){
             edit.putInt(c.getString(R.string.permanentlines_dotsinlinenr) + i, lines.get(i).getCount());
             edit.putInt(c.getString(R.string.permanentlines_colorinnr) + i, lines.get(i).getColor());
+            edit.putBoolean(c.getString(R.string.permanentLines_rainbowColor) + i, lines.get(i).isRainbowColor());
+            edit.putInt(c.getString(R.string.permanentLines_rainbowColorSteps) + i, lines.get(i).getRainbowsteps());
 
             for(int dot = 0; dot < lines.get(i).getCount(); dot++){
                 edit.putFloat(c.getString(R.string.permanentlines_xvalueinnr) + i + "" + dot, lines.get(i).getXIn(dot));
@@ -197,45 +246,44 @@ public class Line{
         return yPoints.get(ind);
     }
 
-    /**
-     * @deprecated
-     * @param c asd
-     * @param p asd
-     * @param drawBalls asd
-     * @param color asd
-     */
-    /*
-    public void draw(Canvas c, Paint p, boolean drawBalls, int color){
-        if(xPoints.size() != 0){
-            int temp = p.getColor();
+    public static class RainbowColor{
+        public static int getNext(int col){
+            int a = Color.alpha(col);
+            int r = Color.red(col);
+            int g = Color.green(col);
+            int b = Color.blue(col);
 
-            p.setColor(color);
-            for(int i = 0; i < xPoints.size() - 1; i++){
-                c.drawLine(
-                        xPoints.get(i),
-                        yPoints.get(i),
-                        xPoints.get(i + 1),
-                        yPoints.get(i + 1), p
-                );
+            if(r == 255 && g != 255 && b == 0){
+                g++;
+            }else if(r != 0 && g == 255 && b == 0){
+                r--;
+            }else if(r == 0 && g == 255 && b != 255){
+                b++;
+            }else if(r == 0 && g != 0 && b == 255){
+                g--;
+            }else if(r != 255 && g == 0 && b == 255){
+                r++;
+            }else if(r == 255 && g == 0 && b != 0){
+                b--;
+            }else{
+                if(r != 255){
+                    r++;
+                }else if(g != 0){
+                    g--;
+                }else{
+                    b--;
+                }
             }
 
-            if(drawBalls){
-                c.drawCircle(
-                        xPoints.get(0),
-                        yPoints.get(0),
-                        25f, p
-                );
-                c.drawCircle(
-                        xPoints.get(xPoints.size() - 1),
-                        yPoints.get(yPoints.size() - 1),
-                        25f, p
-                );
-            }
+            return Color.argb(a, r, g, b);
+        }
 
-            p.setColor(temp);
+        public static int getIn(int n, int col){
+            for(int i = 0; i < n; i++){
+                col = getNext(col);
+            }
+            return col;
         }
     }
-    */
-
 
 }

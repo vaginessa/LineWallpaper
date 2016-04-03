@@ -45,6 +45,30 @@
             android:id="@+id/unicolor_b_Seekbar"
             android:max="255"/>
 
+
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rainbowcolor_checkbox"
+            android:text="Sollen die Linien regenbogenfarbig gemalt werden?"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stauchung der Farben:"
+            android:id="@+id/rainbowcolor_textview"/>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rainbowcolor_seekbar"
+            android:max="100"/>
+
+
+
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
