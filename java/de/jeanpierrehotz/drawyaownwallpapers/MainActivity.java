@@ -43,6 +43,11 @@ public class MainActivity extends AppCompatActivity{
     private SeekBar         lines_unicolor_r_seekbar;
     private SeekBar         lines_unicolor_g_seekbar;
     private SeekBar         lines_unicolor_b_seekbar;
+
+    private CheckBox        lines_rainbowcolor_checkbox;
+    private TextView        lines_rainbowcolor_textview;
+    private SeekBar         lines_rainbowcolor_seekbar;
+
     private SeekBar         lines_linewidth_seekbar;
     private CheckBox        lines_linesave_checkbox;
     private Button          lines_linesave_deleteLast_Button;
@@ -173,6 +178,16 @@ public class MainActivity extends AppCompatActivity{
         public void onStartTrackingTouch(SeekBar seekBar){}
         @Override
         public void onStopTrackingTouch(SeekBar seekBar){}
+    };
+    private CheckBox.OnCheckedChangeListener        lines_rainbowcolor_checkbox_listener                    = new CompoundButton.OnCheckedChangeListener(){
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b){
+            int vis = (lines_rainbowcolor_checkbox.isChecked())? View.VISIBLE: View.GONE;
+
+            lines_rainbowcolor_textview.setVisibility(vis);
+            lines_rainbowcolor_seekbar.setVisibility(vis);
+        }
+        private void foo(){}
     };
     private CheckBox.OnCheckedChangeListener        lines_linesave_listener                                 = new CompoundButton.OnCheckedChangeListener(){
         @Override
@@ -443,6 +458,11 @@ public class MainActivity extends AppCompatActivity{
         lines_unicolor_g_seekbar.setOnSeekBarChangeListener(lines_unicolor_listener);
         lines_unicolor_b_seekbar.setOnSeekBarChangeListener(lines_unicolor_listener);
 
+        lines_rainbowcolor_checkbox                                     = (CheckBox)        findViewById(R.id.rainbowcolor_checkbox);
+        lines_rainbowcolor_textview                                     = (TextView)        findViewById(R.id.rainbowcolor_textview);
+        lines_rainbowcolor_seekbar                                      = (SeekBar)         findViewById(R.id.rainbowcolor_seekbar);
+        lines_rainbowcolor_checkbox.setOnCheckedChangeListener(lines_rainbowcolor_checkbox_listener);
+
         lines_linewidth_seekbar                                         = (SeekBar)         findViewById(R.id.linewidth_seekbar);
 
         lines_linesave_checkbox                                         = (CheckBox)        findViewById(R.id.linesave_checkbox);
@@ -573,21 +593,17 @@ public class MainActivity extends AppCompatActivity{
          *  -> make it show nothing and if it's set to true it will show its stuff
          */
         lines_unicolor_checkbox.setChecked(true);
-        lines_unicolor_checkbox.setChecked(false);
+        lines_rainbowcolor_checkbox.setChecked(true);
         lines_linesave_checkbox.setChecked(true);
-        lines_linesave_checkbox.setChecked(false);
         lines_linedrawBall_checkbox.setChecked(true);
-        lines_linedrawBall_checkbox.setChecked(false);
         lines_linesfadecomplete_radiobutton.setChecked(true);
         background_backgroundpicture_checkbox.setChecked(true);
         clock_clockenable_checkbox.setChecked(true);
-        clock_clockenable_checkbox.setChecked(false);
         clock_clock_simpleclock_radiobtn.setChecked(true);
 
         lines_unicolor_r_seekbar.setProgress(1);
         background_backgroundcolor_r_Seekbar.setProgress(1);
         clock_clock_simpleclock_color_stunde_r_seekbar.setProgress(1);
-        clock_clock_simpleclock_color_minute_r_seekbar.setProgress(1);
         clock_clock_simpleclock_color_minute_r_seekbar.setProgress(1);
         clock_clock_simpleclock_color_sekunde_r_seekbar.setProgress(1);
         clock_clock_pointeronly_color_stunde_r_seekbar.setProgress(1);
@@ -604,6 +620,10 @@ public class MainActivity extends AppCompatActivity{
 
             lines_unicolor_checkbox.setChecked(false);
             lines_unicolor_r_seekbar.setProgress(255);
+
+            lines_rainbowcolor_checkbox.setChecked(true);
+            lines_rainbowcolor_seekbar.setProgress(10);
+
             lines_linewidth_seekbar.setProgress(120);
             lines_linesave_checkbox.setChecked(false);
             lines_linedrawBall_checkbox.setChecked(false);
@@ -648,6 +668,9 @@ public class MainActivity extends AppCompatActivity{
             lines_unicolor_r_seekbar.setProgress(Color.red(temp));
             lines_unicolor_g_seekbar.setProgress(Color.green(temp));
             lines_unicolor_b_seekbar.setProgress(Color.blue(temp));
+
+            lines_rainbowcolor_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_rainbowcolor_preferences), false));
+            lines_rainbowcolor_seekbar.setProgress(prefs.getInt(getString(R.string.lines_rainbowcolorsteps_preferences), 10));
 
             lines_linewidth_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.lines_width_preferences), 12f) * 10));
 
@@ -741,11 +764,6 @@ public class MainActivity extends AppCompatActivity{
             clock_clock_digitalclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_digitalClockchosen_preferences), false));
             clock_clock_digitalclock_dotsblinking_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true));
         }
-
-        /*
-         * Calculate a product of prime numbers out of a given number n
-         * Then apply this algorithm to the clocktime where n is built by hours * 100 + minutes
-         */
     }//end of onCreate()
 
     private int settings_index;
@@ -866,6 +884,10 @@ public class MainActivity extends AppCompatActivity{
                         lines_unicolor_g_seekbar.getProgress(),
                         lines_unicolor_b_seekbar.getProgress()
                 ))
+
+                .putBoolean(getString(R.string.lines_rainbowcolor_preferences), lines_rainbowcolor_checkbox.isChecked())
+                .putInt(getString(R.string.lines_rainbowcolorsteps_preferences), lines_rainbowcolor_seekbar.getProgress())
+
                 .putFloat(getString(R.string.lines_width_preferences), lines_linewidth_seekbar.getProgress() * 0.1f)
                 .putBoolean(getString(R.string.lines_permanent_preferences), lines_linesave_checkbox.isChecked())
                 .putBoolean(getString(R.string.lines_drawBall_preferences), lines_linedrawBall_checkbox.isChecked())

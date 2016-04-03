@@ -54,11 +54,13 @@ public class LineWallpaperService extends WallpaperService{
         private boolean     lines_remove;
         private boolean     lines_fading;
         private boolean     lines_UniColor;
+        private boolean     lines_rainbowColor;/*TODO:*/
         private float       lines_width;
         private float       lines_ballsRadius;
         private int         lines_timeUntilRemoved;
         private int         lines_timeUntilActionPerformed;
         private int         lines_color;
+        private int         lines_rainbowSteps;/*TODO*/
 
         public LineWallpaper(){
             p = new Paint();
@@ -118,6 +120,8 @@ public class LineWallpaperService extends WallpaperService{
             lines_fading                        = prefs.getBoolean(getString(R.string.lines_fadeSlowly_preferences), true);
             lines_timeUntilRemoved              = prefs.getInt(getString(R.string.lines_fadeComplete_time_preferences), 5000);
             lines_timeUntilActionPerformed      = prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50);
+            lines_rainbowColor                  = prefs.getBoolean(getString(R.string.lines_rainbowcolor_preferences), true);
+            lines_rainbowSteps                  = prefs.getInt(getString(R.string.lines_rainbowcolorsteps_preferences), 10);
             background_drawPicture              = prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false);
             background_color                    = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
@@ -270,16 +274,16 @@ public class LineWallpaperService extends WallpaperService{
 
                 if(lines_currentlyPermanent){
                     if(lines_UniColor){
-                        permLines.add(new Line(event.getX(), event.getY(), lines_color));
+                        permLines.add(new Line(event.getX(), event.getY(), lines_color, lines_rainbowColor, lines_rainbowSteps));
                     }else{
-                        permLines.add(new Line(event.getX(), event.getY()));
+                        permLines.add(new Line(event.getX(), event.getY(), lines_rainbowColor, lines_rainbowSteps));
                     }
 //                    permLines.add(new Line(event.getX(), event.getY()));
                 }else{
                     if(lines_UniColor){
-                        tempLines.add(new Line(event.getX(), event.getY(), lines_color));
+                        tempLines.add(new Line(event.getX(), event.getY(), lines_color, lines_rainbowColor, lines_rainbowSteps));
                     }else{
-                        tempLines.add(new Line(event.getX(), event.getY()));
+                        tempLines.add(new Line(event.getX(), event.getY(), lines_rainbowColor, lines_rainbowSteps));
                     }
 //                    tempLines.add(new Line(event.getX(), event.getY()));
                 }
