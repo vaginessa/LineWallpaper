@@ -55,5 +55,11 @@
     <string name="lines_rainbowcolor_preferences"><![CDATA[sdfghjklöäölkjhgfdfghjklölkjhgfd5t6eiafuh34567890ß/()=?=)(/&]]></string>
     <string name="permanentLines_rainbowColorSteps">how far are we going with this?</string>
     <string name="lines_rainbowcolorsteps_preferences">fgzjiopknuhbgzf7zhjiokpül.osogsödlgsölkfg</string>
+    <string name="title_activity_change_settings">ChangeSettingsActivity</string>
+    <string name="intent_settings_index">degnahc eb ot desoppus si gnittes esohw xedni eht</string>
+    <string name="settingsPreferences">Those are the preferences saving the indices and length of the settings :)</string>
+    <string name="settingsPreferencesLength">This is the length of settings or indicates how many settings there are</string>
+    <string name="settingAt_name">This gets you the name of the settings at a given index n=</string>
+    <string name="selectedSettingPreferences">This gives you the index of the wanted setting</string>
 
 </resources>

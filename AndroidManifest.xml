@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="de.jeanpierrehotz.drawyaownwallpapers"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="de.jeanpierrehotz.drawyaownwallpapers"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--uses-sdk
+    <!--
+        uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="23"/-->
+        android:targetSdkVersion="23"/
+    -->
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature
         android:name="android.software.live_wallpaper"
-        android:required="true" >
+        android:required="true">
     </uses-feature>
 
     <application
@@ -37,16 +38,27 @@
 
         </activity>
 
+        <activity
+            android:name=".ChangeSettingsActivity"
+            android:label="@string/title_activity_change_settings"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.jeanpierrehotz.drawyaownwallpapers.MainActivity"/>
+
+        </activity>
+
         <service
-            android:name="LineWallpaperService"
+            android:name=".LineWallpaperService"
             android:enabled="true"
             android:label="DrawYaOwn!"
             android:permission="android.permission.BIND_WALLPAPER">
 
             <intent-filter>
 
-                <action
-                    android:name="android.service.wallpaper.WallpaperService">
+                <action android:name="android.service.wallpaper.WallpaperService">
 
                 </action>
 

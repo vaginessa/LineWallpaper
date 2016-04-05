@@ -107,7 +107,7 @@ public class LineWallpaperService extends WallpaperService{
         }
 
         private void loadPreferences(){
-            settings_index                      = 0;//getSharedPreferences(getString(R.string.indexPreferences), MODE_PRIVATE).getInt(getString(R.string.indexOfSettingsPreferences), 0);
+            settings_index                      = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).getInt(getString(R.string.selectedSettingPreferences), 0);
             SharedPreferences prefs             = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
 
             lines_UniColor                      = prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false);
