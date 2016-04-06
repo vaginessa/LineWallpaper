@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity{
     AdapterView.OnItemLongClickListener createContextMenuListener = new AdapterView.OnItemLongClickListener(){
         @Override
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l){
-
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle(settings_caption.get(i))
                     .setItems(new String[]{"Auswählen", "Umbenennen", "Löschen"}, new DialogInterface.OnClickListener(){
@@ -117,6 +116,9 @@ public class MainActivity extends AppCompatActivity{
         if(getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).getBoolean("first", true)){
             getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).edit().putBoolean("first", false).apply();
 
+            settings_caption.add("My first setting :)");
+            selectedSetting = 0;
+            saveSettings();
             modifySetting(0);
         }else{
             loadSettings();
@@ -200,6 +202,21 @@ public class MainActivity extends AppCompatActivity{
         selectedSetting = settingsPrefs.getInt(getString(R.string.selectedSettingPreferences), 0);
     }
 
+    private void saveSettings(){
+        boolean firsttime = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).getBoolean("first", true);
+        SharedPreferences.Editor edit = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).edit();
+        edit.clear()
+                .putInt(getString(R.string.settingsPreferencesLength), settings_caption.size())
+                .putBoolean("first", firsttime);
+
+        for(int i = 0; i < settings_caption.size(); i++){
+            edit.putString(getString(R.string.settingAt_name) + i, settings_caption.get(i));
+        }
+
+        edit.putInt(getString(R.string.selectedSettingPreferences), selectedSetting);
+        edit.apply();
+    }
+
     public void saveSettingChanges(){
         for(int i = 0; i < settings_caption.size(); i++){
                 /**
@@ -251,7 +268,7 @@ public class MainActivity extends AppCompatActivity{
                  */
 
                 currentSetting.edit().clear().apply();
-                getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_indexes.get(i), MODE_PRIVATE).edit().clear().apply();
+                getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_indexes.get(i), MODE_PRIVATE).edit().clear().commit();
 
                 /**
                  * AND SAVE THE VALUES AT THE NEW INDEX:
@@ -260,32 +277,32 @@ public class MainActivity extends AppCompatActivity{
                 getSharedPreferences(getString(R.string.settingsAt) + i, MODE_PRIVATE).edit()
 
                         .putBoolean(getString(R.string.lines_unicolor_preferences), lines_unicolor)
-                        .putBoolean(    getString(R.string.lines_permanent_preferences),                    lines_permanent)
+                        .putBoolean(getString(R.string.lines_permanent_preferences), lines_permanent)
                         .putBoolean(    getString(R.string.lines_drawBall_preferences),                     lines_drawBalls)
                         .putBoolean(    getString(R.string.lines_fadeComplete_preferences),                 lines_removeCompletely)
                         .putBoolean(    getString(R.string.lines_fadeSlowly_preferences),                   lines_fadeSlowly)
                         .putBoolean(    getString(R.string.lines_rainbowcolor_preferences),                 lines_drawInRainBowColor)
-                        .putFloat(      getString(R.string.lines_width_preferences),                        lines_width)
+                        .putFloat(getString(R.string.lines_width_preferences), lines_width)
                         .putFloat(      getString(R.string.lines_ballSize_preferences),                     lines_ballRadius)
-                        .putInt(        getString(R.string.lines_unicolor_color_preferences),               lines_color)
+                        .putInt(getString(R.string.lines_unicolor_color_preferences), lines_color)
                         .putInt(        getString(R.string.lines_fadeComplete_time_preferences),            lines_timeUntilCompletelyRemoved)
                         .putInt(        getString(R.string.lines_fadeActionTime_preferences),               lines_timeUntilActionPerformed)
                         .putInt(        getString(R.string.lines_rainbowcolorsteps_preferences),            lines_rainbowColorSteps)
 
                         .putBoolean(getString(R.string.background_pictureshown_preferences), background_drawPicture)
-                        .putString(     getString(R.string.background_picturepath_preferences),             background_picturePath)
-                        .putInt(        getString(R.string.background_alternateColor_preferences),          background_color)
+                        .putString(getString(R.string.background_picturepath_preferences), background_picturePath)
+                        .putInt(getString(R.string.background_alternateColor_preferences), background_color)
 
                         .putBoolean(getString(R.string.clock_drawClock_preferences), clk_drawClock)
-                        .putBoolean(    getString(R.string.clock_simpleClockchosen_preferences),            clk_simpleClockchosen)
+                        .putBoolean(getString(R.string.clock_simpleClockchosen_preferences), clk_simpleClockchosen)
                         .putBoolean(    getString(R.string.clock_pointerOnlyClockchosen_preferences),       clk_pointerOnlychosen)
                         .putBoolean(    getString(R.string.clock_parabolaclockchosen_preferences),          clk_parabolaClockchosen)
                         .putBoolean(    getString(R.string.clock_digitalClockchosen_preferences),           clk_digitalClockchosen)
                         .putBoolean(    getString(R.string.clock_digitalClock_dotsblinking_preferences),    clk_digitalClock_dotsblinking)
-                        .putFloat(      getString(R.string.clock_diameter_preferences),                     clk_diameter)
+                        .putFloat(getString(R.string.clock_diameter_preferences), clk_diameter)
                         .putFloat(      getString(R.string.clock_xposition_preferences),                    clk_xPosition)
                         .putFloat(      getString(R.string.clock_yposition_preferences),                    clk_yPosition)
-                        .putInt(        getString(R.string.clock_simpleclock_alphaColor_preferences),       clk_simpleClock_alpha)
+                        .putInt(getString(R.string.clock_simpleclock_alphaColor_preferences), clk_simpleClock_alpha)
                         .putInt(        getString(R.string.clock_simpleclock_stdcolor_preferences),         clk_simpleClock_std)
                         .putInt(        getString(R.string.clock_simpleclock_mincolor_preferences),         clk_simpleClock_min)
                         .putInt(        getString(R.string.clock_simpleclock_seccolor_preferences),         clk_simpleClock_sek)
@@ -295,6 +312,8 @@ public class MainActivity extends AppCompatActivity{
                         .putInt(        getString(R.string.clock_parabolaclock_alphaColor_preferences),     clk_parabolaClock_alpha)
                         .putInt(        getString(R.string.clock_parabolaclock_stdmincolor_preferences),    clk_parabolaClock_std_min)
                         .putInt(        getString(R.string.clock_parabolaclock_minsekcolor_preferences),    clk_parabolaClock_min_sek)
+
+                        .putBoolean("firstTime", false)
 
                         .apply();
 
@@ -320,7 +339,9 @@ public class MainActivity extends AppCompatActivity{
         if(deleted){
             saveSettingChanges();
         }
+        saveSettings();
 
+/*
         boolean firsttime = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).getBoolean("first", true);
         SharedPreferences.Editor edit = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).edit();
         edit.clear()
@@ -333,6 +354,7 @@ public class MainActivity extends AppCompatActivity{
 
         edit.putInt(getString(R.string.selectedSettingPreferences), selectedSetting);
         edit.apply();
+*/
     }
 
     /*
