@@ -1,11 +1,11 @@
 package de.jeanpierrehotz.drawyaownwallpapers;
 
-import android.app.Dialog;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
+ *
  * Created by Admin on 26.03.2016.
  */
 public class DigitalClock extends Clock{

@@ -10,12 +10,17 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
+ *
  * Created by Admin on 05.04.2016.
  */
 public class SettingsAdapter extends ArrayAdapter<String>{
-    public SettingsAdapter(Context context, int resource, List<String> objects){
+
+    /*
+    private SettingsAdapter(Context context, int resource, List<String> objects){
         super(context, resource, objects);
+        selected = 0;
     }
+    */
 
     private int selected;
 
@@ -38,7 +43,7 @@ public class SettingsAdapter extends ArrayAdapter<String>{
 
         TextView selectedView = (TextView) v.findViewById(R.id.setting_selected_textview);
         if(position == selected){
-            selectedView.setText("Selected");
+            selectedView.setText(R.string.selectedIndication);
         }else{
             selectedView.setText("");
         }

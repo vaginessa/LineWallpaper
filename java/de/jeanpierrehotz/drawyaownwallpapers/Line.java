@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class Line{
 
     private ArrayList<Float> xPoints, yPoints;
+
     private int col;
 
     private boolean doomed;
@@ -96,7 +97,9 @@ public class Line{
                 while(!killed && xPoints.size() != 0){
                     try{
                         Thread.sleep(time);
-                    }catch(Exception exc){}
+                    }catch(Exception exc){
+                        return;
+                    }
 
                     xPoints.remove(xPoints.size() - 1);
                     yPoints.remove(yPoints.size() - 1);
@@ -112,7 +115,9 @@ public class Line{
                 while(!killed && Color.alpha(col) != 0){
                     try{
                         Thread.sleep(time);
-                    }catch(Exception exc){}
+                    }catch(Exception exc){
+                        return;
+                    }
 
                     col = Color.argb(
                             Color.alpha(col) - 1,
@@ -263,16 +268,16 @@ public class Line{
                 g--;
             }else if(r != 255 && g == 0 && b == 255){
                 r++;
-            }else if(r == 255 && g == 0 && b != 0){
+            }else if(r == 255 && g == 0/* && b != 0*/){
                 b--;
             }else{
                 if(r != 255){
                     r++;
-                }else if(g != 0){
+                }else /*if(g != 0)*/{
                     g--;
-                }else{
+                }/*else{
                     b--;
-                }
+                }*/
             }
 
             return Color.argb(a, r, g, b);
@@ -285,5 +290,4 @@ public class Line{
             return col;
         }
     }
-
 }

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
@@ -54,13 +53,13 @@ public class LineWallpaperService extends WallpaperService{
         private boolean     lines_remove;
         private boolean     lines_fading;
         private boolean     lines_UniColor;
-        private boolean     lines_rainbowColor;/*TODO:*/
+        private boolean     lines_rainbowColor;
         private float       lines_width;
         private float       lines_ballsRadius;
         private int         lines_timeUntilRemoved;
         private int         lines_timeUntilActionPerformed;
         private int         lines_color;
-        private int         lines_rainbowSteps;/*TODO*/
+        private int         lines_rainbowSteps;
 
         public LineWallpaper(){
             p = new Paint();
@@ -95,7 +94,6 @@ public class LineWallpaperService extends WallpaperService{
 //            clk_xCoordinate = 100;
 //            clk_yCoordinate = 100;
 
-            /*TODO: Initialize line arraylists and clock*/
             loadPreferences();
 
             run = new Runnable(){
@@ -107,8 +105,8 @@ public class LineWallpaperService extends WallpaperService{
         }
 
         private void loadPreferences(){
-            settings_index                      = getSharedPreferences(getString(R.string.settingsPreferences), MODE_PRIVATE).getInt(getString(R.string.selectedSettingPreferences), 0);
-            SharedPreferences prefs             = getSharedPreferences(getString(R.string.settingsAt) + settings_index, MODE_PRIVATE);
+            settings_index                      = getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE).getInt(getString(R.string.settings_selectedSettingPreferences), 0);
+            SharedPreferences prefs             = getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE);
 
             lines_UniColor                      = prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false);
             lines_color                         = prefs.getInt(getString(R.string.lines_unicolor_color_preferences), 0xFF0000);
@@ -180,7 +178,7 @@ public class LineWallpaperService extends WallpaperService{
                     background_Offset_Y         = (background_bitmap.getHeight() - y) / 2;
 
                 }catch(Exception exc){
-                    System.out.println("background doesn't exist!");
+                    /*System.out.println("background doesn't exist!");*/
                     background_bitmap           = null;
                 }
             }
@@ -194,8 +192,10 @@ public class LineWallpaperService extends WallpaperService{
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
+/*
         boolean draw = true;
         long counter = 0;
+*/
 
         private void draw(){
             final SurfaceHolder holder = getSurfaceHolder();
