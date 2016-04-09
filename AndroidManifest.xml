@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="de.jeanpierrehotz.drawyaownwallpapers"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="de.jeanpierrehotz.drawyaownwallpapers"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         uses-sdk
@@ -14,6 +15,7 @@
     <uses-feature
         android:name="android.software.live_wallpaper"
         android:required="true">
+
     </uses-feature>
 
     <application
@@ -53,7 +55,7 @@
         <service
             android:name=".LineWallpaperService"
             android:enabled="true"
-            android:label="DrawYaOwn!"
+            android:label="@string/wallpaperLabel"
             android:permission="android.permission.BIND_WALLPAPER">
 
             <intent-filter>

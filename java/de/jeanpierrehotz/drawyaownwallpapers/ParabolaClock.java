@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
+ *
  * Created by Admin on 26.03.2016.
  */
 public class ParabolaClock extends Clock{
@@ -142,10 +143,7 @@ public class ParabolaClock extends Clock{
         }
 
         public boolean equals(Point toCheck){
-            if(this.x == toCheck.x && this.y == toCheck.y){
-                return true;
-            }
-            return false;
+            return this.x == toCheck.x && this.y == toCheck.y;
         }
     }
 }

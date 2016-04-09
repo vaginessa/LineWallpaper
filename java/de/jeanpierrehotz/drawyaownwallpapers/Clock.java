@@ -2,11 +2,11 @@ package de.jeanpierrehotz.drawyaownwallpapers;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.provider.CalendarContract;
 
 import java.util.Calendar;
 
 /**
+ *
  * Created by Admin on 22.03.2016.
  */
 public abstract class Clock{
@@ -25,12 +25,13 @@ public abstract class Clock{
     }
 
     /**
-     * Point P(x|y) is the upper left corner of the rectangle in which the clock might be lying
-     * @param x
-     * @param y
-     * @param diam
-     * @param c
-     * @param p
+     * This method is used to draw the clock.<br>
+     * Since it should first update its time you should definitely call the super method.
+     * @param x     The x-position of the upper left corner of the rectangle in which the clock lies
+     * @param y     The y-position of the upper left corner of the rectangle in which the clock lies
+     * @param diam  The diameter of the clock
+     * @param c     The canvas onto which the clock has to be drawn
+     * @param p     the paint we need to draw something
      */
     protected void draw(float x, float y, float diam, Canvas c, Paint p){
         refreshTime();

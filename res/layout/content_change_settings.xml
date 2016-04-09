@@ -18,45 +18,28 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sollen alle (neuen) Linien die gleiche Farbe bekommen?"
+            android:text="@string/changeSettings_unicolor_caption"
             android:id="@+id/unicolor_checkbox"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            android:padding="10dp"
+            android:text="@string/changeColorText"
+            android:clickable="true"
+            android:onClick="changeUniColorColor"
             android:id="@+id/unicolor_colortextview"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/unicolor_r_Seekbar"
-            android:max="255"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/unicolor_g_Seekbar"
-            android:max="255"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/unicolor_b_Seekbar"
-            android:max="255"/>
-
-
 
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rainbowcolor_checkbox"
-            android:text="Sollen die Linien regenbogenfarbig gemalt werden?"/>
+            android:text="@string/changeSettings_rainbowcolor_caption"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stauchung der Farben:"
+            android:text="@string/changeSettings_rainbowcolor_upsetting"
             android:id="@+id/rainbowcolor_textview"/>
 
         <SeekBar
@@ -65,14 +48,10 @@
             android:id="@+id/rainbowcolor_seekbar"
             android:max="100"/>
 
-
-
-
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Linienstärke:"
+            android:text="@string/changeSettings_linestrokewidth"
             android:id="@+id/textView2"/>
 
         <SeekBar
@@ -84,33 +63,33 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sollen die neuen Linien gespeichert werden?"
+            android:text="@string/changeSettings_savelines"
             android:id="@+id/linesave_checkbox"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Letzte permanente Linie löschen"
+            android:text="@string/changeSettings_deletelastline"
             android:id="@+id/linesave_deleteLast_Button"
             android:onClick="deleteLastPermanentLine"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Alle permanente Linien löschen"
+            android:text="@string/changeSettings_deletealllines"
             android:id="@+id/linesave_deleteAll_Button"
             android:onClick="deleteAllPermanentLines"/>
 
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sollen Bälle am Ende einer Linie gezeichnet werden? (Auch rückwirkend gültig!)"
+            android:text="@string/changeSettings_drawballs"
             android:id="@+id/linedrawBall_checkbox"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ballgröße:"
+            android:text="@string/changeSettings_ballsize"
             android:id="@+id/linesballsize_caption"/>
 
         <SeekBar
@@ -122,7 +101,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Verschwinden der nicht gespeicherten Linien:"
+            android:text="@string/changeSettings_disappearance"
             android:id="@+id/textView4"/>
 
         <RadioGroup
@@ -133,13 +112,13 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Komplette Linie verschwindet plötzlich"
+                android:text="@string/changeSettings_disappearance_complete"
                 android:id="@+id/linesfadecomplete_radiobutton"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Zeit bis zum kompletten Verschwinden:"
+                android:text="@string/changeSettings_disappearance_complete_time"
                 android:id="@+id/linesfadecomplete_caption_textview"/>
 
             <!-- Complete time will be <<progress> * 250>ms -->
@@ -153,19 +132,19 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Linie fadet langsam aus dem Bild"
+                android:text="@string/changeSettings_disappearance_fading"
                 android:id="@+id/linesfadeslowly_radiobutton"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Linie frisst sich langsam selbst auf"
+                android:text="@string/changeSettings_disappearance_eating"
                 android:id="@+id/linesfadeparasite_radiobutton"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Zeit bis eine Aktion geschieht:"
+                android:text="@string/changeSettings_disappearance_actiontime"
                 android:id="@+id/linesfadeslowlyActionTime_caption_textview"/>
 
             <!-- Action time will be <<progress> * 1>ms -->
@@ -181,50 +160,35 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hintergrundbild soll eingefügt werden"
+            android:text="@string/changeSettings_includebackgroundpicture"
             android:id="@+id/backgroundpicture_checkbox"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wähle Hintergrundbild aus"
+            android:text="@string/changeSettings_selectbackgroundpicture"
             android:onClick="selectBackgroundPicture"
             android:id="@+id/backgroundpicture_button"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            android:padding="10dp"
+            android:text="@string/changeColorText"
+            android:clickable="true"
+            android:onClick="changeBackgroundColorColor"
             android:id="@+id/backgroundcolor_colortextview"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/backgroundcolor_r_Seekbar"
-            android:max="255"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/backgroundcolor_g_Seekbar"
-            android:max="255"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/backgroundcolor_b_Seekbar"
-            android:max="255"/>
 
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Soll eine Uhr angezeigt werden?"
+            android:text="@string/changeSettings_clock_showclock"
             android:id="@+id/clockenable_checkbox"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="x-Position der Uhr:"
+            android:text="@string/changeSettings_clock_xposition"
             android:id="@+id/clockxposition_caption_texview"/>
 
         <SeekBar
@@ -236,7 +200,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="y-Position der Uhr:"
+            android:text="@string/changeSettings_clock_yposition"
             android:id="@+id/clockyposition_caption_textview"/>
 
         <SeekBar
@@ -248,7 +212,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Durchmesser der Uhr:"
+            android:text="@string/changeSettings_clock_diameter"
             android:id="@+id/clockdiameter_caption_textview"/>
 
         <SeekBar
@@ -272,13 +236,13 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Simple Uhr"
+                android:text="@string/changeSettings_clock_simpleclock_caption"
                 android:id="@+id/clock_simpleclock_radiobtn"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Alpha hinter der Uhr:"
+                android:text="@string/changeSettings_clock_simpleclock_alpha"
                 android:id="@+id/clock_simpleclock_alphabehind_caption_textview"/>
 
             <SeekBar
@@ -290,92 +254,47 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Stundenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_simpleclock_hourcolor"
                 android:id="@+id/clock_simpleclock_color_stunde_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changeSimpleClockHourPointerColor"
                 android:id="@+id/clock_simpleclock_color_stunde_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_stunde_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_stunde_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_stunde_b_seekbar"
-                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Minutenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_simpleclock_minutecolor"
                 android:id="@+id/clock_simpleclock_color_minute_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changeSimpleClockMinutePointerColor"
                 android:id="@+id/clock_simpleclock_color_minute_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_minute_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_minute_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_minute_b_seekbar"
-                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Sekundenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_simpleclock_secondcolor"
                 android:id="@+id/clock_simpleclock_color_sekunde_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changeSimpleClockSecondPointerColor"
                 android:id="@+id/clock_simpleclock_color_sekunde_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_sekunde_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_sekunde_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_color_sekunde_b_seekbar"
-                android:max="255"/>
 
             <!--
 
@@ -386,98 +305,53 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Uhr nur mit Zeigern"
+                android:text="@string/changeSettings_clock_pointeronly_caption"
                 android:id="@+id/clock_pointeronly_radiobtn"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Stundenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_pointeronly_hourcolor"
                 android:id="@+id/clock_pointeronly_color_stunde_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changePointerOnlyClockHourPointerColor"
                 android:id="@+id/clock_pointeronly_color_stunde_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_stunde_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_stunde_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_stunde_b_seekbar"
-                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Minutenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_pointeronly_minutecolor"
                 android:id="@+id/clock_pointeronly_color_minute_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changePointerOnlyClockMinutePointerColor"
                 android:id="@+id/clock_pointeronly_color_minute_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_minute_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_minute_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_minute_b_seekbar"
-                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Sekundenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_pointeronly_secondcolor"
                 android:id="@+id/clock_pointeronly_color_sekunde_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changePointerOnlyClockSecondPointerColor"
                 android:id="@+id/clock_pointeronly_color_sekunde_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_sekunde_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_sekunde_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_pointeronly_color_sekunde_b_seekbar"
-                android:max="255"/>
 
             <!--
 
@@ -488,13 +362,13 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Parabeluhr"
+                android:text="@string/changeSettings_clock_parabola_caption"
                 android:id="@+id/clock_parabolaclock_radiobtn"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Alpha hinter der Uhr:"
+                android:text="@string/changeSettings_clock_parabola_alpha"
                 android:id="@+id/clock_parabolaclock_alphabehind_caption_textview"/>
 
             <SeekBar
@@ -506,62 +380,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Stunden- und Minutenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_parabola_houmincolor"
                 android:id="@+id/clock_parabolaclock_color_stundeminute_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changeParabolaClockHourMinutePointerColor"
                 android:id="@+id/clock_parabolaclock_color_stundeminute_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_stundeminute_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_stundeminute_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_stundeminute_b_seekbar"
-                android:max="255"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Farbe des Minuten- und Sekundenzeigers der Uhr:"
+                android:text="@string/changeSettings_clock_parabola_minseccolor"
                 android:id="@+id/clock_parabolaclock_color_minutesekunde_caption_textview"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:padding="10dp"
+                android:text="@string/changeColorText"
+                android:clickable="true"
+                android:onClick="changeParabolaClockMinuteSecondPointerColor"
                 android:id="@+id/clock_parabolaclock_color_minutesekunde_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_minutesekunde_r_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_minutesekunde_g_seekbar"
-                android:max="255"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_color_minutesekunde_b_seekbar"
-                android:max="255"/>
 
             <!--
 
@@ -572,13 +416,13 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Digitaluhr"
+                android:text="@string/changeSettings_clock_digital_caption"
                 android:id="@+id/clock_digitalclock_radiobtn"/>
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sollen die Punkte blinken?"
+                android:text="@string/changeSettings_clock_digital_blinkingdots"
                 android:id="@+id/clock_digitalclock_dotsblinking_checkbox"/>
 
         </RadioGroup>
