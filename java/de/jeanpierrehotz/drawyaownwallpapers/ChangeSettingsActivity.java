@@ -228,118 +228,6 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             clock_clock_digitalclock_dotsblinking_checkbox.setVisibility(digitalCloVisi);
         }
     };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_simpleclock_color_stunde_listener           = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_simpleclock_color_stunde_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_simpleclock_color_stunde_r_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_stunde_g_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_stunde_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_simpleclock_color_minute_listener           = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_simpleclock_color_minute_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_simpleclock_color_minute_r_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_minute_g_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_minute_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_simpleclock_color_sekunde_listener          = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_simpleclock_color_sekunde_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_simpleclock_color_sekunde_r_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_sekunde_g_seekbar.getProgress(),
-//                    clock_clock_simpleclock_color_sekunde_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_pointeronly_color_stunde_listener           = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_pointeronly_color_stunde_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_pointeronly_color_stunde_r_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_stunde_g_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_stunde_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_pointeronly_color_minute_listener           = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_pointeronly_color_minute_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_pointeronly_color_minute_r_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_minute_g_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_minute_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_pointeronly_color_sekunde_listener          = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_pointeronly_color_sekunde_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_pointeronly_color_sekunde_r_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_sekunde_g_seekbar.getProgress(),
-//                    clock_clock_pointeronly_color_sekunde_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_parabolaclock_color_stundeminute_listener   = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_parabolaclock_color_stundeminute_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_parabolaclock_color_stundeminute_r_seekbar.getProgress(),
-//                    clock_clock_parabolaclock_color_stundeminute_g_seekbar.getProgress(),
-//                    clock_clock_parabolaclock_color_stundeminute_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
-//    private SeekBar.OnSeekBarChangeListener         clock_clock_parabolaclock_color_minutesekunde_listener  = new SeekBar.OnSeekBarChangeListener(){
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
-//            clock_clock_parabolaclock_color_minutesekunde_textview.setBackgroundColor(Color.rgb(
-//                    clock_clock_parabolaclock_color_minutesekunde_r_seekbar.getProgress(),
-//                    clock_clock_parabolaclock_color_minutesekunde_g_seekbar.getProgress(),
-//                    clock_clock_parabolaclock_color_minutesekunde_b_seekbar.getProgress()
-//            ));
-//        }
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar){}
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar){}
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -445,11 +333,12 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         clock_clockenable_checkbox.setChecked(true);
         clock_clock_simpleclock_radiobtn.setChecked(true);
 
-        /*
-        Then load and show settings, so the layout will (hopefully) handle itself
-         */
         if(getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).getBoolean("firstTime", true)){
             getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putBoolean("firstTime", false).apply();
+
+            /*
+            * On first-launch we set everything to the default-values
+            */
 
             lines_unicolor_checkbox.setChecked(false);
             lines_unicolor_color = Color.rgb(255, 0, 0);
@@ -488,6 +377,11 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             clock_clock_parabolaclock_color_minutesekunde_color = Color.rgb(0, 127, 255);
 
         }else{
+
+            /*
+            * Otherwise we load all the values and show them in the layout
+            */
+
             SharedPreferences prefs = getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE);
 
             lines_unicolor_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false));
@@ -550,33 +444,28 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             clock_clock_digitalclock_dotsblinking_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true));
         }
 
+        /*
+        * Finally we show the set colors
+        */
+
         lines_unicolor_colortextview.setBackgroundColor(lines_unicolor_color);
         lines_unicolor_colortextview.setTextColor(~lines_unicolor_color | FULL_ALPHA);
-
         background_backgroundcolor_colortextview.setBackgroundColor(background_backgroundcolor_color);
         background_backgroundcolor_colortextview.setTextColor(~background_backgroundcolor_color | FULL_ALPHA);
-
         clock_clock_simpleclock_color_stunde_textview.setBackgroundColor(clock_clock_simpleclock_color_stunde_color);
         clock_clock_simpleclock_color_stunde_textview.setTextColor(~clock_clock_simpleclock_color_stunde_color | FULL_ALPHA);
-
         clock_clock_simpleclock_color_minute_textview.setBackgroundColor(clock_clock_simpleclock_color_minute_color);
         clock_clock_simpleclock_color_minute_textview.setTextColor(~clock_clock_simpleclock_color_minute_color | FULL_ALPHA);
-
         clock_clock_simpleclock_color_sekunde_textview.setBackgroundColor(clock_clock_simpleclock_color_sekunde_color);
         clock_clock_simpleclock_color_sekunde_textview.setTextColor(~clock_clock_simpleclock_color_sekunde_color | FULL_ALPHA);
-
         clock_clock_pointeronly_color_stunde_textview.setBackgroundColor(clock_clock_pointeronly_color_stunde_color);
         clock_clock_pointeronly_color_stunde_textview.setTextColor(~clock_clock_pointeronly_color_stunde_color | FULL_ALPHA);
-
         clock_clock_pointeronly_color_minute_textview.setBackgroundColor(clock_clock_pointeronly_color_minute_color);
         clock_clock_pointeronly_color_minute_textview.setTextColor(~clock_clock_pointeronly_color_minute_color | FULL_ALPHA);
-
         clock_clock_pointeronly_color_sekunde_textview.setBackgroundColor(clock_clock_pointeronly_color_sekunde_color);
         clock_clock_pointeronly_color_sekunde_textview.setTextColor(~clock_clock_pointeronly_color_sekunde_color | FULL_ALPHA);
-
         clock_clock_parabolaclock_color_stundeminute_textview.setBackgroundColor(clock_clock_parabolaclock_color_stundeminute_color);
         clock_clock_parabolaclock_color_stundeminute_textview.setTextColor(~clock_clock_parabolaclock_color_stundeminute_color | FULL_ALPHA);
-
         clock_clock_parabolaclock_color_minutesekunde_textview.setBackgroundColor(clock_clock_parabolaclock_color_minutesekunde_color);
         clock_clock_parabolaclock_color_minutesekunde_textview.setTextColor(~clock_clock_parabolaclock_color_minutesekunde_color | FULL_ALPHA);
 
@@ -696,46 +585,47 @@ public class ChangeSettingsActivity extends AppCompatActivity{
 //        float clockY = (height - clockDiam) * clock_clockyposition_seekbar.getProgress() * 0.001f;
 
         getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit()
-                .putBoolean(getString(R.string.lines_unicolor_preferences), lines_unicolor_checkbox.isChecked())
-                .putInt(getString(R.string.lines_unicolor_color_preferences), lines_unicolor_color)
-
-                .putBoolean(getString(R.string.lines_rainbowcolor_preferences), lines_rainbowcolor_checkbox.isChecked())
-                .putInt(getString(R.string.lines_rainbowcolorsteps_preferences), lines_rainbowcolor_seekbar.getProgress())
-
-                .putFloat(getString(R.string.lines_width_preferences), lines_linewidth_seekbar.getProgress() * 0.1f)
-                .putBoolean(getString(R.string.lines_permanent_preferences), lines_linesave_checkbox.isChecked())
-                .putBoolean(getString(R.string.lines_drawBall_preferences), lines_linedrawBall_checkbox.isChecked())
-                .putFloat(getString(R.string.lines_ballSize_preferences), lines_linesballsize_seekbar.getProgress() * 0.1f)
-                .putBoolean(getString(R.string.lines_fadeComplete_preferences), lines_linesfadecomplete_radiobutton.isChecked())
-                .putInt(getString(R.string.lines_fadeComplete_time_preferences), lines_linesfadecompletetime_seekbar.getProgress() * 100)
-                .putBoolean(getString(R.string.lines_fadeSlowly_preferences), lines_linesfadeslowly_radiobutton.isChecked())
-                .putBoolean(getString(R.string.lines_fadeParasite_preferences), lines_linesfadeparasite_radiobutton.isChecked())
-                .putInt(getString(R.string.lines_fadeActionTime_preferences), lines_linesfadeslowlyActionTime_seekbar.getProgress())
-                .putBoolean(getString(R.string.background_pictureshown_preferences), background_backgroundpicture_checkbox.isChecked())
-                .putInt(getString(R.string.background_alternateColor_preferences), background_backgroundcolor_color)
-                .putBoolean(getString(R.string.clock_drawClock_preferences), clock_clockenable_checkbox.isChecked())
-                .putFloat(getString(R.string.clock_diameter_preferences), (float) clock_clockdiameter_seekbar.getProgress() / 1000f)
-                .putFloat(getString(R.string.clock_xposition_preferences), (float) clock_clockxposition_seekbar.getProgress() / 1000f)
-                .putFloat(getString(R.string.clock_yposition_preferences), (float) clock_clockyposition_seekbar.getProgress() / 1000f)
-
-                .putBoolean(getString(R.string.clock_simpleClockchosen_preferences), clock_clock_simpleclock_radiobtn.isChecked())
-                .putInt(getString(R.string.clock_simpleclock_alphaColor_preferences), Color.argb(clock_clock_simpleclock_alphabehind_seekbar.getProgress(), 0xFF, 0xFF, 0xFF))
-                .putInt(getString(R.string.clock_simpleclock_stdcolor_preferences), clock_clock_simpleclock_color_stunde_color)
-                .putInt(getString(R.string.clock_simpleclock_mincolor_preferences), clock_clock_simpleclock_color_minute_color)
-                .putInt(getString(R.string.clock_simpleclock_seccolor_preferences), clock_clock_simpleclock_color_sekunde_color)
-
-                .putBoolean(getString(R.string.clock_pointerOnlyClockchosen_preferences), clock_clock_pointeronly_radiobtn.isChecked())
-                .putInt(getString(R.string.clock_pointeronlyclock_stdcolor_preferences), clock_clock_pointeronly_color_stunde_color)
-                .putInt(getString(R.string.clock_pointeronlyclock_mincolor_preferences), clock_clock_pointeronly_color_minute_color)
-                .putInt(getString(R.string.clock_pointeronlyclock_seccolor_preferences), clock_clock_pointeronly_color_sekunde_color)
-
-                .putBoolean(getString(R.string.clock_parabolaclockchosen_preferences), clock_clock_parabolaclock_radiobtn.isChecked())
-                .putInt(getString(R.string.clock_parabolaclock_alphaColor_preferences), Color.argb(clock_clock_parabolaclock_alphabehind_seekbar.getProgress(), 255, 255, 255))
-                .putInt(getString(R.string.clock_parabolaclock_stdmincolor_preferences), clock_clock_parabolaclock_color_stundeminute_color)
-                .putInt(getString(R.string.clock_parabolaclock_minsekcolor_preferences), clock_clock_parabolaclock_color_minutesekunde_color)
-
-                .putBoolean(getString(R.string.clock_digitalClockchosen_preferences), clock_clock_digitalclock_radiobtn.isChecked())
-                .putBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), clock_clock_digitalclock_dotsblinking_checkbox.isChecked())
+                /*LINES*/
+                .putBoolean(        getString(R.string.lines_unicolor_preferences),                     lines_unicolor_checkbox.isChecked())
+                .putInt(            getString(R.string.lines_unicolor_color_preferences),               lines_unicolor_color)
+                .putBoolean(        getString(R.string.lines_rainbowcolor_preferences),                 lines_rainbowcolor_checkbox.isChecked())
+                .putInt(            getString(R.string.lines_rainbowcolorsteps_preferences),            lines_rainbowcolor_seekbar.getProgress())
+                .putFloat(          getString(R.string.lines_width_preferences),                        lines_linewidth_seekbar.getProgress() * 0.1f)
+                .putBoolean(        getString(R.string.lines_permanent_preferences),                    lines_linesave_checkbox.isChecked())
+                .putBoolean(        getString(R.string.lines_drawBall_preferences),                     lines_linedrawBall_checkbox.isChecked())
+                .putFloat(          getString(R.string.lines_ballSize_preferences),                     lines_linesballsize_seekbar.getProgress() * 0.1f)
+                .putBoolean(        getString(R.string.lines_fadeComplete_preferences),                 lines_linesfadecomplete_radiobutton.isChecked())
+                .putInt(            getString(R.string.lines_fadeComplete_time_preferences),            lines_linesfadecompletetime_seekbar.getProgress() * 100)
+                .putBoolean(        getString(R.string.lines_fadeSlowly_preferences),                   lines_linesfadeslowly_radiobutton.isChecked())
+                .putBoolean(        getString(R.string.lines_fadeParasite_preferences),                 lines_linesfadeparasite_radiobutton.isChecked())
+                .putInt(            getString(R.string.lines_fadeActionTime_preferences),               lines_linesfadeslowlyActionTime_seekbar.getProgress())
+                /*BACKGROUND*/
+                .putBoolean(        getString(R.string.background_pictureshown_preferences),            background_backgroundpicture_checkbox.isChecked())
+                .putInt(            getString(R.string.background_alternateColor_preferences),          background_backgroundcolor_color)
+                /*CLOCK GENERAL*/
+                .putBoolean(        getString(R.string.clock_drawClock_preferences),                    clock_clockenable_checkbox.isChecked())
+                .putFloat(          getString(R.string.clock_diameter_preferences),                     (float) clock_clockdiameter_seekbar.getProgress() / 1000f)
+                .putFloat(          getString(R.string.clock_xposition_preferences),                    (float) clock_clockxposition_seekbar.getProgress() / 1000f)
+                .putFloat(          getString(R.string.clock_yposition_preferences),                    (float) clock_clockyposition_seekbar.getProgress() / 1000f)
+                /*SIMPLE CLOCK*/
+                .putBoolean(        getString(R.string.clock_simpleClockchosen_preferences),            clock_clock_simpleclock_radiobtn.isChecked())
+                .putInt(            getString(R.string.clock_simpleclock_alphaColor_preferences),       Color.argb(clock_clock_simpleclock_alphabehind_seekbar.getProgress(), 0xFF, 0xFF, 0xFF))
+                .putInt(            getString(R.string.clock_simpleclock_stdcolor_preferences),         clock_clock_simpleclock_color_stunde_color)
+                .putInt(            getString(R.string.clock_simpleclock_mincolor_preferences),         clock_clock_simpleclock_color_minute_color)
+                .putInt(            getString(R.string.clock_simpleclock_seccolor_preferences),         clock_clock_simpleclock_color_sekunde_color)
+                /*POINTER-ONLY CLOCK*/
+                .putBoolean(        getString(R.string.clock_pointerOnlyClockchosen_preferences),       clock_clock_pointeronly_radiobtn.isChecked())
+                .putInt(            getString(R.string.clock_pointeronlyclock_stdcolor_preferences),    clock_clock_pointeronly_color_stunde_color)
+                .putInt(            getString(R.string.clock_pointeronlyclock_mincolor_preferences),    clock_clock_pointeronly_color_minute_color)
+                .putInt(            getString(R.string.clock_pointeronlyclock_seccolor_preferences),    clock_clock_pointeronly_color_sekunde_color)
+                /*PARABOLACLOCK*/
+                .putBoolean(        getString(R.string.clock_parabolaclockchosen_preferences),          clock_clock_parabolaclock_radiobtn.isChecked())
+                .putInt(            getString(R.string.clock_parabolaclock_alphaColor_preferences),     Color.argb(clock_clock_parabolaclock_alphabehind_seekbar.getProgress(), 255, 255, 255))
+                .putInt(            getString(R.string.clock_parabolaclock_stdmincolor_preferences),    clock_clock_parabolaclock_color_stundeminute_color)
+                .putInt(            getString(R.string.clock_parabolaclock_minsekcolor_preferences),    clock_clock_parabolaclock_color_minutesekunde_color)
+                /*DIGITALCLOCK*/
+                .putBoolean(        getString(R.string.clock_digitalClockchosen_preferences),           clock_clock_digitalclock_radiobtn.isChecked())
+                .putBoolean(        getString(R.string.clock_digitalClock_dotsblinking_preferences),    clock_clock_digitalclock_dotsblinking_checkbox.isChecked())
 
                 .apply();
     }
