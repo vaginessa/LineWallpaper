@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General strings affecting the app -->
+    <string name="app_name">DrawYaOwnWallpapers</string>
+    <string name="title_activity_change_settings">Ändere Einstellungen</string>
+
+    <!-- Strings related to Settings: see the default-strings.xml ^^ -->
+
+    <!-- Strings for the dialogs in general -->
+    <string name="dialog_positive">Ja</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_negative">Nein</string>
+    <string name="dialog_abort">Abbrechen</string>
+    <string name="dialog_fuckyou">Fick dich!</string>
+    <string name="dialog_fuckyou_answer">Fick dich selbst :*</string>
+
+    <!-- Strings about deleting permanent lines -->
+    <string name="deleteLines_success">Erfolgreich gelöscht!</string>
+    <string name="deleteAllPermanentLines_title">Alle permanenten Linien löschen?</string>
+    <string name="deleteAllPermanentLines_message">Wollen sie wirklich alle permanenten Linien löschen? Dies kann nicht rückgängig gemacht werden!</string>
+    <string name="deleteLastPermanentLine_title">Letzte permanente Linie löschen?</string>
+    <string name="deleteLastPermanentLine_message">Wollen sie die letzte permanente Linie wirklich löschen? Dies kann nicht rückgängig gemacht werden!</string>
+    <string name="deleteChosenSetting_caption">Ausgewählte Einstellung</string>
+    <string name="deleteChosenSetting_message">Die ausgewählte Einstellung kann leider nicht gelöscht werden.\nDas tut uns wirklich leid…\n:(\nAber stell dir mal vor du wärst an meiner Stelle, und wüsstest plötzlich nicht was du tun sollst :P</string>
+    <string name="alertMessage_noPermLines">Es sind derzeitig keine permanenten Linien vorhanden!</string>
+
+    <!-- Strings used for changing the title of an setting -->
+    <string name="selectTitle_caption">Titel</string>
+    <string name="changesettingtitle_dialog_textfieldhint">Neuer Titel</string>
+
+    <!-- Strings used at the first launch of the app -->
+    <string name="firstSettingName">Meine erste Einstellung :)</string>
+
+    <!-- Strings used for the settings-listview -->
+    <string name="selectedIndication">Ausgewählt</string>
+    <string name="listitem_name_placeholder">Name der Einstellung</string>
+    <string name="listitem_selected_placeholder">Ist das Teil denn ausgewählt?</string>
+
+    <!-- Strings used for the ChangeSettingsActivity -->
+    <string name="changeSettings_unicolor_caption">Sollen die (neuen) Linien die gleiche Farbe bekommen?</string>
+    <string name="changeSettings_rainbowcolor_caption">Sollen die Linien regenbgenfarbig gemalt werden?</string>
+    <string name="changeSettings_rainbowcolor_upsetting">Stauchung des Farbverlaufs:</string>
+    <string name="changeSettings_linestrokewidth">Linienstärke:</string>
+    <string name="changeSettings_savelines">Sollen die neuen Linien gespeichert werden (und damit permanent werden)?</string>
+    <string name="changeSettings_deletelastline">Letzte permanente Linie löschen</string>
+    <string name="changeSettings_deletealllines">Alle permanenten Linien löschen</string>
+    <string name="changeSettings_drawballs">Sollen Bälle am Ende einer Linie gezeichnet werden? (Auch rückwirkend gültig!)</string>
+    <string name="changeSettings_ballsize">Ballgröße:</string>
+    <string name="changeSettings_disappearance">Verschwinden der nicht gespeicherten Linien:</string>
+    <string name="changeSettings_disappearance_complete">Komplette Linie verschwindet plötzlich</string>
+    <string name="changeSettings_disappearance_complete_time">Zeit bis zum kompletten Verschwinden:</string>
+    <string name="changeSettings_disappearance_fading">Linie fadet langsam aus dem Bild</string>
+    <string name="changeSettings_disappearance_eating">Linie frisst sich langsam selbst auf</string>
+    <string name="changeSettings_disappearance_actiontime">Zeit bis eine Aktion geschieht:</string>
+    <string name="changeSettings_includebackgroundpicture">Hintergrundbild soll eingefügt werden</string>
+    <string name="changeSettings_selectbackgroundpicture">Wähle Hintergrundbild aus</string>
+    <string name="changeSettings_clock_showclock">Soll eine Uhr angezeigt werden?</string>
+    <string name="changeSettings_clock_xposition">x-Position der Uhr:</string>
+    <string name="changeSettings_clock_yposition">y-Position der Uhr:</string>
+    <string name="changeSettings_clock_diameter">Durchmesser der Uhr:</string>
+    <string name="changeSettings_clock_simpleclock_caption">Simple Uhr</string>
+    <string name="changeSettings_clock_simpleclock_alpha">Alpha hinter der Uhr:</string>
+    <string name="changeSettings_clock_simpleclock_hourcolor">Farbe des Stundenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_simpleclock_minutecolor">Farbe des Minutenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_simpleclock_secondcolor">Farbe des Sekundenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_pointeronly_caption">Uhr nur mit Zeigern</string>
+    <string name="changeSettings_clock_pointeronly_hourcolor">Farbe des Stundenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_pointeronly_minutecolor">Farbe des Minutenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_pointeronly_secondcolor">Farbe des Sekundenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_parabola_caption">Parabeluhr</string>
+    <string name="changeSettings_clock_parabola_alpha">Alpha hinter der Uhr:</string>
+    <string name="changeSettings_clock_parabola_houmincolor">Farbe des Stunden- und Minutenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_parabola_minseccolor">Farbe des Minuten- und Sekundenzeigers der Uhr:</string>
+    <string name="changeSettings_clock_digital_caption">Digitaluhr</string>
+    <string name="changeSettings_clock_digital_blinkingdots">Sollen die Punkte blinken?</string>
+
+    <!-- Strings related to the dialogs for changing colors -->
+    <string name="changeColorText">Farbe ändern</string>
+    <string name="changeColor_unicolor_title">Wähle Linienfarbe aus</string>
+    <string name="changeColor_backgroundcolor_title">Wähle Hintergrundfarbe aus</string>
+    <string name="changeColor_simplclockhourpointercolor_title">Wähle Farbe des Stundenzeigers einer simplen Uhr aus</string>
+    <string name="changeColor_simplclockminutepointercolor_title">Wähle Farbe des Minutenzeigers einer simplen Uhr aus</string>
+    <string name="changeColor_simplclocksekundepointercolor_title">Wähle Farbe des Sekundenzeigers einer simplen Uhr aus</string>
+    <string name="changeColor_pointeronlyhourpointercolor_title">Wähle Farbe des Stundenzeigers einer Uhr nur mit Zeigern aus</string>
+    <string name="changeColor_pointeronlyminutepointercolor_title">Wähle Farbe des Minutenzeigers einer Uhr nur mit Zeigern aus</string>
+    <string name="changeColor_pointeronlysecondpointercolor_title">Wähle Farbe des Sekundenzeigers einer Uhr nur mit Zeigern aus</string>
+    <string name="changeColor_parabolastundeminutepointercolor_title">Wähle Farbe des Stunden- und Minutenzeigers einer Parabeluhr aus</string>
+    <string name="changeColor_parabolaminutesekundepointercolor_title">Wähle Farbe des Minuten- und Sekundenzeigers einer Parabeluhr aus</string>
+
+</resources>
