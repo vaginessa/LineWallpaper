@@ -36,7 +36,12 @@ public class MainActivity extends AppCompatActivity{
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l){
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle(settings_caption.get(i))
-                    .setItems(R.array.context_menu_items, new DialogInterface.OnClickListener(){
+                    .setItems(/*R.array.context_menu_items*/
+                            new String[]{
+                                    getString(R.string.contextMenu_selectSetting),
+                                    getString(R.string.contextMenu_renameSetting),
+                                    getString(R.string.contextMenu_deleteSetting)
+                            }, new DialogInterface.OnClickListener(){
                         AlertDialog dialog;
 
                         @Override
@@ -117,7 +122,8 @@ public class MainActivity extends AppCompatActivity{
             settings_caption.add(getString(R.string.firstSettingName));
             selectedSetting = 0;
             saveSettings();
-            modifySetting(0);
+//            modifySetting(0);
+            startActivity(new Intent(this, AppIntroActivity.class));
         }else{
             loadSettings();
         }
