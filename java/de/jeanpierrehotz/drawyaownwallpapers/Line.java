@@ -90,7 +90,7 @@ public class Line{
         }, time);
     }
 
-    public void injectParasite(final int time){
+    public void injectParasite(final int time, final EatingDirection dir){
         new Thread(new Runnable(){
             @Override
             public void run(){
@@ -101,8 +101,14 @@ public class Line{
                         return;
                     }
 
-                    xPoints.remove(xPoints.size() - 1);
-                    yPoints.remove(yPoints.size() - 1);
+                    if(dir == EatingDirection.behind || dir == EatingDirection.both){
+                        xPoints.remove(xPoints.size() - 1);
+                        yPoints.remove(yPoints.size() - 1);
+                    }
+                    if(dir == EatingDirection.front || dir == EatingDirection.both && xPoints.size() != 0){
+                        xPoints.remove(0);
+                        yPoints.remove(0);
+                    }
                 }
             }
         }).start();
@@ -288,6 +294,38 @@ public class Line{
                 col = getNext(col);
             }
             return col;
+        }
+    }
+
+    public enum EatingDirection{
+        behind,
+        front,
+        both;
+
+        public int toInteger(){
+            switch(this){
+                case behind:
+                    return 0;
+                case front:
+                    return 1;
+                case both:
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
+
+        public static EatingDirection generateFromInt(int n){
+            switch(n){
+                case 0:
+                    return behind;
+                case 1:
+                    return front;
+                case 2:
+                    return both;
+                default:
+                    return behind;
+            }
         }
     }
 }

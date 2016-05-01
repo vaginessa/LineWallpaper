@@ -73,6 +73,8 @@
     <string name="changeSettings_clock_parabola_minseccolor">Farbe des Minuten- und Sekundenzeigers der Uhr:</string>
     <string name="changeSettings_clock_digital_caption">Digitaluhr</string>
     <string name="changeSettings_clock_digital_blinkingdots">Sollen die Punkte blinken?</string>
+    <string name="changeSettings_changeindex_failed">Diese Einstellung ist bereit ausgewählt!</string>
+    <string name="changeSettings_changeindex_succeeded">Die Einstellung wurde ausgewählt.</string>
 
     <!-- Strings related to the dialogs for changing colors -->
     <string name="changeColorText">Farbe ändern</string>
@@ -86,5 +88,20 @@
     <string name="changeColor_pointeronlysecondpointercolor_title">Wähle Farbe des Sekundenzeigers einer Uhr nur mit Zeigern aus</string>
     <string name="changeColor_parabolastundeminutepointercolor_title">Wähle Farbe des Stunden- und Minutenzeigers einer Parabeluhr aus</string>
     <string name="changeColor_parabolaminutesekundepointercolor_title">Wähle Farbe des Minuten- und Sekundenzeigers einer Parabeluhr aus</string>
+
+    <!-- Strings regarding the context menu -->
+    <string name="contextMenu_selectSetting">Einstellung auswählen</string>
+    <string name="contextMenu_renameSetting">Einstellung umbenennen</string>
+    <string name="contextMenu_deleteSetting">Einstellung löschen</string>
+
+    <!-- Strings concerning the intro to the app -->
+    <string name="appIntro_changeSettings_caption">Ändere Einstellungen</string>
+    <string name="appIntro_changeSettings_description">Sie können eine Einstellung ändern, indem Sie auf die Einstellung klicken, und die gewünschten Werte in dem auftauchenden Menü ändern.</string>
+    <string name="appIntro_addSettings_caption">Einstellungen hinzufügen</string>
+    <string name="appIntro_addSettings_description">Sie können eine Einstellung hinzufügen, indem sie den Hinzufügenknopf drücken, und einen Namen (der nicht einmalig sein muss) für die Einstellung eingeben.</string>
+    <string name="appIntro_contextMenu_caption">Einstellungen auswählen, umbenennen oder löschen</string>
+    <string name="appIntro_contextMenu_description">Sie können eine Einstellung auswählen, umbenennen oder löschen, indem sie lange auf diese drücken, und die gewünschte Aktion auswählen.\nAber bitte versuchen sie nicht die ausgewählte Einstellung zu löschen. :)</string>
+    <string name="appIntro_doneWithIntro_caption">Fertig</string>
+    <string name="appIntro_doneWithIntro_description">Sie können nun ihren eigenen Hintergrund malen!\nDazu müssen sie nur das DrawYaOwn!-Livewallpaper als ihren Hintergrund auswählen.\nSie werden nun zu einer Einstellung, die wir für sie erstellt haben, namens \"Meine erste Einstellung :)\", weitergeleitet.\nHaben sie Spaß mit unserer App :)</string>
 
 </resources>

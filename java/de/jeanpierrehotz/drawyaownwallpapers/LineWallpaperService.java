@@ -60,6 +60,7 @@ public class LineWallpaperService extends WallpaperService{
         private int         lines_timeUntilActionPerformed;
         private int         lines_color;
         private int         lines_rainbowSteps;
+        private Line.EatingDirection lines_eatingdirection;
 
         public LineWallpaper(){
             p = new Paint();
@@ -120,6 +121,7 @@ public class LineWallpaperService extends WallpaperService{
             lines_timeUntilActionPerformed      = prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50);
             lines_rainbowColor                  = prefs.getBoolean(getString(R.string.lines_rainbowcolor_preferences), true);
             lines_rainbowSteps                  = prefs.getInt(getString(R.string.lines_rainbowcolorsteps_preferences), 10);
+            lines_eatingdirection               = Line.EatingDirection.generateFromInt(prefs.getInt(getString(R.string.lines_eatingitselfdirection_preferences), 0));
             background_drawPicture              = prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false);
             background_color                    = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
@@ -267,7 +269,7 @@ public class LineWallpaperService extends WallpaperService{
                         tempLines.get(tempLines.size() - 1).fade(lines_timeUntilActionPerformed);
                         tempLines.get(tempLines.size() - 1).addTimer(new Handler(), tempLines, lines_timeUntilActionPerformed * 256 + 1000);
                     }else{
-                        tempLines.get(tempLines.size() - 1).injectParasite(lines_timeUntilActionPerformed);
+                        tempLines.get(tempLines.size() - 1).injectParasite(lines_timeUntilActionPerformed, lines_eatingdirection);
                         tempLines.get(tempLines.size() - 1).addTimer(new Handler(), tempLines, lines_timeUntilActionPerformed * tempLines.get(tempLines.size() - 1).getCount() + 1000);
                     }
                 }
@@ -301,7 +303,7 @@ public class LineWallpaperService extends WallpaperService{
                         tempLines.get(tempLines.size() - 1).fade(lines_timeUntilActionPerformed);
                         tempLines.get(tempLines.size() - 1).addTimer(new Handler(), tempLines, lines_timeUntilActionPerformed * 256 + 1000);
                     }else{
-                        tempLines.get(tempLines.size() - 1).injectParasite(lines_timeUntilActionPerformed);
+                        tempLines.get(tempLines.size() - 1).injectParasite(lines_timeUntilActionPerformed, lines_eatingdirection);
                         tempLines.get(tempLines.size() - 1).addTimer(new Handler(), tempLines, lines_timeUntilActionPerformed * tempLines.get(tempLines.size() - 1).getCount() + 1000);
                     }
                 }

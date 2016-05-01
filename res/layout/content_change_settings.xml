@@ -144,6 +144,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/changeSettings_disappearance_eatingDirection"
+                android:id="@+id/linesfadeparasite_direction_caption_textview"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/changeSettings_disappearance_eatingDirection_front"
+                android:id="@+id/linesfadeparasite_direction_showing_textview"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linesfadeparasite_direction_seekbar"
+                android:max="2"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/changeSettings_disappearance_actiontime"
                 android:id="@+id/linesfadeslowlyActionTime_caption_textview"/>
 
