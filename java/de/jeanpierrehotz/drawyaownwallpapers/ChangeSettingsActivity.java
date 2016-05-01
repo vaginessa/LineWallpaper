@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -48,6 +50,9 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     private SeekBar         lines_linesfadecompletetime_seekbar;
     private RadioButton     lines_linesfadeslowly_radiobutton;
     private RadioButton     lines_linesfadeparasite_radiobutton;
+    private TextView        lines_linesfadeparasite_direction_caption_textview;
+    private TextView        lines_linesfadeparasite_direction_showing_textview;
+    private SeekBar         lines_linesfadeparasite_direction_seekbar;
     private TextView        lines_linesfadeslowlyActionTime_caption_textview;
     private SeekBar         lines_linesfadeslowlyActionTime_seekbar;
 
@@ -163,12 +168,32 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
             int completeVis = (lines_linesfadecomplete_radiobutton.isChecked())? View.VISIBLE: View.GONE;
             int fadeVis = (lines_linesfadecomplete_radiobutton.isChecked())? View.GONE: View.VISIBLE;
+            int eatingVis = (lines_linesfadeparasite_radiobutton.isChecked())? View.VISIBLE: View.GONE;
 
             lines_linesfadecomplete_caption_textview.setVisibility(completeVis);
             lines_linesfadecompletetime_seekbar.setVisibility(completeVis);
             lines_linesfadeslowlyActionTime_caption_textview.setVisibility(fadeVis);
             lines_linesfadeslowlyActionTime_seekbar.setVisibility(fadeVis);
+            lines_linesfadeparasite_direction_caption_textview.setVisibility(eatingVis);
+            lines_linesfadeparasite_direction_showing_textview.setVisibility(eatingVis);
+            lines_linesfadeparasite_direction_seekbar.setVisibility(eatingVis);
         }
+    };
+    private SeekBar.OnSeekBarChangeListener         lines_linesfadeparasite_direction_listener = new SeekBar.OnSeekBarChangeListener(){
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b){
+            if(lines_linesfadeparasite_direction_seekbar.getProgress() == 0){
+                lines_linesfadeparasite_direction_showing_textview.setText(R.string.changeSettings_disappearance_eatingDirection_back);
+            }else if(lines_linesfadeparasite_direction_seekbar.getProgress() == 1){
+                lines_linesfadeparasite_direction_showing_textview.setText(R.string.changeSettings_disappearance_eatingDirection_front);
+            }else{
+                lines_linesfadeparasite_direction_showing_textview.setText(R.string.changeSettings_disappearance_eatingDirection_both);
+            }
+        }
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar){}
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar){}
     };
     private CheckBox.OnCheckedChangeListener        background_backgroundpicture_checkbox_listener          = new CompoundButton.OnCheckedChangeListener(){
         @Override
@@ -266,11 +291,15 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         lines_linesfadecompletetime_seekbar                             = (SeekBar)         findViewById(R.id.linesfadecompletetime_seekbar);
         lines_linesfadeslowly_radiobutton                               = (RadioButton)     findViewById(R.id.linesfadeslowly_radiobutton);
         lines_linesfadeparasite_radiobutton                             = (RadioButton)     findViewById(R.id.linesfadeparasite_radiobutton);
+        lines_linesfadeparasite_direction_caption_textview              = (TextView)        findViewById(R.id.linesfadeparasite_direction_caption_textview);
+        lines_linesfadeparasite_direction_showing_textview              = (TextView)        findViewById(R.id.linesfadeparasite_direction_showing_textview);
+        lines_linesfadeparasite_direction_seekbar                       = (SeekBar)         findViewById(R.id.linesfadeparasite_direction_seekbar);
         lines_linesfadeslowlyActionTime_caption_textview                = (TextView)        findViewById(R.id.linesfadeslowlyActionTime_caption_textview);
         lines_linesfadeslowlyActionTime_seekbar                         = (SeekBar)         findViewById(R.id.linesfadeslowlyActionTime_seekbar);
         lines_linesfadecomplete_radiobutton.setOnCheckedChangeListener(lines_linesfade_listener);
         lines_linesfadeslowly_radiobutton.setOnCheckedChangeListener(lines_linesfade_listener);
         lines_linesfadeparasite_radiobutton.setOnCheckedChangeListener(lines_linesfade_listener);
+        lines_linesfadeparasite_direction_seekbar.setOnSeekBarChangeListener(lines_linesfadeparasite_direction_listener);
 
         background_backgroundpicture_checkbox                           = (CheckBox)        findViewById(R.id.backgroundpicture_checkbox);
         background_backgroundpicture_button                             = (Button)          findViewById(R.id.backgroundpicture_button);
@@ -329,6 +358,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         lines_linesave_checkbox.setChecked(true);
         lines_linedrawBall_checkbox.setChecked(true);
         lines_linesfadecomplete_radiobutton.setChecked(true);
+        lines_linesfadeparasite_direction_seekbar.setProgress(1);
         background_backgroundpicture_checkbox.setChecked(true);
         clock_clockenable_checkbox.setChecked(true);
         clock_clock_simpleclock_radiobtn.setChecked(true);
@@ -352,6 +382,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             lines_linesballsize_seekbar.setProgress(240);
             lines_linesfadeslowly_radiobutton.setChecked(true);
             lines_linesfadecompletetime_seekbar.setProgress(20);
+            lines_linesfadeparasite_direction_seekbar.setProgress(0);
             lines_linesfadeslowlyActionTime_seekbar.setProgress(50);
 
             background_backgroundpicture_checkbox.setChecked(false);
@@ -401,6 +432,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             lines_linesfadecompletetime_seekbar.setProgress(prefs.getInt(getString(R.string.lines_fadeComplete_time_preferences), 5000) / 100);
             lines_linesfadeslowly_radiobutton.setChecked(prefs.getBoolean(getString(R.string.lines_fadeSlowly_preferences), true));
             lines_linesfadeparasite_radiobutton.setChecked(prefs.getBoolean(getString(R.string.lines_fadeParasite_preferences), false));
+            lines_linesfadeparasite_direction_seekbar.setProgress(prefs.getInt(getString(R.string.lines_eatingitselfdirection_preferences), 0));
             lines_linesfadeslowlyActionTime_seekbar.setProgress(prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50));
 
             background_backgroundpicture_checkbox.setChecked(prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false));
@@ -598,6 +630,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                 .putInt(            getString(R.string.lines_fadeComplete_time_preferences),            lines_linesfadecompletetime_seekbar.getProgress() * 100)
                 .putBoolean(        getString(R.string.lines_fadeSlowly_preferences),                   lines_linesfadeslowly_radiobutton.isChecked())
                 .putBoolean(        getString(R.string.lines_fadeParasite_preferences),                 lines_linesfadeparasite_radiobutton.isChecked())
+                .putInt(            getString(R.string.lines_eatingitselfdirection_preferences),         lines_linesfadeparasite_direction_seekbar.getProgress())
                 .putInt(            getString(R.string.lines_fadeActionTime_preferences),               lines_linesfadeslowlyActionTime_seekbar.getProgress())
                 /*BACKGROUND*/
                 .putBoolean(        getString(R.string.background_pictureshown_preferences),            background_backgroundpicture_checkbox.isChecked())
@@ -955,26 +988,40 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         top.setColor(prevCol);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if(id == R.id.action_settings){
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_changesettingsmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if(id == R.id.action_selectsetting_menuitem){
+
+            if(settings_index == getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE).getInt(getString(R.string.settings_selectedSettingPreferences), 0)){
+
+                Snackbar.make(findViewById(R.id.space), R.string.changeSettings_changeindex_failed, Snackbar.LENGTH_SHORT).show();
+
+            }else{
+                getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE)
+                        .edit()
+                        .putInt(getString(R.string.settings_selectedSettingPreferences), settings_index)
+                        .apply();
+
+                Snackbar.make(findViewById(R.id.space), R.string.changeSettings_changeindex_succeeded, Snackbar.LENGTH_SHORT).show();
+            }
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

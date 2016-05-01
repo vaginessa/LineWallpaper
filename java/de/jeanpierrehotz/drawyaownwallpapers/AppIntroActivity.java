@@ -14,6 +14,7 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 public class AppIntroActivity extends AppIntro{
     @Override
     public void init(@Nullable Bundle savedInstanceState){
+        /* The slide which shows you how to change a setting */
         addSlide(
                 AppIntroFragment.newInstance(
                         getString(R.string.appIntro_changeSettings_caption),
@@ -22,6 +23,7 @@ public class AppIntroActivity extends AppIntro{
                         0xFF3F51B5
                 )
         );
+        /* The slide which shows you how to add a setting */
         addSlide(
                 AppIntroFragment.newInstance(
                         getString(R.string.appIntro_addSettings_caption),
@@ -30,6 +32,7 @@ public class AppIntroActivity extends AppIntro{
                         0xFF3F51B5
                 )
         );
+        /* The slide which shows you how to open the context menu */
         addSlide(
                 AppIntroFragment.newInstance(
                         getString(R.string.appIntro_contextMenu_caption),
@@ -38,6 +41,7 @@ public class AppIntroActivity extends AppIntro{
                         0xFF3F51B5
                 )
         );
+        /* The slide which shows you that you're done with the intro */
         addSlide(
                 AppIntroFragment.newInstance(
                         getString(R.string.appIntro_doneWithIntro_caption),
@@ -47,6 +51,7 @@ public class AppIntroActivity extends AppIntro{
                 )
         );
 
+        /* MAke it look all nice */
         setBarColor(0xFF303F9F);
         showStatusBar(false);
         setZoomAnimation();
@@ -54,6 +59,7 @@ public class AppIntroActivity extends AppIntro{
 
     @Override
     public void onSkipPressed(){
+        /* when skipping we just start the first setting */
         startFirstSetting();
     }
 
@@ -64,6 +70,7 @@ public class AppIntroActivity extends AppIntro{
 
     @Override
     public void onDonePressed(){
+        /* when done we just start the first setting */
         startFirstSetting();
     }
 
@@ -72,10 +79,13 @@ public class AppIntroActivity extends AppIntro{
 
     }
 
+    /**
+     * This method starts the first setting
+     */
     private void startFirstSetting(){
         Intent intent = new Intent(this, ChangeSettingsActivity.class);
-        intent.putExtra(getString(R.string.intent_settings_index), 0);
+        intent.putExtra(getString(R.string.intent_settings_index), 0);  //we need to give it the settings index
         startActivity(intent);
-        finish();
+        finish();                                                       // we don't want the user to come back here
     }
 }
