@@ -44,8 +44,8 @@ public class LineWallpaperService extends WallpaperService{
 
         private Bitmap      background_bitmap;
         private boolean     background_drawPicture;
-        private float       background_Offset_X,
-                            background_Offset_Y;
+//        private float       background_Offset_X,
+//                            background_Offset_Y;
         private int         background_color;
 
         private boolean     lines_drawBalls;
@@ -70,30 +70,6 @@ public class LineWallpaperService extends WallpaperService{
 
             tempLines = new ArrayList<>();
             permLines = new ArrayList<>();
-
-//            background_drawPicture = true;
-//            background_color = Color.WHITE;
-//
-//            lines_remove = false;
-//            lines_fading = true;
-//            lines_drawBalls = true;
-//            lines_currentlyPermanent = false;
-//            lines_timeUntilRemoved = 5000;
-//            lines_timeUntilActionPerformed = 50;
-//            lines_width = 12f;
-//            lines_color = Color.GREEN;
-//            lines_UniColor = false;
-//            lines_ballsRadius = 24f;
-//
-//            clk = new SimpleClock(
-//                    Color.argb(0xC0, 0xFF, 0xFF, 0xFF),
-//                    Color.rgb(0xFF, 0x00, 0x00),
-//                    Color.rgb(0x00, 0xFF, 0x00),
-//                    Color.rgb(0x00, 0x00, 0xFF)
-//            );
-//            clk_diameter = 540;
-//            clk_xCoordinate = 100;
-//            clk_yCoordinate = 100;
 
             loadPreferences();
 
@@ -126,10 +102,6 @@ public class LineWallpaperService extends WallpaperService{
             background_color                    = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
             if(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false)){
-//                clk_xCoordinate                 = prefs.getFloat(getString(R.string.clock_xposition_preferences), 0f);
-//                clk_yCoordinate                 = prefs.getFloat(getString(R.string.clock_yposition_preferences), 0f);
-//                clk_diameter                    = prefs.getFloat(getString(R.string.clock_diameter_preferences), 500f);
-
                 clk_diameter                    = ((x > y)? y: x) * prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f);
                 clk_xCoordinate                 = (x - clk_diameter) * prefs.getFloat(getString(R.string.clock_xposition_preferences), 05f);
                 clk_yCoordinate                 = (y - clk_diameter) * prefs.getFloat(getString(R.string.clock_yposition_preferences), 0.5f);
@@ -158,7 +130,6 @@ public class LineWallpaperService extends WallpaperService{
                             prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true)
                     );
                 }
-//                clk = new DigitalClock(true);
             }else{
                 clk = null;
             }
@@ -176,16 +147,14 @@ public class LineWallpaperService extends WallpaperService{
                         background_bitmap       = Bitmap.createScaledBitmap(temp, (int) (heightRatio * temp.getWidth()), (int) (heightRatio * temp.getHeight()), false);
                     }
 
-                    background_Offset_X         = (background_bitmap.getWidth() - x) / 2;
-                    background_Offset_Y         = (background_bitmap.getHeight() - y) / 2;
+//                    background_Offset_X         = (background_bitmap.getWidth() - x) / 2;
+//                    background_Offset_Y         = (background_bitmap.getHeight() - y) / 2;
 
                 }catch(Exception exc){
-                    /*System.out.println("background doesn't exist!");*/
                     background_bitmap           = null;
                 }
             }
 
-//            System.out.println("Loaded by wallpaper");
             permLines                           = Line.loadFromSharedPreferences(getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
@@ -194,11 +163,6 @@ public class LineWallpaperService extends WallpaperService{
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
-/*
-        boolean draw = true;
-        long counter = 0;
-*/
-
         private void draw(){
             final SurfaceHolder holder = getSurfaceHolder();
             Canvas c = null;
@@ -206,7 +170,7 @@ public class LineWallpaperService extends WallpaperService{
                 c = holder.lockCanvas();
                 if(c != null){
                     if(background_bitmap != null && background_drawPicture){
-                        c.drawBitmap(background_bitmap, -background_Offset_X, -background_Offset_Y, p);
+                        c.drawBitmap(background_bitmap, 0, 0/*-background_Offset_X, -background_Offset_Y*/, p);
                     }else{
                         p.setColor(background_color);
                         c.drawPaint(p);
@@ -215,32 +179,16 @@ public class LineWallpaperService extends WallpaperService{
                     p.setStrokeWidth(lines_width);
 
                     for(Line l : permLines){
-//                        if(lines_UniColor){
-//                            l.draw(c, p, lines_drawBalls, lines_color);
-//                        }else{
-                            l.draw(c, p, lines_drawBalls, lines_ballsRadius);
-//                        }
+                        l.draw(c, p, lines_drawBalls, lines_ballsRadius);
                     }
 
                     for(Line l : tempLines){
-//                        if(lines_UniColor){
-//                            l.draw(c, p, lines_drawBalls, lines_color);
-//                        }else{
-                            l.draw(c, p, lines_drawBalls, lines_ballsRadius);
-//                        }
+                        l.draw(c, p, lines_drawBalls, lines_ballsRadius);
                     }
 
                     if(clk != null){
                         clk.draw(clk_xCoordinate, clk_yCoordinate, clk_diameter, c, p);
                     }
-
-//                    if(System.currentTimeMillis() - counter >= 500/*(counter = (counter + 1) % 25) == 0*/){
-//                        draw = !draw;
-//                        counter = System.currentTimeMillis();
-//                    }
-//                    if(draw){
-//                        c.drawCircle(100, 100, 30, p);
-//                    }
                 }
             }finally{
                 if(c != null){
@@ -249,10 +197,8 @@ public class LineWallpaperService extends WallpaperService{
             }
             handler.removeCallbacks(run);
             if(visible && clk != null){
-//                System.out.println("Redraw! w/ Clock");
                 handler.postDelayed(run, 20);
             }else if(visible){
-//                System.out.println("Redraw! w/o Clock");
                 handler.postDelayed(run, lines_timeUntilActionPerformed);
             }
         }
@@ -280,14 +226,12 @@ public class LineWallpaperService extends WallpaperService{
                     }else{
                         permLines.add(new Line(event.getX(), event.getY(), lines_rainbowColor, lines_rainbowSteps));
                     }
-//                    permLines.add(new Line(event.getX(), event.getY()));
                 }else{
                     if(lines_UniColor){
                         tempLines.add(new Line(event.getX(), event.getY(), lines_color, lines_rainbowColor, lines_rainbowSteps));
                     }else{
                         tempLines.add(new Line(event.getX(), event.getY(), lines_rainbowColor, lines_rainbowSteps));
                     }
-//                    tempLines.add(new Line(event.getX(), event.getY()));
                 }
             }else if(event.getAction() == MotionEvent.ACTION_MOVE){
                 if(lines_currentlyPermanent){
@@ -315,21 +259,16 @@ public class LineWallpaperService extends WallpaperService{
         @Override
         public void onCreate(SurfaceHolder surfaceHolder){
             super.onCreate(surfaceHolder);
-            /**
-             * Load all the stuffz
-             */
+
             loadPreferences();
-//            System.out.println("onCreate()");
         }
 
         @Override
         public void onDestroy(){
             super.onDestroy();
 
-//            System.out.println("Saving in onDestroy()");
             savePermanentLines();
             handler.removeCallbacks(run);
-//            System.out.println("onDestroy()");
         }
 
         @Override
@@ -340,14 +279,9 @@ public class LineWallpaperService extends WallpaperService{
                 loadPreferences();
                 draw();
             }else{
-//                System.out.println("Saving in onVisibilityChanged()");
                 savePermanentLines();
                 handler.removeCallbacks(run);
             }
-            /**
-             * Load all the stuffz
-             */
-//            System.out.println("onVisibilityChanged()");
         }
 
         @Override
@@ -356,7 +290,6 @@ public class LineWallpaperService extends WallpaperService{
             x = width;
             y = height;
             draw();
-//            System.out.println("onSurfaceChanged()");
         }
 
         @Override
@@ -364,10 +297,8 @@ public class LineWallpaperService extends WallpaperService{
             super.onSurfaceDestroyed(holder);
             visible = false;
 
-//            System.out.println("Saving in onSurfaceDestroyed()");
             savePermanentLines();
             handler.removeCallbacks(run);
-//            System.out.println("onSurfaceDestroyed()");
         }
     }
 }

@@ -19,7 +19,7 @@ public class Line{
 
     private ArrayList<Float> xPoints, yPoints;
 
-    private int col;
+    private ArrayList<Integer> col;
 
     private boolean doomed;
 
@@ -36,22 +36,7 @@ public class Line{
     }
 
     public Line(float x, float y, boolean rainb, int rainbsteps){
-        xPoints = new ArrayList<>();
-        yPoints = new ArrayList<>();
-
-        addPoint(x, y);
-
-        doomed = false;
-        killed = false;
-
-        col = Color.rgb(
-                (int) (Math.random() * 256),
-                (int) (Math.random() * 256),
-                (int) (Math.random() * 256)
-        );
-
-        rainbowColor = rainb;
-        rainbowsteps = rainbsteps;
+        this(x, y, Color.rgb((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256)), rainb, rainbsteps);
     }
 
     public Line(float x, float y, int color, boolean rainb, int rainbsteps){
@@ -63,7 +48,9 @@ public class Line{
         doomed = false;
         killed = false;
 
-        col = color;
+        col = new ArrayList<>();
+
+        col.add(color);
 
         rainbowColor = rainb;
         rainbowsteps = rainbsteps;
@@ -72,6 +59,10 @@ public class Line{
     public void addPoint(float x, float y){
         xPoints.add(x);
         yPoints.add(y);
+
+        if(rainbowColor){
+            col.add(RainbowColor.getIn(rainbowsteps, col.get(col.size() - 1)));
+        }
     }
 
     public int getCount(){
@@ -104,10 +95,18 @@ public class Line{
                     if(dir == EatingDirection.behind || dir == EatingDirection.both){
                         xPoints.remove(xPoints.size() - 1);
                         yPoints.remove(yPoints.size() - 1);
+
+                        if(rainbowColor){
+                            col.remove(col.size() - 1);
+                        }
                     }
                     if(dir == EatingDirection.front || dir == EatingDirection.both && xPoints.size() != 0){
                         xPoints.remove(0);
                         yPoints.remove(0);
+
+                        if(rainbowColor){
+                            col.remove(0);
+                        }
                     }
                 }
             }
@@ -118,19 +117,27 @@ public class Line{
         new Thread(new Runnable(){
             @Override
             public void run(){
-                while(!killed && Color.alpha(col) != 0){
+                while(!killed && Color.alpha(col.get(0)) != 0){
                     try{
                         Thread.sleep(time);
                     }catch(Exception exc){
                         return;
                     }
 
-                    col = Color.argb(
-                            Color.alpha(col) - 1,
-                            Color.red(col),
-                            Color.green(col),
-                            Color.blue(col)
-                    );
+                    for(int i = 0; i < col.size(); i++){
+                        col.set(i, Color.argb(
+                                Color.alpha(col.get(i)) - 1,
+                                Color.red(col.get(i)),
+                                Color.green(col.get(i)),
+                                Color.blue(col.get(i))
+                        ));
+                    }
+//                    col = Color.argb(
+//                            Color.alpha(col) - 1,
+//                            Color.red(col),
+//                            Color.green(col),
+//                            Color.blue(col)
+//                    );
                 }
             }
         }).start();
@@ -143,11 +150,10 @@ public class Line{
     }
 
     public void draw(Canvas c, Paint p, boolean drawBalls, float ballsRadius){
-//        this.draw(c, p, drawBalls, col);
         if(xPoints.size() != 0){
             int temp = p.getColor();
 
-            p.setColor(col);
+            p.setColor(col.get(0));
 
             if(drawBalls){
                 c.drawCircle(
@@ -166,7 +172,8 @@ public class Line{
                 );
 
                 if(rainbowColor){
-                    p.setColor(RainbowColor.getIn(rainbowsteps, p.getColor()));
+                    p.setColor(col.get(i + 1));
+                            //RainbowColor.getIn(rainbowsteps, p.getColor()));
                 }
             }
 
@@ -177,22 +184,6 @@ public class Line{
                         ballsRadius, p
                 );
             }
-
-
-/*
-            if(drawBalls){
-                c.drawCircle(
-                        xPoints.get(0),
-                        yPoints.get(0),
-                        ballsRadius, p
-                );
-                c.drawCircle(
-                        xPoints.get(xPoints.size() - 1),
-                        yPoints.get(yPoints.size() - 1),
-                        ballsRadius, p
-                );
-            }
-*/
 
             p.setColor(temp);
         }
@@ -246,7 +237,7 @@ public class Line{
     }
 
     private int getColor(){
-        return col;
+        return col.get(0);
     }
 
     private float getXIn(int ind){

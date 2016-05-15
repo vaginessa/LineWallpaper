@@ -23,9 +23,46 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileSelector;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class ChangeSettingsActivity extends AppCompatActivity{
+
+    /*
+     * BACKGROUND-PICTURE-SETTINGS:
+     */
+    private ImageFileSelector mImageFileSelector;
+    private ImageCropper mImageCropper;
+    private ImageFileSelector.Callback mImageFileSelectorCallback = new ImageFileSelector.Callback(){
+        @Override
+        public void onSuccess(String file){
+            Snackbar.make(findViewById(R.id.space), getString(R.string.bg_image_youselected) + file, Snackbar.LENGTH_SHORT).show();
+            mImageCropper.setScale(false);
+            mImageCropper.setOutPutAspect(9, 16);
+            mImageCropper.cropImage(new File(file));
+        }
+
+        @Override
+        public void onError(){
+            Snackbar.make(findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
+        }
+    };
+    private ImageCropper.ImageCropperCallback mImageCropperCallback = new ImageCropper.ImageCropperCallback(){
+        @Override
+        public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile){
+            if(result == ImageCropper.CropperResult.success){
+                // saviung the filename and shit...
+                getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), outFile.getAbsolutePath()).apply();
+                Snackbar.make(findViewById(R.id.space), R.string.bg_image_youcropped, Snackbar.LENGTH_SHORT).show();
+
+            }else{
+                Snackbar.make(findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     /*
      * LINES-SETTINGS:
@@ -263,8 +300,13 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         settings_index = getIntent().getIntExtra(getString(R.string.intent_settings_index), 0);
 
         /*
-         * First initialize layout, so it will work
+         * First initialize layout and objects, so they will work
          */
+        mImageFileSelector = new ImageFileSelector(this);
+        mImageCropper = new ImageCropper(this);
+        mImageFileSelector.setCallback(mImageFileSelectorCallback);
+        mImageCropper.setCallback(mImageCropperCallback);
+
         lines_unicolor_checkbox                                         = (CheckBox)        findViewById(R.id.unicolor_checkbox);
         lines_unicolor_colortextview                                    = (TextView)        findViewById(R.id.unicolor_colortextview);
         lines_unicolor_checkbox.setOnCheckedChangeListener(lines_unicolor_checkbox_listener);
@@ -567,37 +609,60 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                 .show();
     }
 
-    private static  final int REQUEST_CHOOSE_IMAGE = 12345;
-
+//    private static  final int REQUEST_CHOOSE_IMAGE = 12345;
+//
     public void selectBackgroundPicture(View v){
-        Intent i = new Intent(
-                Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(i, REQUEST_CHOOSE_IMAGE);
+//        Intent i = new Intent(
+//                Intent.ACTION_PICK,
+//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//
+//        startActivityForResult(i, REQUEST_CHOOSE_IMAGE);
+        mImageFileSelector.selectImage(this);
     }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_CHOOSE_IMAGE) {
+//            if (resultCode == RESULT_OK) {
+//                Uri selectedImage = data.getData();
+//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//                Cursor cursor = getContentResolver().query(selectedImage,
+//                        filePathColumn, null, null, null);
+//                assert cursor != null;
+//                cursor.moveToFirst();
+//
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                String picturePath = cursor.getString(columnIndex);
+//                cursor.close();
+//
+//                getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), picturePath).apply();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CHOOSE_IMAGE) {
-            if (resultCode == RESULT_OK) {
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                assert cursor != null;
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), picturePath).apply();
-            }
-        }
+        mImageFileSelector.onActivityResult(requestCode, resultCode, data);
+        mImageCropper.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mImageFileSelector.onSaveInstanceState(outState);
+        mImageCropper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mImageFileSelector.onRestoreInstanceState(savedInstanceState);
+        mImageCropper.onRestoreInstanceState(savedInstanceState);
+    }
+
 
     @Override
     protected void onPause(){
