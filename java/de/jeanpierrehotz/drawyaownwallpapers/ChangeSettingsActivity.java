@@ -4,11 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +20,6 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.sw926.imagefileselector.ImageCropper;
-import com.sw926.imagefileselector.ImageFileSelector;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -34,30 +28,18 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     /*
      * BACKGROUND-PICTURE-SETTINGS:
      */
-    private ImageFileSelector mImageFileSelector;
-    private ImageCropper mImageCropper;
-    private ImageFileSelector.Callback mImageFileSelectorCallback = new ImageFileSelector.Callback(){
+    private WallpaperPictureSelector mWallpaperSelector;
+    private WallpaperPictureSelector.Callback mWallpaperSelectorCallback = new WallpaperPictureSelector.Callback(){
         @Override
-        public void onSuccess(String file){
+        public void onSelectedResult(String file){
             Snackbar.make(findViewById(R.id.space), getString(R.string.bg_image_youselected) + file, Snackbar.LENGTH_SHORT).show();
-            mImageCropper.setScale(false);
-            mImageCropper.setOutPutAspect(9, 16);
-            mImageCropper.cropImage(new File(file));
         }
 
         @Override
-        public void onError(){
-            Snackbar.make(findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
-        }
-    };
-    private ImageCropper.ImageCropperCallback mImageCropperCallback = new ImageCropper.ImageCropperCallback(){
-        @Override
-        public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile){
-            if(result == ImageCropper.CropperResult.success){
-                // saviung the filename and shit...
+        public void onCropperResult(WallpaperPictureSelector.CropResult result, File srcFile, File outFile){
+            if(result == WallpaperPictureSelector.CropResult.success){
                 getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), outFile.getAbsolutePath()).apply();
                 Snackbar.make(findViewById(R.id.space), R.string.bg_image_youcropped, Snackbar.LENGTH_SHORT).show();
-
             }else{
                 Snackbar.make(findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
             }
@@ -302,10 +284,8 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         /*
          * First initialize layout and objects, so they will work
          */
-        mImageFileSelector = new ImageFileSelector(this);
-        mImageCropper = new ImageCropper(this);
-        mImageFileSelector.setCallback(mImageFileSelectorCallback);
-        mImageCropper.setCallback(mImageCropperCallback);
+        mWallpaperSelector = new WallpaperPictureSelector(this);
+        mWallpaperSelector.setCallback(mWallpaperSelectorCallback);
 
         lines_unicolor_checkbox                                         = (CheckBox)        findViewById(R.id.unicolor_checkbox);
         lines_unicolor_colortextview                                    = (TextView)        findViewById(R.id.unicolor_colortextview);
@@ -480,18 +460,6 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             background_backgroundpicture_checkbox.setChecked(prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false));
             background_backgroundcolor_color = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
-//            Display display = getWindowManager().getDefaultDisplay();
-//            Point size = new Point();
-//            display.getSize(size);
-//            int width = size.x;
-//            int height = size.y;
-//
-//            float diam = prefs.getFloat(getString(R.string.clock_diameter_preferences), ((width > height)? height: width) * 0.800f);
-//
-//            clock_clockdiameter_seekbar.setProgress((int) (diam * 1000 / ((width > height)? height: width)));
-//            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), (width - diam) * 0.5f) * 1000 / (width - diam)));
-//            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), (height - diam) * 0.5f) * 1000 / (height - diam)));
-
             clock_clockenable_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false));
 
             clock_clockdiameter_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f) * 1000));
@@ -566,7 +534,6 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                             Snackbar.make(findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
                         }else{
                             final Snackbar sb = Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
-//                            sb.setAction("OK", v -> sb.dismiss());
                             sb.setAction(R.string.dialog_ok, new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view){
@@ -595,7 +562,6 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                             Snackbar.make(findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
                         }else{
                             final Snackbar sb = Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
-//                            sb.setAction("OK", v -> sb.dismiss());
                             sb.setAction(R.string.dialog_ok, new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view){
@@ -609,58 +575,26 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                 .show();
     }
 
-//    private static  final int REQUEST_CHOOSE_IMAGE = 12345;
-//
     public void selectBackgroundPicture(View v){
-//        Intent i = new Intent(
-//                Intent.ACTION_PICK,
-//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-//        startActivityForResult(i, REQUEST_CHOOSE_IMAGE);
-        mImageFileSelector.selectImage(this);
+        mWallpaperSelector.selectImage(this);
     }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_CHOOSE_IMAGE) {
-//            if (resultCode == RESULT_OK) {
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//                Cursor cursor = getContentResolver().query(selectedImage,
-//                        filePathColumn, null, null, null);
-//                assert cursor != null;
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                String picturePath = cursor.getString(columnIndex);
-//                cursor.close();
-//
-//                getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), picturePath).apply();
-//            }
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mImageFileSelector.onActivityResult(requestCode, resultCode, data);
-        mImageCropper.onActivityResult(requestCode, resultCode, data);
+        mWallpaperSelector.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mImageFileSelector.onSaveInstanceState(outState);
-        mImageCropper.onSaveInstanceState(outState);
+        mWallpaperSelector.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mImageFileSelector.onRestoreInstanceState(savedInstanceState);
-        mImageCropper.onRestoreInstanceState(savedInstanceState);
+        mWallpaperSelector.onRestoreInstanceState(savedInstanceState);
     }
 
 
@@ -671,16 +605,6 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         /**
          * SAVE ALL VALUES!!
          */
-//        Display display = getWindowManager().getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        int width = size.x;
-//        int height = size.y;
-//
-//        float clockDiam = ((width > height)? height: width) * clock_clockdiameter_seekbar.getProgress() * 0.001f;
-//        float clockX = (width - clockDiam) * clock_clockxposition_seekbar.getProgress() * 0.001f;
-//        float clockY = (height - clockDiam) * clock_clockyposition_seekbar.getProgress() * 0.001f;
-
         getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit()
                 /*LINES*/
                 .putBoolean(        getString(R.string.lines_unicolor_preferences),                     lines_unicolor_checkbox.isChecked())
