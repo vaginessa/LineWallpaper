@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_clock_simpleclock_caption"
+            android:id="@+id/dialog_selectclock_selectedsimpleclock_radiobutton"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_clock_pointeronly_caption"
+            android:id="@+id/dialog_selectclock_selectedpointeronlyclock_radiobutton"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_clock_parabola_caption"
+            android:id="@+id/dialog_selectclock_selectedparabolaclock_radiobutton"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_clock_digital_caption"
+            android:id="@+id/dialog_selectclock_selecteddigitalclock_radiobutton"/>
+
+    </RadioGroup>
+
+</LinearLayout>

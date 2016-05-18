@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/changesettingtitle_dialog_textfieldhint"
-        android:id="@+id/neuerNameEditText"/>
+        android:text="@string/changeSettings_clock_digital_blinkingdots"
+        android:id="@+id/dialog_changespecificclocksettings_digitalclock_dotsblinking_checkbox"/>
 
 </LinearLayout>

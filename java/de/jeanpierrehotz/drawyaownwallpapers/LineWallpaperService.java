@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.audiofx.Visualizer;
 import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
@@ -44,8 +46,6 @@ public class LineWallpaperService extends WallpaperService{
 
         private Bitmap      background_bitmap;
         private boolean     background_drawPicture;
-//        private float       background_Offset_X,
-//                            background_Offset_Y;
         private int         background_color;
 
         private boolean     lines_drawBalls;
@@ -61,6 +61,9 @@ public class LineWallpaperService extends WallpaperService{
         private int         lines_color;
         private int         lines_rainbowSteps;
         private Line.EatingDirection lines_eatingdirection;
+
+        private AudioVisualizer audiovisualizer;
+        private Visualizer  audiovisualizer_helpingvisualizer;
 
         public LineWallpaper(){
             p = new Paint();
@@ -134,6 +137,34 @@ public class LineWallpaperService extends WallpaperService{
                 clk = null;
             }
 
+            if(prefs.getBoolean(getString(R.string.visualizer_showVisualizer_preferences), false)){
+                audiovisualizer_helpingvisualizer = new Visualizer(0);
+                audiovisualizer_helpingvisualizer.setEnabled(true);
+
+                float vis_diameter = prefs.getFloat(getString(R.string.visualizer_diameter_preferences), 0.8f) * x;
+                float vis_x = prefs.getFloat(getString(R.string.visualizer_xposition_preferences), 0.5f) * (x - vis_diameter);
+                float vis_y = prefs.getFloat(getString(R.string.visualizer_yposition_preferences), 0.5f) * (y - vis_diameter);
+
+                AudioVisualizer.VisualizationType vis_t =
+                        (prefs.getBoolean(getString(R.string.visualizer_visualizationtype_waveform_preferences), true))?
+                                AudioVisualizer.VisualizationType.waveform:
+                                AudioVisualizer.VisualizationType.fft;
+
+                if(prefs.getBoolean(getString(R.string.visualzer_proximityvisualizerchosen_preferences), true)){
+                    audiovisualizer = new ProximityAudioVisualizer(audiovisualizer_helpingvisualizer, vis_t, (int) vis_x, (int) vis_y, (int) vis_diameter);
+                }else{
+                    audiovisualizer = new LinearAudioVisualizer(audiovisualizer_helpingvisualizer, vis_t, (int) vis_x, (int) vis_y, (int) vis_diameter);
+                }
+
+                audiovisualizer.setColor(prefs.getInt(getString(R.string.visualizer_visualizationcolor_preferences), Color.WHITE));
+            }else{
+                audiovisualizer = null;
+                if(audiovisualizer_helpingvisualizer != null){
+                    audiovisualizer_helpingvisualizer.release();
+                    audiovisualizer_helpingvisualizer = null;
+                }
+            }
+
             if(background_drawPicture){
                 try{
                     Bitmap temp                 = BitmapFactory.decodeFile(prefs.getString(getString(R.string.background_picturepath_preferences), ""));
@@ -146,10 +177,6 @@ public class LineWallpaperService extends WallpaperService{
                     }else{
                         background_bitmap       = Bitmap.createScaledBitmap(temp, (int) (heightRatio * temp.getWidth()), (int) (heightRatio * temp.getHeight()), false);
                     }
-
-//                    background_Offset_X         = (background_bitmap.getWidth() - x) / 2;
-//                    background_Offset_Y         = (background_bitmap.getHeight() - y) / 2;
-
                 }catch(Exception exc){
                     background_bitmap           = null;
                 }
@@ -159,7 +186,6 @@ public class LineWallpaperService extends WallpaperService{
         }
 
         public void savePermanentLines(){
-//            System.out.println("Saved by wallpaper");
             Line.saveToSharedPreferences(permLines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
         }
 
@@ -170,7 +196,7 @@ public class LineWallpaperService extends WallpaperService{
                 c = holder.lockCanvas();
                 if(c != null){
                     if(background_bitmap != null && background_drawPicture){
-                        c.drawBitmap(background_bitmap, 0, 0/*-background_Offset_X, -background_Offset_Y*/, p);
+                        c.drawBitmap(background_bitmap, 0, 0, p);
                     }else{
                         p.setColor(background_color);
                         c.drawPaint(p);
@@ -188,6 +214,10 @@ public class LineWallpaperService extends WallpaperService{
 
                     if(clk != null){
                         clk.draw(clk_xCoordinate, clk_yCoordinate, clk_diameter, c, p);
+                    }
+
+                    if(audiovisualizer != null){
+                        audiovisualizer.draw(c);
                     }
                 }
             }finally{
@@ -268,6 +298,10 @@ public class LineWallpaperService extends WallpaperService{
             super.onDestroy();
 
             savePermanentLines();
+            if(audiovisualizer != null){
+                audiovisualizer.setVisualizer(null);
+                audiovisualizer_helpingvisualizer.release();
+            }
             handler.removeCallbacks(run);
         }
 
@@ -280,6 +314,10 @@ public class LineWallpaperService extends WallpaperService{
                 draw();
             }else{
                 savePermanentLines();
+                if(audiovisualizer != null){
+                    audiovisualizer.setVisualizer(null);
+                    audiovisualizer_helpingvisualizer.release();
+                }
                 handler.removeCallbacks(run);
             }
         }
@@ -298,6 +336,10 @@ public class LineWallpaperService extends WallpaperService{
             visible = false;
 
             savePermanentLines();
+            if(audiovisualizer != null){
+                audiovisualizer.setVisualizer(null);
+                audiovisualizer_helpingvisualizer.release();
+            }
             handler.removeCallbacks(run);
         }
     }

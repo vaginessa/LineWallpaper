@@ -203,247 +203,39 @@
             android:text="@string/changeSettings_clock_showclock"
             android:id="@+id/clockenable_checkbox"/>
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/changeSettings_clock_xposition"
-            android:id="@+id/clockxposition_caption_texview"/>
+            android:text="@string/changeSettings_clock_selectClock_caption"
+            android:id="@+id/clockselectClock_Btn"
+            android:onClick="selectClock"/>
 
-        <SeekBar
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/clockxposition_seekbar"
-            android:max="1000"/>
+            android:text="@string/changeSettings_clock_changeposandsize_caption"
+            android:id="@+id/clockchangePosAndSize_Btn"
+            android:onClick="changeClockPositionAndSize"/>
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/changeSettings_clock_yposition"
-            android:id="@+id/clockyposition_caption_textview"/>
+            android:text="@string/changeSettings_clock_changeadditionalsettings_caption"
+            android:id="@+id/clockadditionalSettings_Btn"
+            android:onClick="changeAdditionalClockSettings"/>
 
-        <SeekBar
+        <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/clockyposition_seekbar"
-            android:max="1000"/>
+            android:text="@string/changeSettings_visualizer_showvisualizer"
+            android:id="@+id/visualizerenable_checkbox"/>
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/changeSettings_clock_diameter"
-            android:id="@+id/clockdiameter_caption_textview"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/clockdiameter_seekbar"
-            android:max="1000"/>
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/clockchooser_radiogroup">
-
-            <!--
-
-            SIMPLE CLOCK:
-
-            -->
-
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_simpleclock_caption"
-                android:id="@+id/clock_simpleclock_radiobtn"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_simpleclock_alpha"
-                android:id="@+id/clock_simpleclock_alphabehind_caption_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_simpleclock_alphabehind_seekbar"
-                android:max="255"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_simpleclock_hourcolor"
-                android:id="@+id/clock_simpleclock_color_stunde_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changeSimpleClockHourPointerColor"
-                android:id="@+id/clock_simpleclock_color_stunde_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_simpleclock_minutecolor"
-                android:id="@+id/clock_simpleclock_color_minute_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changeSimpleClockMinutePointerColor"
-                android:id="@+id/clock_simpleclock_color_minute_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_simpleclock_secondcolor"
-                android:id="@+id/clock_simpleclock_color_sekunde_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changeSimpleClockSecondPointerColor"
-                android:id="@+id/clock_simpleclock_color_sekunde_textview"/>
-
-            <!--
-
-            POINTER-ONLY CLOCK:
-
-            -->
-
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_pointeronly_caption"
-                android:id="@+id/clock_pointeronly_radiobtn"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_pointeronly_hourcolor"
-                android:id="@+id/clock_pointeronly_color_stunde_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changePointerOnlyClockHourPointerColor"
-                android:id="@+id/clock_pointeronly_color_stunde_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_pointeronly_minutecolor"
-                android:id="@+id/clock_pointeronly_color_minute_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changePointerOnlyClockMinutePointerColor"
-                android:id="@+id/clock_pointeronly_color_minute_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_pointeronly_secondcolor"
-                android:id="@+id/clock_pointeronly_color_sekunde_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changePointerOnlyClockSecondPointerColor"
-                android:id="@+id/clock_pointeronly_color_sekunde_textview"/>
-
-            <!--
-
-            PARABLE CLOCK:
-
-            -->
-
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_parabola_caption"
-                android:id="@+id/clock_parabolaclock_radiobtn"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_parabola_alpha"
-                android:id="@+id/clock_parabolaclock_alphabehind_caption_textview"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clock_parabolaclock_alphabehind_seekbar"
-                android:max="255"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_parabola_houmincolor"
-                android:id="@+id/clock_parabolaclock_color_stundeminute_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changeParabolaClockHourMinutePointerColor"
-                android:id="@+id/clock_parabolaclock_color_stundeminute_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_parabola_minseccolor"
-                android:id="@+id/clock_parabolaclock_color_minutesekunde_caption_textview"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/changeColorText"
-                android:clickable="true"
-                android:onClick="changeParabolaClockMinuteSecondPointerColor"
-                android:id="@+id/clock_parabolaclock_color_minutesekunde_textview"/>
-
-            <!--
-
-            DIGITAL CLOCK:
-
-            -->
-
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_digital_caption"
-                android:id="@+id/clock_digitalclock_radiobtn"/>
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSettings_clock_digital_blinkingdots"
-                android:id="@+id/clock_digitalclock_dotsblinking_checkbox"/>
-
-        </RadioGroup>
+            android:text="@string/changeSettings_visualizer_caption"
+            android:id="@+id/visualizer_changesettings_btn"
+            android:onClick="changeVisualizerSettings"/>
 
         <Space
             android:layout_width="match_parent"

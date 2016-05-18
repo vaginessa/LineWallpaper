@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_simpleclock_alpha"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_alphabehind_caption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_alphabehind_seekbar"
+        android:max="255"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_simpleclock_hourcolor"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_stunde_caption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_stunde_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_simpleclock_minutecolor"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_minute_caption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_minute_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_simpleclock_secondcolor"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_sekunde_caption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changespecificclocksettings_simpleclock_color_sekunde_textview"/>
+
+</LinearLayout>

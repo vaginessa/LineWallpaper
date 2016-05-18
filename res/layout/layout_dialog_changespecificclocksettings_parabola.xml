@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_parabola_alpha"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_alphabehindcaption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_alphabehind_seekbar"
+        android:max="255"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_parabola_houmincolor"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_colorstundeminutecaption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_colorstundeminute_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_parabola_minseccolor"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_colorminutesekundecaption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changespecificclocksettings_parabola_colorminutesekunde_textview"/>
+
+</LinearLayout>

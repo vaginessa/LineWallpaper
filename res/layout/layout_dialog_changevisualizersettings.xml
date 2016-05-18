@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_visualizer_proximity_selection"
+            android:id="@+id/dialog_changeVisualizerSettings_proximityselected_radiobtn"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_visualizer_linear_selection"
+            android:id="@+id/dialog_changeVisualizerSettings_linearselected_radiobtn"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_visualizer_color_caption"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizercolor_caption_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/changeColorText"
+        android:clickable="true"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizercolor_textview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_visualizer_xposition"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizerxpositioncaption_texview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizerxposition_seekbar"
+        android:max="1000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_visualizer_yposition"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizerypositioncaption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizeryposition_seekbar"
+        android:max="1000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_visualizer_diameter"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizerdiametercaption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeVisualizerSettings_visualizerdiameter_seekbar"
+        android:max="1000"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_visualizer_visualizationtype_waveform_caption"
+            android:id="@+id/dialog_changeVisualizerSettings_visualizertypewaveform_radiobtn"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changeSettings_visualizer_visualizationtype_fft_caption"
+            android:id="@+id/dialog_changeVisualizerSettings_visualizertypefft_radiobtn"/>
+
+    </RadioGroup>
+
+</LinearLayout>
