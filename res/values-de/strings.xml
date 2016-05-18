@@ -103,5 +103,15 @@
     <string name="appIntro_contextMenu_description">Sie können eine Einstellung auswählen, umbenennen oder löschen, indem sie lange auf diese drücken, und die gewünschte Aktion auswählen.\nAber bitte versuchen sie nicht die ausgewählte Einstellung zu löschen. :)</string>
     <string name="appIntro_doneWithIntro_caption">Fertig</string>
     <string name="appIntro_doneWithIntro_description">Sie können nun ihren eigenen Hintergrund malen!\nDazu müssen sie nur das DrawYaOwn!-Livewallpaper als ihren Hintergrund auswählen.\nSie werden nun zu einer Einstellung, die wir für sie erstellt haben, namens \"Meine erste Einstellung :)\", weitergeleitet.\nHaben sie Spaß mit unserer App :)</string>
+    <string name="bg_image_abortedSelecting">Sie brachen die Auswahl eines Hintergrundbilds ab!</string>
+    <string name="bg_image_youcropped">Ihr Hintergrundbild wurde erfolgreich zugeschnitten und gespeichert!</string>
+    <string name="bg_image_youselected">Sie wählten folgendes Bild aus:</string>
+    <string name="changeSettings_clock_changeadditionalsettings_caption">Weitere Einstellungen ändern</string>
+    <string name="changeSettings_clock_changeposandsize_caption">Position und Größe der Uhr ändern</string>
+    <string name="changeSettings_clock_selectClock_caption">Uhrenart auswählen</string>
+    <string name="changeSettings_disappearance_eatingDirection">Aus welcher Richtung sollen sie sich fressen?</string>
+    <string name="changeSettings_disappearance_eatingDirection_back">Von hinten.</string>
+    <string name="changeSettings_disappearance_eatingDirection_both">Von beiden Seiten</string>
+    <string name="changeSettings_disappearance_eatingDirection_front">Von vorne.</string>
 
 </resources>

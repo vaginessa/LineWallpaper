@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_xposition"
+        android:id="@+id/dialog_changeclocksizeandposition_clockxpositioncaption_texview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeclocksizeandposition_clockxposition_seekbar"
+        android:max="1000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_yposition"
+        android:id="@+id/dialog_changeclocksizeandposition_clockypositioncaption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeclocksizeandposition_clockyposition_seekbar"
+        android:max="1000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/changeSettings_clock_diameter"
+        android:id="@+id/dialog_changeclocksizeandposition_clockdiametercaption_textview"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_changeclocksizeandposition_clockdiameter_seekbar"
+        android:max="1000"/>
+
+</LinearLayout>

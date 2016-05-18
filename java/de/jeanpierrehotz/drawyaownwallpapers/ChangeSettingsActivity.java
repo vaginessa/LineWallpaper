@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,6 +23,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ChangeSettingsActivity extends AppCompatActivity{
+
+    private static final int FULL_ALPHA = 255 << 24;
+
+    private int settings_index;
+    private AlertDialog dialog;
 
     /*
      * BACKGROUND-PICTURE-SETTINGS:
@@ -51,7 +55,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
      */
     private CheckBox        lines_unicolor_checkbox;
     private TextView        lines_unicolor_colortextview;
-    private int             lines_unicolor_color;
+    private IntegerPointer  lines_unicolor_color;
 
     private CheckBox        lines_rainbowcolor_checkbox;
     private TextView        lines_rainbowcolor_textview;
@@ -81,68 +85,57 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     private CheckBox        background_backgroundpicture_checkbox;
     private Button          background_backgroundpicture_button;
     private TextView        background_backgroundcolor_colortextview;
-    private int             background_backgroundcolor_color;
+    private IntegerPointer  background_backgroundcolor_color;
 
     /*
      * CLOCK-SETTINGS:
      */
     private CheckBox        clock_clockenable_checkbox;
-    private TextView        clock_clockxposition_caption_texview;
-    private SeekBar         clock_clockxposition_seekbar;
-    private TextView        clock_clockyposition_caption_textview;
-    private SeekBar         clock_clockyposition_seekbar;
-    private TextView        clock_clockdiameter_caption_textview;
-    private SeekBar         clock_clockdiameter_seekbar;
-    private RadioGroup      clock_clockchooser_radiogroup;
+
+    private Button          clock_clockselectClock_Btn;
+    private Button          clock_clockchangePosAndSize_Btn;
+    private Button          clock_clockadditionalSettings_Btn;
+
+    private float           clock_clockxposition;
+    private float           clock_clockyposition;
+    private float           clock_clockdiameter;
+
+    private boolean         clock_clock_simpleclock_selected;
+    private int             clock_clock_simpleclock_alphabehind;
+    private IntegerPointer  clock_clock_simpleclock_color_stunde_color;
+    private IntegerPointer  clock_clock_simpleclock_color_minute_color;
+    private IntegerPointer  clock_clock_simpleclock_color_sekunde_color;
+
+    private boolean         clock_clock_pointeronly_selected;
+    private IntegerPointer  clock_clock_pointeronly_color_stunde_color;
+    private IntegerPointer  clock_clock_pointeronly_color_minute_color;
+    private IntegerPointer  clock_clock_pointeronly_color_sekunde_color;
+
+    private boolean         clock_clock_parabolaclock_selected;
+    private int             clock_clock_parabolaclock_alphabehind;
+    private IntegerPointer  clock_clock_parabolaclock_color_stundeminute_color;
+    private IntegerPointer  clock_clock_parabolaclock_color_minutesekunde_color;
+
+    private boolean         clock_clock_digitalclock_selected;
+    private boolean         clock_clock_digitalclock_dotsblinking;
 
     /*
-     * SIMPLE-CLOCK-SETTINGS:
+     * VISUALIZER-SETTINGS:
      */
-    private RadioButton     clock_clock_simpleclock_radiobtn;
-    private TextView        clock_clock_simpleclock_alphabehind_caption_textview;
-    private SeekBar         clock_clock_simpleclock_alphabehind_seekbar;
-    private TextView        clock_clock_simpleclock_color_stunde_caption_textview;
-    private TextView        clock_clock_simpleclock_color_stunde_textview;
-    private int             clock_clock_simpleclock_color_stunde_color;
-    private TextView        clock_clock_simpleclock_color_minute_caption_textview;
-    private TextView        clock_clock_simpleclock_color_minute_textview;
-    private int             clock_clock_simpleclock_color_minute_color;
-    private TextView        clock_clock_simpleclock_color_sekunde_caption_textview;
-    private TextView        clock_clock_simpleclock_color_sekunde_textview;
-    private int             clock_clock_simpleclock_color_sekunde_color;
+    private CheckBox        visualizer_visualizerenable_checkbox;
+    private Button          visualizer_visualizer_changesettings_btn;
 
-    /*
-     * POINTER-ONLY CLOCK-SETTINGS:
-     */
-    private RadioButton     clock_clock_pointeronly_radiobtn;
-    private TextView        clock_clock_pointeronly_color_stunde_caption_textview;
-    private TextView        clock_clock_pointeronly_color_stunde_textview;
-    private int             clock_clock_pointeronly_color_stunde_color;
-    private TextView        clock_clock_pointeronly_color_minute_caption_textview;
-    private TextView        clock_clock_pointeronly_color_minute_textview;
-    private int             clock_clock_pointeronly_color_minute_color;
-    private TextView        clock_clock_pointeronly_color_sekunde_caption_textview;
-    private TextView        clock_clock_pointeronly_color_sekunde_textview;
-    private int             clock_clock_pointeronly_color_sekunde_color;
+    private boolean         visualizer_proximity_selected;
+    private boolean         visualizer_linear_selected;
 
-    /*
-     * PARABLE-CLOCK-SETTINGS:
-     */
-    private RadioButton     clock_clock_parabolaclock_radiobtn;
-    private TextView        clock_clock_parabolaclock_alphabehind_caption_textview;
-    private SeekBar         clock_clock_parabolaclock_alphabehind_seekbar;
-    private TextView        clock_clock_parabolaclock_color_stundeminute_caption_textview;
-    private TextView        clock_clock_parabolaclock_color_stundeminute_textview;
-    private int             clock_clock_parabolaclock_color_stundeminute_color;
-    private TextView        clock_clock_parabolaclock_color_minutesekunde_caption_textview;
-    private TextView        clock_clock_parabolaclock_color_minutesekunde_textview;
-    private int             clock_clock_parabolaclock_color_minutesekunde_color;
+    private IntegerPointer  visualizer_visualizationcolor;
 
-    /*
-     * DIGITAL-CLOCK-SETTINGS:
-     */
-    private RadioButton     clock_clock_digitalclock_radiobtn;
-    private CheckBox        clock_clock_digitalclock_dotsblinking_checkbox;
+    private float           visualizer_x_pos;
+    private float           visualizer_y_pos;
+    private float           visualizer_diameter;
+
+    private boolean         visualizer_visualizationtype_fft;
+    private boolean         visualizer_visualizationtype_waveform;
 
     /*
      * LISTENER
@@ -224,52 +217,22 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             background_backgroundcolor_colortextview.setVisibility(colorVis);
         }
     };
-    private CheckBox.OnCheckedChangeListener        clock_clockenable_listener                              = new CompoundButton.OnCheckedChangeListener(){
+    private CheckBox.OnCheckedChangeListener        clock_clockenable_listener                              = new CompoundButton.OnCheckedChangeListener(){// TO/DO: Changes
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
             int vis = (clock_clockenable_checkbox.isChecked())? View.VISIBLE: View.GONE;
 
-            clock_clockxposition_caption_texview.setVisibility(vis);
-            clock_clockxposition_seekbar.setVisibility(vis);
-            clock_clockyposition_caption_textview.setVisibility(vis);
-            clock_clockyposition_seekbar.setVisibility(vis);
-            clock_clockdiameter_caption_textview.setVisibility(vis);
-            clock_clockdiameter_seekbar.setVisibility(vis);
-            clock_clockchooser_radiogroup.setVisibility(vis);
+            clock_clockselectClock_Btn.setVisibility(vis);
+            clock_clockchangePosAndSize_Btn.setVisibility(vis);
+            clock_clockadditionalSettings_Btn.setVisibility(vis);
         }
     };
-    private RadioButton.OnCheckedChangeListener     clock_clockSelected_listener                            = new CompoundButton.OnCheckedChangeListener(){
+    private CheckBox.OnCheckedChangeListener        visualizer_visualizerenable_checkbox_listener           = new CompoundButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
-            int simpleClockVis = (clock_clock_simpleclock_radiobtn.isChecked())? View.VISIBLE: View.GONE;
-            int pointerOnlyVis = (clock_clock_pointeronly_radiobtn.isChecked())? View.VISIBLE: View.GONE;
-            int parabolaVisibl = (clock_clock_parabolaclock_radiobtn.isChecked())? View.VISIBLE: View.GONE;
-            int digitalCloVisi = (clock_clock_digitalclock_radiobtn.isChecked())? View.VISIBLE: View.GONE;
+            int vis = (visualizer_visualizerenable_checkbox.isChecked())? View.VISIBLE: View.GONE;
 
-            clock_clock_simpleclock_alphabehind_caption_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_alphabehind_seekbar.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_stunde_caption_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_stunde_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_minute_caption_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_minute_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_sekunde_caption_textview.setVisibility(simpleClockVis);
-            clock_clock_simpleclock_color_sekunde_textview.setVisibility(simpleClockVis);
-
-            clock_clock_pointeronly_color_stunde_caption_textview.setVisibility(pointerOnlyVis);
-            clock_clock_pointeronly_color_stunde_textview.setVisibility(pointerOnlyVis);
-            clock_clock_pointeronly_color_minute_caption_textview.setVisibility(pointerOnlyVis);
-            clock_clock_pointeronly_color_minute_textview.setVisibility(pointerOnlyVis);
-            clock_clock_pointeronly_color_sekunde_caption_textview.setVisibility(pointerOnlyVis);
-            clock_clock_pointeronly_color_sekunde_textview.setVisibility(pointerOnlyVis);
-
-            clock_clock_parabolaclock_alphabehind_caption_textview.setVisibility(parabolaVisibl);
-            clock_clock_parabolaclock_alphabehind_seekbar.setVisibility(parabolaVisibl);
-            clock_clock_parabolaclock_color_stundeminute_caption_textview.setVisibility(parabolaVisibl);
-            clock_clock_parabolaclock_color_stundeminute_textview.setVisibility(parabolaVisibl);
-            clock_clock_parabolaclock_color_minutesekunde_caption_textview.setVisibility(parabolaVisibl);
-            clock_clock_parabolaclock_color_minutesekunde_textview.setVisibility(parabolaVisibl);
-
-            clock_clock_digitalclock_dotsblinking_checkbox.setVisibility(digitalCloVisi);
+            visualizer_visualizer_changesettings_btn.setVisibility(vis);
         }
     };
 
@@ -286,6 +249,18 @@ public class ChangeSettingsActivity extends AppCompatActivity{
          */
         mWallpaperSelector = new WallpaperPictureSelector(this);
         mWallpaperSelector.setCallback(mWallpaperSelectorCallback);
+
+        lines_unicolor_color                                            = new IntegerPointer();
+        background_backgroundcolor_color                                = new IntegerPointer();
+        clock_clock_simpleclock_color_stunde_color                      = new IntegerPointer();
+        clock_clock_simpleclock_color_minute_color                      = new IntegerPointer();
+        clock_clock_simpleclock_color_sekunde_color                     = new IntegerPointer();
+        clock_clock_pointeronly_color_stunde_color                      = new IntegerPointer();
+        clock_clock_pointeronly_color_minute_color                      = new IntegerPointer();
+        clock_clock_pointeronly_color_sekunde_color                     = new IntegerPointer();
+        clock_clock_parabolaclock_color_stundeminute_color              = new IntegerPointer();
+        clock_clock_parabolaclock_color_minutesekunde_color             = new IntegerPointer();
+        visualizer_visualizationcolor                                   = new IntegerPointer();
 
         lines_unicolor_checkbox                                         = (CheckBox)        findViewById(R.id.unicolor_checkbox);
         lines_unicolor_colortextview                                    = (TextView)        findViewById(R.id.unicolor_colortextview);
@@ -329,47 +304,14 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         background_backgroundpicture_checkbox.setOnCheckedChangeListener(background_backgroundpicture_checkbox_listener);
 
         clock_clockenable_checkbox                                      = (CheckBox)        findViewById(R.id.clockenable_checkbox);
-        clock_clockxposition_caption_texview                            = (TextView)        findViewById(R.id.clockxposition_caption_texview);
-        clock_clockxposition_seekbar                                    = (SeekBar)         findViewById(R.id.clockxposition_seekbar);
-        clock_clockyposition_caption_textview                           = (TextView)        findViewById(R.id.clockyposition_caption_textview);
-        clock_clockyposition_seekbar                                    = (SeekBar)         findViewById(R.id.clockyposition_seekbar);
-        clock_clockdiameter_caption_textview                            = (TextView)        findViewById(R.id.clockdiameter_caption_textview);
-        clock_clockdiameter_seekbar                                     = (SeekBar)         findViewById(R.id.clockdiameter_seekbar);
-        clock_clockchooser_radiogroup                                   = (RadioGroup)      findViewById(R.id.clockchooser_radiogroup);
+        clock_clockselectClock_Btn                                      = (Button)          findViewById(R.id.clockselectClock_Btn);
+        clock_clockchangePosAndSize_Btn                                 = (Button)          findViewById(R.id.clockchangePosAndSize_Btn);
+        clock_clockadditionalSettings_Btn                               = (Button)          findViewById(R.id.clockadditionalSettings_Btn);
         clock_clockenable_checkbox.setOnCheckedChangeListener(clock_clockenable_listener);
 
-        clock_clock_simpleclock_radiobtn                                = (RadioButton)     findViewById(R.id.clock_simpleclock_radiobtn);
-        clock_clock_simpleclock_alphabehind_caption_textview            = (TextView)        findViewById(R.id.clock_simpleclock_alphabehind_caption_textview);
-        clock_clock_simpleclock_alphabehind_seekbar                     = (SeekBar)         findViewById(R.id.clock_simpleclock_alphabehind_seekbar);
-        clock_clock_simpleclock_color_stunde_caption_textview           = (TextView)        findViewById(R.id.clock_simpleclock_color_stunde_caption_textview);
-        clock_clock_simpleclock_color_stunde_textview                   = (TextView)        findViewById(R.id.clock_simpleclock_color_stunde_textview);
-        clock_clock_simpleclock_color_minute_caption_textview           = (TextView)        findViewById(R.id.clock_simpleclock_color_minute_caption_textview);
-        clock_clock_simpleclock_color_minute_textview                   = (TextView)        findViewById(R.id.clock_simpleclock_color_minute_textview);
-        clock_clock_simpleclock_color_sekunde_caption_textview          = (TextView)        findViewById(R.id.clock_simpleclock_color_sekunde_caption_textview);
-        clock_clock_simpleclock_color_sekunde_textview                  = (TextView)        findViewById(R.id.clock_simpleclock_color_sekunde_textview);
-        clock_clock_simpleclock_radiobtn.setOnCheckedChangeListener(clock_clockSelected_listener);
-
-        clock_clock_pointeronly_radiobtn                                = (RadioButton)     findViewById(R.id.clock_pointeronly_radiobtn);
-        clock_clock_pointeronly_color_stunde_caption_textview           = (TextView)        findViewById(R.id.clock_pointeronly_color_stunde_caption_textview);
-        clock_clock_pointeronly_color_stunde_textview                   = (TextView)        findViewById(R.id.clock_pointeronly_color_stunde_textview);
-        clock_clock_pointeronly_color_minute_caption_textview           = (TextView)        findViewById(R.id.clock_pointeronly_color_minute_caption_textview);
-        clock_clock_pointeronly_color_minute_textview                   = (TextView)        findViewById(R.id.clock_pointeronly_color_minute_textview);
-        clock_clock_pointeronly_color_sekunde_caption_textview          = (TextView)        findViewById(R.id.clock_pointeronly_color_sekunde_caption_textview);
-        clock_clock_pointeronly_color_sekunde_textview                  = (TextView)        findViewById(R.id.clock_pointeronly_color_sekunde_textview);
-        clock_clock_pointeronly_radiobtn.setOnCheckedChangeListener(clock_clockSelected_listener);
-
-        clock_clock_parabolaclock_radiobtn                              = (RadioButton)     findViewById(R.id.clock_parabolaclock_radiobtn);
-        clock_clock_parabolaclock_alphabehind_caption_textview          = (TextView)        findViewById(R.id.clock_parabolaclock_alphabehind_caption_textview);
-        clock_clock_parabolaclock_alphabehind_seekbar                   = (SeekBar)         findViewById(R.id.clock_parabolaclock_alphabehind_seekbar);
-        clock_clock_parabolaclock_color_stundeminute_caption_textview   = (TextView)        findViewById(R.id.clock_parabolaclock_color_stundeminute_caption_textview);
-        clock_clock_parabolaclock_color_stundeminute_textview           = (TextView)        findViewById(R.id.clock_parabolaclock_color_stundeminute_textview);
-        clock_clock_parabolaclock_color_minutesekunde_caption_textview  = (TextView)        findViewById(R.id.clock_parabolaclock_color_minutesekunde_caption_textview);
-        clock_clock_parabolaclock_color_minutesekunde_textview          = (TextView)        findViewById(R.id.clock_parabolaclock_color_minutesekunde_textview);
-        clock_clock_parabolaclock_radiobtn.setOnCheckedChangeListener(clock_clockSelected_listener);
-
-        clock_clock_digitalclock_radiobtn                               = (RadioButton)     findViewById(R.id.clock_digitalclock_radiobtn);
-        clock_clock_digitalclock_dotsblinking_checkbox                  = (CheckBox)        findViewById(R.id.clock_digitalclock_dotsblinking_checkbox);
-        clock_clock_digitalclock_radiobtn.setOnCheckedChangeListener(clock_clockSelected_listener);
+        visualizer_visualizerenable_checkbox                            = (CheckBox)        findViewById(R.id.visualizerenable_checkbox);
+        visualizer_visualizer_changesettings_btn                        = (Button)          findViewById(R.id.visualizer_changesettings_btn);
+        visualizer_visualizerenable_checkbox.setOnCheckedChangeListener(visualizer_visualizerenable_checkbox_listener);
 
         /*
          * Make the drop-down layout responsive to set-Calls
@@ -383,7 +325,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         lines_linesfadeparasite_direction_seekbar.setProgress(1);
         background_backgroundpicture_checkbox.setChecked(true);
         clock_clockenable_checkbox.setChecked(true);
-        clock_clock_simpleclock_radiobtn.setChecked(true);
+        visualizer_visualizerenable_checkbox.setChecked(true);
 
         if(getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).getBoolean("firstTime", true)){
             getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putBoolean("firstTime", false).apply();
@@ -393,7 +335,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             */
 
             lines_unicolor_checkbox.setChecked(false);
-            lines_unicolor_color = Color.rgb(255, 0, 0);
+            lines_unicolor_color.value = Color.rgb(255, 0, 0);
 
             lines_rainbowcolor_checkbox.setChecked(true);
             lines_rainbowcolor_seekbar.setProgress(10);
@@ -408,26 +350,46 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             lines_linesfadeslowlyActionTime_seekbar.setProgress(50);
 
             background_backgroundpicture_checkbox.setChecked(false);
-            background_backgroundcolor_color = Color.rgb(243, 168, 168);
+            background_backgroundcolor_color.value = Color.rgb(243, 168, 168);
 
             clock_clockenable_checkbox.setChecked(false);
-            clock_clockxposition_seekbar.setProgress(500);
-            clock_clockyposition_seekbar.setProgress(500);
-            clock_clockdiameter_seekbar.setProgress(800);
 
-            clock_clock_simpleclock_radiobtn.setChecked(true);
-            clock_clock_simpleclock_alphabehind_seekbar.setProgress(192);
-            clock_clock_simpleclock_color_stunde_color = Color.rgb(255, 0, 0);
-            clock_clock_simpleclock_color_minute_color = Color.rgb(0, 255, 0);
-            clock_clock_simpleclock_color_sekunde_color = Color.rgb(0, 0, 255);
+            clock_clockxposition = 0.5f;
+            clock_clockyposition = 0.5f;
+            clock_clockdiameter = 0.8f;
 
-            clock_clock_pointeronly_color_stunde_color = Color.rgb(255, 0, 0);
-            clock_clock_pointeronly_color_minute_color = Color.rgb(0, 255, 0);
-            clock_clock_pointeronly_color_sekunde_color = Color.rgb(0, 0, 255);
+            clock_clock_simpleclock_selected = true;
+            clock_clock_simpleclock_alphabehind = 192;
+            clock_clock_simpleclock_color_stunde_color.value = Color.rgb(255, 0, 0);
+            clock_clock_simpleclock_color_minute_color.value = Color.rgb(0, 255, 0);
+            clock_clock_simpleclock_color_sekunde_color.value = Color.rgb(0, 0, 255);
 
-            clock_clock_parabolaclock_alphabehind_seekbar.setProgress(192);
-            clock_clock_parabolaclock_color_stundeminute_color = Color.rgb(255, 127, 0);
-            clock_clock_parabolaclock_color_minutesekunde_color = Color.rgb(0, 127, 255);
+            clock_clock_pointeronly_selected = false;
+            clock_clock_pointeronly_color_stunde_color.value = Color.rgb(255, 0, 0);
+            clock_clock_pointeronly_color_minute_color.value = Color.rgb(0, 255, 0);
+            clock_clock_pointeronly_color_sekunde_color.value = Color.rgb(0, 0, 255);
+
+            clock_clock_parabolaclock_selected = false;
+            clock_clock_parabolaclock_alphabehind = 192;
+            clock_clock_parabolaclock_color_stundeminute_color.value = Color.rgb(255, 127, 0);
+            clock_clock_parabolaclock_color_minutesekunde_color.value = Color.rgb(0, 127, 255);
+
+            clock_clock_digitalclock_selected = false;
+            clock_clock_digitalclock_dotsblinking = true;
+
+            visualizer_visualizerenable_checkbox.setChecked(false);
+
+            visualizer_proximity_selected = true;
+            visualizer_linear_selected = false;
+
+            visualizer_visualizationcolor.value = Color.WHITE;
+
+            visualizer_x_pos = 0.5f;
+            visualizer_y_pos = 0.5f;
+            visualizer_diameter = 0.8f;
+
+            visualizer_visualizationtype_fft = false;
+            visualizer_visualizationtype_waveform = false;
 
         }else{
 
@@ -438,7 +400,7 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             SharedPreferences prefs = getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE);
 
             lines_unicolor_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_unicolor_preferences), false));
-            lines_unicolor_color = prefs.getInt(getString(R.string.lines_unicolor_color_preferences), 0xFF0000);
+            lines_unicolor_color.value = prefs.getInt(getString(R.string.lines_unicolor_color_preferences), 0xFF0000);
 
             lines_rainbowcolor_checkbox.setChecked(prefs.getBoolean(getString(R.string.lines_rainbowcolor_preferences), false));
             lines_rainbowcolor_seekbar.setProgress(prefs.getInt(getString(R.string.lines_rainbowcolorsteps_preferences), 10));
@@ -458,64 +420,321 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             lines_linesfadeslowlyActionTime_seekbar.setProgress(prefs.getInt(getString(R.string.lines_fadeActionTime_preferences), 50));
 
             background_backgroundpicture_checkbox.setChecked(prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false));
-            background_backgroundcolor_color = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
+            background_backgroundcolor_color.value = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
 
             clock_clockenable_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false));
 
-            clock_clockdiameter_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f) * 1000));
-            clock_clockxposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_xposition_preferences), 0.5f) * 1000));
-            clock_clockyposition_seekbar.setProgress((int) (prefs.getFloat(getString(R.string.clock_yposition_preferences), 0.5f) * 1000));
+            clock_clockxposition = prefs.getFloat(getString(R.string.clock_xposition_preferences), 0.5f);
+            clock_clockyposition = prefs.getFloat(getString(R.string.clock_yposition_preferences), 0.5f);
+            clock_clockdiameter = prefs.getFloat(getString(R.string.clock_diameter_preferences), 0.8f);
 
-            clock_clock_simpleclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true));
-            clock_clock_simpleclock_alphabehind_seekbar.setProgress(Color.alpha(prefs.getInt(getString(R.string.clock_simpleclock_alphaColor_preferences), 0xC0000000)));
-            clock_clock_simpleclock_color_stunde_color = prefs.getInt(getString(R.string.clock_simpleclock_stdcolor_preferences), 0xFF0000);
-            clock_clock_simpleclock_color_minute_color = prefs.getInt(getString(R.string.clock_simpleclock_mincolor_preferences), 0x00FF00);
-            clock_clock_simpleclock_color_sekunde_color = prefs.getInt(getString(R.string.clock_simpleclock_seccolor_preferences), 0x0000FF);
+            clock_clock_simpleclock_selected = prefs.getBoolean(getString(R.string.clock_simpleClockchosen_preferences), true);
+            clock_clock_simpleclock_alphabehind = Color.alpha(prefs.getInt(getString(R.string.clock_simpleclock_alphaColor_preferences), 0xC0FFFFFF));
+            clock_clock_simpleclock_color_stunde_color.value = prefs.getInt(getString(R.string.clock_simpleclock_stdcolor_preferences), 0xFF0000);
+            clock_clock_simpleclock_color_minute_color.value = prefs.getInt(getString(R.string.clock_simpleclock_mincolor_preferences), 0x00FF00);
+            clock_clock_simpleclock_color_sekunde_color.value = prefs.getInt(getString(R.string.clock_simpleclock_seccolor_preferences), 0x0000FF);
 
-            clock_clock_pointeronly_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_pointerOnlyClockchosen_preferences), false));
-            clock_clock_pointeronly_color_stunde_color = prefs.getInt(getString(R.string.clock_pointeronlyclock_stdcolor_preferences), 0xFF0000);
-            clock_clock_pointeronly_color_minute_color = prefs.getInt(getString(R.string.clock_pointeronlyclock_mincolor_preferences), 0x00FF00);
-            clock_clock_pointeronly_color_sekunde_color = prefs.getInt(getString(R.string.clock_pointeronlyclock_seccolor_preferences), 0x0000FF);
+            clock_clock_pointeronly_selected = prefs.getBoolean(getString(R.string.clock_pointerOnlyClockchosen_preferences), false);
+            clock_clock_pointeronly_color_stunde_color.value = prefs.getInt(getString(R.string.clock_pointeronlyclock_stdcolor_preferences), 0xFF0000);
+            clock_clock_pointeronly_color_minute_color.value = prefs.getInt(getString(R.string.clock_pointeronlyclock_mincolor_preferences), 0x00FF00);
+            clock_clock_pointeronly_color_sekunde_color.value = prefs.getInt(getString(R.string.clock_pointeronlyclock_seccolor_preferences), 0x0000FF);
 
-            clock_clock_parabolaclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_parabolaclockchosen_preferences), false));
-            clock_clock_parabolaclock_alphabehind_seekbar.setProgress(Color.alpha(prefs.getInt(getString(R.string.clock_parabolaclock_alphaColor_preferences), 0xC0FFFFFF)));
-            clock_clock_parabolaclock_color_stundeminute_color = prefs.getInt(getString(R.string.clock_parabolaclock_stdmincolor_preferences), 0xFF7F00);
-            clock_clock_parabolaclock_color_minutesekunde_color = prefs.getInt(getString(R.string.clock_parabolaclock_minsekcolor_preferences), 0x007FFF);
+            clock_clock_parabolaclock_selected = prefs.getBoolean(getString(R.string.clock_parabolaclockchosen_preferences), false);
+            clock_clock_parabolaclock_alphabehind = Color.alpha(prefs.getInt(getString(R.string.clock_parabolaclock_alphaColor_preferences), 0xC0FFFFFF));
+            clock_clock_parabolaclock_color_stundeminute_color.value = prefs.getInt(getString(R.string.clock_parabolaclock_stdmincolor_preferences), 0xFF7F00);
+            clock_clock_parabolaclock_color_minutesekunde_color.value = prefs.getInt(getString(R.string.clock_parabolaclock_minsekcolor_preferences), 0x007FFF);
 
-            clock_clock_digitalclock_radiobtn.setChecked(prefs.getBoolean(getString(R.string.clock_digitalClockchosen_preferences), false));
-            clock_clock_digitalclock_dotsblinking_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true));
+            clock_clock_digitalclock_selected = prefs.getBoolean(getString(R.string.clock_digitalClockchosen_preferences), false);
+            clock_clock_digitalclock_dotsblinking = prefs.getBoolean(getString(R.string.clock_digitalClock_dotsblinking_preferences), true);
+
+            visualizer_visualizerenable_checkbox.setChecked(prefs.getBoolean(getString(R.string.visualizer_showVisualizer_preferences), false));
+            visualizer_proximity_selected = prefs.getBoolean(getString(R.string.visualzer_proximityvisualizerchosen_preferences), true);
+            visualizer_linear_selected = prefs.getBoolean(getString(R.string.visualzer_linearvisualizerchosen_preferences), true);
+            visualizer_visualizationcolor.value = prefs.getInt(getString(R.string.visualizer_visualizationcolor_preferences), Color.WHITE);
+            visualizer_x_pos = prefs.getFloat(getString(R.string.visualizer_xposition_preferences), 0.5f);
+            visualizer_y_pos = prefs.getFloat(getString(R.string.visualizer_yposition_preferences), 0.5f);;
+            visualizer_diameter = prefs.getFloat(getString(R.string.visualizer_diameter_preferences), 0.8f);;
+            visualizer_visualizationtype_fft = prefs.getBoolean(getString(R.string.visualizer_visualizationtype_fft_preferences), false);
+            visualizer_visualizationtype_waveform = prefs.getBoolean(getString(R.string.visualizer_visualizationtype_waveform_preferences), true);
+
         }
 
         /*
         * Finally we show the set colors
         */
-
-        lines_unicolor_colortextview.setBackgroundColor(lines_unicolor_color);
-        lines_unicolor_colortextview.setTextColor(~lines_unicolor_color | FULL_ALPHA);
-        background_backgroundcolor_colortextview.setBackgroundColor(background_backgroundcolor_color);
-        background_backgroundcolor_colortextview.setTextColor(~background_backgroundcolor_color | FULL_ALPHA);
-        clock_clock_simpleclock_color_stunde_textview.setBackgroundColor(clock_clock_simpleclock_color_stunde_color);
-        clock_clock_simpleclock_color_stunde_textview.setTextColor(~clock_clock_simpleclock_color_stunde_color | FULL_ALPHA);
-        clock_clock_simpleclock_color_minute_textview.setBackgroundColor(clock_clock_simpleclock_color_minute_color);
-        clock_clock_simpleclock_color_minute_textview.setTextColor(~clock_clock_simpleclock_color_minute_color | FULL_ALPHA);
-        clock_clock_simpleclock_color_sekunde_textview.setBackgroundColor(clock_clock_simpleclock_color_sekunde_color);
-        clock_clock_simpleclock_color_sekunde_textview.setTextColor(~clock_clock_simpleclock_color_sekunde_color | FULL_ALPHA);
-        clock_clock_pointeronly_color_stunde_textview.setBackgroundColor(clock_clock_pointeronly_color_stunde_color);
-        clock_clock_pointeronly_color_stunde_textview.setTextColor(~clock_clock_pointeronly_color_stunde_color | FULL_ALPHA);
-        clock_clock_pointeronly_color_minute_textview.setBackgroundColor(clock_clock_pointeronly_color_minute_color);
-        clock_clock_pointeronly_color_minute_textview.setTextColor(~clock_clock_pointeronly_color_minute_color | FULL_ALPHA);
-        clock_clock_pointeronly_color_sekunde_textview.setBackgroundColor(clock_clock_pointeronly_color_sekunde_color);
-        clock_clock_pointeronly_color_sekunde_textview.setTextColor(~clock_clock_pointeronly_color_sekunde_color | FULL_ALPHA);
-        clock_clock_parabolaclock_color_stundeminute_textview.setBackgroundColor(clock_clock_parabolaclock_color_stundeminute_color);
-        clock_clock_parabolaclock_color_stundeminute_textview.setTextColor(~clock_clock_parabolaclock_color_stundeminute_color | FULL_ALPHA);
-        clock_clock_parabolaclock_color_minutesekunde_textview.setBackgroundColor(clock_clock_parabolaclock_color_minutesekunde_color);
-        clock_clock_parabolaclock_color_minutesekunde_textview.setTextColor(~clock_clock_parabolaclock_color_minutesekunde_color | FULL_ALPHA);
-
+        setColorOfTextView(lines_unicolor_colortextview, lines_unicolor_color.value);
+        setColorOfTextView(background_backgroundcolor_colortextview, background_backgroundcolor_color.value);
     }//end of onCreate()
 
-    private static final int FULL_ALPHA = 255 << 24;
+    private void setColorOfTextView(TextView tv, int col){
+        tv.setBackgroundColor(col);
+        tv.setTextColor(~col | FULL_ALPHA);
+    }
 
-    private int settings_index;
+    private void editColor(final TextView tv, final IntegerPointer col, int title){
+        final int prevCol = col.value;
+
+        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
+                .setTitle(title)
+                .setView(R.layout.layout_dialog_changecolor)
+                .setPositiveButton(R.string.dialog_ok, null)
+                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        col.value = prevCol;
+                        setColorOfTextView(tv, col.value);
+                    }
+                })
+                .show();
+
+        GradientView top = (GradientView) shown.findViewById(R.id.top);
+        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
+
+        top.setBrightnessGradientView(bottom);
+
+        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
+            @Override
+            public void onColorChanged(GradientView view, int color){
+                col.value = color;
+                setColorOfTextView(tv, col.value);
+            }
+        });
+
+        top.setColor(prevCol);
+    }
+
+    private void editDigitalClockSettings(){
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_digital_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_digitalclock_dotsblinking = ((CheckBox) dialog.findViewById(R.id.dialog_changespecificclocksettings_digitalclock_dotsblinking_checkbox)).isChecked();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, null)
+                .setView(R.layout.layout_dialog_changespecificclocksettings_digital)
+                .show();
+
+        ((CheckBox) dialog.findViewById(R.id.dialog_changespecificclocksettings_digitalclock_dotsblinking_checkbox)).setChecked(clock_clock_digitalclock_dotsblinking);
+    }
+    private void editParabolaClockSettings(){
+        final int prevHouMinCol = clock_clock_parabolaclock_color_stundeminute_color.value;
+        final int prevSecMinCol = clock_clock_parabolaclock_color_minutesekunde_color.value;
+
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_parabola_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_parabolaclock_alphabehind = ((SeekBar) dialog.findViewById(R.id.dialog_changespecificclocksettings_parabola_alphabehind_seekbar)).getProgress();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_parabolaclock_color_stundeminute_color.value  = prevHouMinCol;
+                        clock_clock_parabolaclock_color_minutesekunde_color.value = prevSecMinCol;
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface){
+                        clock_clock_parabolaclock_color_stundeminute_color.value  = prevHouMinCol;
+                        clock_clock_parabolaclock_color_minutesekunde_color.value = prevSecMinCol;
+                    }
+                })
+                .setView(R.layout.layout_dialog_changespecificclocksettings_parabola)
+                .show();
+
+        ((SeekBar) dialog.findViewById(R.id.dialog_changespecificclocksettings_parabola_alphabehind_seekbar)).setProgress(clock_clock_parabolaclock_alphabehind);
+        final TextView stdMinTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_parabola_colorstundeminute_textview);
+        setColorOfTextView(stdMinTextView, clock_clock_parabolaclock_color_stundeminute_color.value);
+        stdMinTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editParabolaClockHourMinuteColor(stdMinTextView);
+                editColor(
+                        stdMinTextView,
+                        clock_clock_parabolaclock_color_stundeminute_color,
+                        R.string.changeSettings_clock_parabola_houmincolor
+                );
+            }
+        });
+
+        final TextView minSecTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_parabola_colorminutesekunde_textview);
+        setColorOfTextView(minSecTextView, clock_clock_parabolaclock_color_minutesekunde_color.value);
+        minSecTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editParabolaClockMinuteSecondColor(minSecTextView);
+                editColor(
+                        minSecTextView,
+                        clock_clock_parabolaclock_color_minutesekunde_color,
+                        R.string.changeSettings_clock_parabola_minseccolor
+                );
+            }
+        });
+    }
+    private void editPointerOnlyClockSettings(){
+        final int prevStdCol = clock_clock_pointeronly_color_stunde_color.value;
+        final int prevMinCol = clock_clock_pointeronly_color_minute_color.value;
+        final int prevSekCol = clock_clock_pointeronly_color_sekunde_color.value;
+
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_pointeronly_caption)
+                .setPositiveButton(R.string.dialog_ok, null)
+                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_pointeronly_color_stunde_color.value  = prevStdCol;
+                        clock_clock_pointeronly_color_minute_color.value  = prevMinCol;
+                        clock_clock_pointeronly_color_sekunde_color.value = prevSekCol;
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface){
+                        clock_clock_pointeronly_color_stunde_color.value  = prevStdCol;
+                        clock_clock_pointeronly_color_minute_color.value  = prevMinCol;
+                        clock_clock_pointeronly_color_sekunde_color.value = prevSekCol;
+                    }
+                })
+                .setView(R.layout.layout_dialog_changespecificclocksettings_pointeronly)
+                .show();
+
+        final TextView stdTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_pointeronly_colorstunde_textview);
+        setColorOfTextView(stdTextView, clock_clock_pointeronly_color_stunde_color.value);
+        stdTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editPointerOnlyClockHourColor(stdTextView);
+                editColor(
+                        stdTextView,
+                        clock_clock_pointeronly_color_stunde_color,
+                        R.string.changeSettings_clock_pointeronly_hourcolor
+                );
+            }
+        });
+
+        final TextView minTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_pointeronly_colorminute_textview);
+        setColorOfTextView(minTextView, clock_clock_pointeronly_color_minute_color.value);
+        minTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editPointerOnlyClockMinuteColor(minTextView);
+                editColor(
+                        minTextView,
+                        clock_clock_pointeronly_color_minute_color,
+                        R.string.changeSettings_clock_pointeronly_minutecolor
+                );
+            }
+        });
+
+        final TextView sekTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_pointeronly_colorsekunde_textview);
+        setColorOfTextView(sekTextView, clock_clock_pointeronly_color_sekunde_color.value);
+        sekTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editPointerOnlyClockSekundeColor(sekTextView);
+                editColor(
+                        sekTextView,
+                        clock_clock_pointeronly_color_sekunde_color,
+                        R.string.changeSettings_clock_pointeronly_secondcolor
+                );
+            }
+        });
+    }
+    private void editSimpleClockSettings(){
+        final int prevAlpha =  clock_clock_simpleclock_alphabehind;
+        final int prevStdCol = clock_clock_simpleclock_color_stunde_color.value;
+        final int prevMinCol = clock_clock_simpleclock_color_minute_color.value;
+        final int prevSekCol = clock_clock_simpleclock_color_sekunde_color.value;
+
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_simpleclock_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_simpleclock_alphabehind = ((SeekBar) dialog.findViewById(R.id.dialog_changespecificclocksettings_simpleclock_alphabehind_seekbar)).getProgress();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_simpleclock_alphabehind = prevAlpha;
+                        clock_clock_simpleclock_color_stunde_color.value = prevStdCol;
+                        clock_clock_simpleclock_color_minute_color.value = prevMinCol;
+                        clock_clock_simpleclock_color_sekunde_color.value = prevSekCol;
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface){
+                        clock_clock_simpleclock_alphabehind = prevAlpha;
+                        clock_clock_simpleclock_color_stunde_color.value = prevStdCol;
+                        clock_clock_simpleclock_color_minute_color.value = prevMinCol;
+                        clock_clock_simpleclock_color_sekunde_color.value = prevSekCol;
+                    }
+                })
+                .setView(R.layout.layout_dialog_changespecificclocksettings_simpleclock)
+                .show();
+
+        ((SeekBar) dialog.findViewById(R.id.dialog_changespecificclocksettings_simpleclock_alphabehind_seekbar)).setProgress(clock_clock_simpleclock_alphabehind);
+
+        final TextView stdTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_simpleclock_color_stunde_textview);
+        setColorOfTextView(stdTextView, clock_clock_simpleclock_color_stunde_color.value);
+        stdTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editSimpleClockHourColor(stdTextView);
+                editColor(
+                        stdTextView,
+                        clock_clock_simpleclock_color_stunde_color,
+                        R.string.changeSettings_clock_simpleclock_hourcolor
+                );
+            }
+        });
+
+        final TextView minTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_simpleclock_color_minute_textview);
+        setColorOfTextView(minTextView, clock_clock_simpleclock_color_minute_color.value);
+        minTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editSimpleClockMinuteColor(minTextView);
+                editColor(
+                        minTextView,
+                        clock_clock_simpleclock_color_minute_color,
+                        R.string.changeSettings_clock_simpleclock_minutecolor
+                );
+            }
+        });
+
+        final TextView sekTextView = (TextView) dialog.findViewById(R.id.dialog_changespecificclocksettings_simpleclock_color_sekunde_textview);
+        setColorOfTextView(sekTextView, clock_clock_simpleclock_color_sekunde_color.value);
+        sekTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                editSimpleClockSekundeColor(sekTextView);
+                editColor(
+                        sekTextView,
+                        clock_clock_simpleclock_color_sekunde_color,
+                        R.string.changeSettings_clock_simpleclock_secondcolor
+                );
+            }
+        });
+    }
+
+    /*
+    ONCLICK-LISTENER METHODS
+     */
+    public void changeUniColorColor(View view){
+        editColor(lines_unicolor_colortextview, lines_unicolor_color, R.string.changeColor_unicolor_title);
+    }
+
+    public void changeBackgroundColorColor(View view){
+        editColor(background_backgroundcolor_colortextview, background_backgroundcolor_color, R.string.changeColor_backgroundcolor_title);
+    }
 
     public void deleteAllPermanentLines(View v){
         new AlertDialog.Builder(this)
@@ -579,25 +798,129 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         mWallpaperSelector.selectImage(this);
     }
 
+    public void selectClock(View view){
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_selectClock_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clock_simpleclock_selected = ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedsimpleclock_radiobutton)).isChecked();
+                        clock_clock_pointeronly_selected = ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedpointeronlyclock_radiobutton)).isChecked();
+                        clock_clock_parabolaclock_selected = ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedparabolaclock_radiobutton)).isChecked();
+                        clock_clock_digitalclock_selected = ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selecteddigitalclock_radiobutton)).isChecked();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, null)
+                .setView(R.layout.layout_dialog_selectclock)
+                .show();
+
+        ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedsimpleclock_radiobutton)).setChecked(clock_clock_simpleclock_selected);
+        ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedpointeronlyclock_radiobutton)).setChecked(clock_clock_pointeronly_selected);
+        ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selectedparabolaclock_radiobutton)).setChecked(clock_clock_parabolaclock_selected);
+        ((RadioButton) dialog.findViewById(R.id.dialog_selectclock_selecteddigitalclock_radiobutton)).setChecked(clock_clock_digitalclock_selected);
+    }
+
+    public void changeClockPositionAndSize(View view){
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_clock_changeposandsize_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        clock_clockxposition = ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockxposition_seekbar)).getProgress() / 1000f;
+                        clock_clockyposition = ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockyposition_seekbar)).getProgress() / 1000f;
+                        clock_clockdiameter = ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockdiameter_seekbar)).getProgress() / 1000f;
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, null)
+                .setView(R.layout.layout_dialog_changeclocksizeandposition)
+                .show();
+
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockxposition_seekbar)).setProgress((int) (clock_clockxposition * 1000));
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockyposition_seekbar)).setProgress((int) (clock_clockyposition * 1000));
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeclocksizeandposition_clockdiameter_seekbar)).setProgress((int) (clock_clockdiameter * 1000));
+    }
+
+    public void changeAdditionalClockSettings(View view){
+        if(clock_clock_simpleclock_selected){
+            editSimpleClockSettings();
+        }else if(clock_clock_pointeronly_selected){
+            editPointerOnlyClockSettings();
+        }else if(clock_clock_parabolaclock_selected){
+            editParabolaClockSettings();
+        }else if(clock_clock_digitalclock_selected){
+            editDigitalClockSettings();
+        }
+    }
+
+    public void changeVisualizerSettings(View view){
+        final int prevVisualizerColor = visualizer_visualizationcolor.value;
+
+        dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.changeSettings_visualizer_caption)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        visualizer_proximity_selected = ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_proximityselected_radiobtn)).isChecked();
+                        visualizer_linear_selected = ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_linearselected_radiobtn)).isChecked();
+
+                        visualizer_x_pos = (float) ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizerxposition_seekbar)).getProgress() / 1000f;
+                        visualizer_y_pos = (float) ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizeryposition_seekbar)).getProgress() / 1000f;
+                        visualizer_diameter = (float) ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizerdiameter_seekbar)).getProgress() / 1000f;
+
+                        visualizer_visualizationtype_waveform = ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizertypewaveform_radiobtn)).isChecked();
+                        visualizer_visualizationtype_fft = ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizertypefft_radiobtn)).isChecked();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        visualizer_visualizationcolor.value = prevVisualizerColor;
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface){
+                        visualizer_visualizationcolor.value = prevVisualizerColor;
+                    }
+                })
+                .setView(R.layout.layout_dialog_changevisualizersettings)
+                .show();
+
+        ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_proximityselected_radiobtn)).setChecked(visualizer_proximity_selected);
+        ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_linearselected_radiobtn)).setChecked(visualizer_linear_selected);
+
+        final TextView visualizerColorTV = (TextView) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizercolor_textview);
+        setColorOfTextView(visualizerColorTV, visualizer_visualizationcolor.value);
+        visualizerColorTV.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                editColor(visualizerColorTV, visualizer_visualizationcolor, R.string.changeColor_visualizercolor_title);
+            }
+        });
+
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizerxposition_seekbar)).setProgress((int) (visualizer_x_pos * 1000f));
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizeryposition_seekbar)).setProgress((int) (visualizer_y_pos * 1000f));
+        ((SeekBar) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizerdiameter_seekbar)).setProgress((int) (visualizer_diameter * 1000f));
+
+        ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizertypewaveform_radiobtn)).setChecked(visualizer_visualizationtype_waveform);
+        ((RadioButton) dialog.findViewById(R.id.dialog_changeVisualizerSettings_visualizertypefft_radiobtn)).setChecked(visualizer_visualizationtype_fft);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mWallpaperSelector.onActivityResult(requestCode, resultCode, data);
     }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mWallpaperSelector.onSaveInstanceState(outState);
     }
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mWallpaperSelector.onRestoreInstanceState(savedInstanceState);
     }
-
-
     @Override
     protected void onPause(){
         super.onPause();
@@ -607,383 +930,66 @@ public class ChangeSettingsActivity extends AppCompatActivity{
          */
         getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit()
                 /*LINES*/
-                .putBoolean(        getString(R.string.lines_unicolor_preferences),                     lines_unicolor_checkbox.isChecked())
-                .putInt(            getString(R.string.lines_unicolor_color_preferences),               lines_unicolor_color)
-                .putBoolean(        getString(R.string.lines_rainbowcolor_preferences),                 lines_rainbowcolor_checkbox.isChecked())
-                .putInt(            getString(R.string.lines_rainbowcolorsteps_preferences),            lines_rainbowcolor_seekbar.getProgress())
-                .putFloat(          getString(R.string.lines_width_preferences),                        lines_linewidth_seekbar.getProgress() * 0.1f)
-                .putBoolean(        getString(R.string.lines_permanent_preferences),                    lines_linesave_checkbox.isChecked())
-                .putBoolean(        getString(R.string.lines_drawBall_preferences),                     lines_linedrawBall_checkbox.isChecked())
-                .putFloat(          getString(R.string.lines_ballSize_preferences),                     lines_linesballsize_seekbar.getProgress() * 0.1f)
-                .putBoolean(        getString(R.string.lines_fadeComplete_preferences),                 lines_linesfadecomplete_radiobutton.isChecked())
-                .putInt(            getString(R.string.lines_fadeComplete_time_preferences),            lines_linesfadecompletetime_seekbar.getProgress() * 100)
-                .putBoolean(        getString(R.string.lines_fadeSlowly_preferences),                   lines_linesfadeslowly_radiobutton.isChecked())
-                .putBoolean(        getString(R.string.lines_fadeParasite_preferences),                 lines_linesfadeparasite_radiobutton.isChecked())
-                .putInt(            getString(R.string.lines_eatingitselfdirection_preferences),         lines_linesfadeparasite_direction_seekbar.getProgress())
-                .putInt(            getString(R.string.lines_fadeActionTime_preferences),               lines_linesfadeslowlyActionTime_seekbar.getProgress())
+                .putBoolean(        getString(R.string.lines_unicolor_preferences),                         lines_unicolor_checkbox.isChecked())
+                .putInt(            getString(R.string.lines_unicolor_color_preferences),                   lines_unicolor_color.value)
+                .putBoolean(        getString(R.string.lines_rainbowcolor_preferences),                     lines_rainbowcolor_checkbox.isChecked())
+                .putInt(            getString(R.string.lines_rainbowcolorsteps_preferences),                lines_rainbowcolor_seekbar.getProgress())
+                .putFloat(          getString(R.string.lines_width_preferences),                            lines_linewidth_seekbar.getProgress() * 0.1f)
+                .putBoolean(        getString(R.string.lines_permanent_preferences),                        lines_linesave_checkbox.isChecked())
+                .putBoolean(        getString(R.string.lines_drawBall_preferences),                         lines_linedrawBall_checkbox.isChecked())
+                .putFloat(          getString(R.string.lines_ballSize_preferences),                         lines_linesballsize_seekbar.getProgress() * 0.1f)
+                .putBoolean(        getString(R.string.lines_fadeComplete_preferences),                     lines_linesfadecomplete_radiobutton.isChecked())
+                .putInt(            getString(R.string.lines_fadeComplete_time_preferences),                lines_linesfadecompletetime_seekbar.getProgress() * 100)
+                .putBoolean(        getString(R.string.lines_fadeSlowly_preferences),                       lines_linesfadeslowly_radiobutton.isChecked())
+                .putBoolean(        getString(R.string.lines_fadeParasite_preferences),                     lines_linesfadeparasite_radiobutton.isChecked())
+                .putInt(            getString(R.string.lines_eatingitselfdirection_preferences),            lines_linesfadeparasite_direction_seekbar.getProgress())
+                .putInt(            getString(R.string.lines_fadeActionTime_preferences),                   lines_linesfadeslowlyActionTime_seekbar.getProgress())
                 /*BACKGROUND*/
-                .putBoolean(        getString(R.string.background_pictureshown_preferences),            background_backgroundpicture_checkbox.isChecked())
-                .putInt(            getString(R.string.background_alternateColor_preferences),          background_backgroundcolor_color)
+                .putBoolean(        getString(R.string.background_pictureshown_preferences),                background_backgroundpicture_checkbox.isChecked())
+                .putInt(            getString(R.string.background_alternateColor_preferences),              background_backgroundcolor_color.value)
                 /*CLOCK GENERAL*/
-                .putBoolean(        getString(R.string.clock_drawClock_preferences),                    clock_clockenable_checkbox.isChecked())
-                .putFloat(          getString(R.string.clock_diameter_preferences),                     (float) clock_clockdiameter_seekbar.getProgress() / 1000f)
-                .putFloat(          getString(R.string.clock_xposition_preferences),                    (float) clock_clockxposition_seekbar.getProgress() / 1000f)
-                .putFloat(          getString(R.string.clock_yposition_preferences),                    (float) clock_clockyposition_seekbar.getProgress() / 1000f)
+                .putBoolean(        getString(R.string.clock_drawClock_preferences),                        clock_clockenable_checkbox.isChecked())
+                .putFloat(          getString(R.string.clock_diameter_preferences),                         clock_clockdiameter)
+                .putFloat(          getString(R.string.clock_xposition_preferences),                        clock_clockxposition)
+                .putFloat(          getString(R.string.clock_yposition_preferences),                        clock_clockyposition)
                 /*SIMPLE CLOCK*/
-                .putBoolean(        getString(R.string.clock_simpleClockchosen_preferences),            clock_clock_simpleclock_radiobtn.isChecked())
-                .putInt(            getString(R.string.clock_simpleclock_alphaColor_preferences),       Color.argb(clock_clock_simpleclock_alphabehind_seekbar.getProgress(), 0xFF, 0xFF, 0xFF))
-                .putInt(            getString(R.string.clock_simpleclock_stdcolor_preferences),         clock_clock_simpleclock_color_stunde_color)
-                .putInt(            getString(R.string.clock_simpleclock_mincolor_preferences),         clock_clock_simpleclock_color_minute_color)
-                .putInt(            getString(R.string.clock_simpleclock_seccolor_preferences),         clock_clock_simpleclock_color_sekunde_color)
+                .putBoolean(        getString(R.string.clock_simpleClockchosen_preferences),                clock_clock_simpleclock_selected)
+                .putInt(            getString(R.string.clock_simpleclock_alphaColor_preferences),           Color.argb(clock_clock_simpleclock_alphabehind, 0xFF, 0xFF, 0xFF))
+                .putInt(            getString(R.string.clock_simpleclock_stdcolor_preferences),             clock_clock_simpleclock_color_stunde_color.value)
+                .putInt(            getString(R.string.clock_simpleclock_mincolor_preferences),             clock_clock_simpleclock_color_minute_color.value)
+                .putInt(            getString(R.string.clock_simpleclock_seccolor_preferences),             clock_clock_simpleclock_color_sekunde_color.value)
                 /*POINTER-ONLY CLOCK*/
-                .putBoolean(        getString(R.string.clock_pointerOnlyClockchosen_preferences),       clock_clock_pointeronly_radiobtn.isChecked())
-                .putInt(            getString(R.string.clock_pointeronlyclock_stdcolor_preferences),    clock_clock_pointeronly_color_stunde_color)
-                .putInt(            getString(R.string.clock_pointeronlyclock_mincolor_preferences),    clock_clock_pointeronly_color_minute_color)
-                .putInt(            getString(R.string.clock_pointeronlyclock_seccolor_preferences),    clock_clock_pointeronly_color_sekunde_color)
+                .putBoolean(        getString(R.string.clock_pointerOnlyClockchosen_preferences),           clock_clock_pointeronly_selected)
+                .putInt(            getString(R.string.clock_pointeronlyclock_stdcolor_preferences),        clock_clock_pointeronly_color_stunde_color.value)
+                .putInt(            getString(R.string.clock_pointeronlyclock_mincolor_preferences),        clock_clock_pointeronly_color_minute_color.value)
+                .putInt(            getString(R.string.clock_pointeronlyclock_seccolor_preferences),        clock_clock_pointeronly_color_sekunde_color.value)
                 /*PARABOLACLOCK*/
-                .putBoolean(        getString(R.string.clock_parabolaclockchosen_preferences),          clock_clock_parabolaclock_radiobtn.isChecked())
-                .putInt(            getString(R.string.clock_parabolaclock_alphaColor_preferences),     Color.argb(clock_clock_parabolaclock_alphabehind_seekbar.getProgress(), 255, 255, 255))
-                .putInt(            getString(R.string.clock_parabolaclock_stdmincolor_preferences),    clock_clock_parabolaclock_color_stundeminute_color)
-                .putInt(            getString(R.string.clock_parabolaclock_minsekcolor_preferences),    clock_clock_parabolaclock_color_minutesekunde_color)
+                .putBoolean(        getString(R.string.clock_parabolaclockchosen_preferences),              clock_clock_parabolaclock_selected)
+                .putInt(            getString(R.string.clock_parabolaclock_alphaColor_preferences),         Color.argb(clock_clock_parabolaclock_alphabehind, 0xFF, 0xFF, 0xFF))
+                .putInt(            getString(R.string.clock_parabolaclock_stdmincolor_preferences),        clock_clock_parabolaclock_color_stundeminute_color.value)
+                .putInt(            getString(R.string.clock_parabolaclock_minsekcolor_preferences),        clock_clock_parabolaclock_color_minutesekunde_color.value)
                 /*DIGITALCLOCK*/
-                .putBoolean(        getString(R.string.clock_digitalClockchosen_preferences),           clock_clock_digitalclock_radiobtn.isChecked())
-                .putBoolean(        getString(R.string.clock_digitalClock_dotsblinking_preferences),    clock_clock_digitalclock_dotsblinking_checkbox.isChecked())
+                .putBoolean(        getString(R.string.clock_digitalClockchosen_preferences),               clock_clock_digitalclock_selected)
+                .putBoolean(        getString(R.string.clock_digitalClock_dotsblinking_preferences),        clock_clock_digitalclock_dotsblinking)
+                /*AUDIO-VISUALIZER*/
+                .putBoolean(        getString(R.string.visualizer_showVisualizer_preferences),              visualizer_visualizerenable_checkbox.isChecked())
+                .putBoolean(        getString(R.string.visualzer_proximityvisualizerchosen_preferences),    visualizer_proximity_selected)
+                .putBoolean(        getString(R.string.visualzer_linearvisualizerchosen_preferences),       visualizer_linear_selected)
+                .putInt(            getString(R.string.visualizer_visualizationcolor_preferences),          visualizer_visualizationcolor.value)
+                .putFloat(          getString(R.string.visualizer_xposition_preferences),                   visualizer_x_pos)
+                .putFloat(          getString(R.string.visualizer_yposition_preferences),                   visualizer_y_pos)
+                .putFloat(getString(R.string.visualizer_diameter_preferences), visualizer_diameter)
+                .putBoolean(getString(R.string.visualizer_visualizationtype_fft_preferences), visualizer_visualizationtype_fft)
+                .putBoolean(getString(R.string.visualizer_visualizationtype_waveform_preferences), visualizer_visualizationtype_waveform)
 
                 .apply();
     }
-
-    private void setColorOfTextView(TextView tv, int col){
-        tv.setBackgroundColor(col);
-        tv.setTextColor(~col | FULL_ALPHA);
-    }
-
-    public void changeUniColorColor(View view){
-        final int prevCol = lines_unicolor_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_unicolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        lines_unicolor_color = prevCol;
-                        setColorOfTextView(lines_unicolor_colortextview, lines_unicolor_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                lines_unicolor_color = color;
-                setColorOfTextView(lines_unicolor_colortextview, lines_unicolor_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeBackgroundColorColor(View view){
-        final int prevCol = background_backgroundcolor_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_backgroundcolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        background_backgroundcolor_color = prevCol;
-                        setColorOfTextView(background_backgroundcolor_colortextview, background_backgroundcolor_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                background_backgroundcolor_color = color;
-                setColorOfTextView(background_backgroundcolor_colortextview, background_backgroundcolor_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeSimpleClockHourPointerColor(View view){
-        final int prevCol = clock_clock_simpleclock_color_stunde_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_simplclockhourpointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_simpleclock_color_stunde_color = prevCol;
-                        setColorOfTextView(clock_clock_simpleclock_color_stunde_textview, clock_clock_simpleclock_color_stunde_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_simpleclock_color_stunde_color = color;
-                setColorOfTextView(clock_clock_simpleclock_color_stunde_textview, clock_clock_simpleclock_color_stunde_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeSimpleClockMinutePointerColor(View view){
-        final int prevCol = clock_clock_simpleclock_color_minute_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_simplclockminutepointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_simpleclock_color_minute_color = prevCol;
-                        setColorOfTextView(clock_clock_simpleclock_color_minute_textview, clock_clock_simpleclock_color_minute_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_simpleclock_color_minute_color = color;
-                setColorOfTextView(clock_clock_simpleclock_color_minute_textview, clock_clock_simpleclock_color_minute_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeSimpleClockSecondPointerColor(View view){
-        final int prevCol = clock_clock_simpleclock_color_sekunde_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_simplclocksekundepointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_simpleclock_color_sekunde_color = prevCol;
-                        setColorOfTextView(clock_clock_simpleclock_color_sekunde_textview, clock_clock_simpleclock_color_sekunde_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_simpleclock_color_sekunde_color = color;
-                setColorOfTextView(clock_clock_simpleclock_color_sekunde_textview, clock_clock_simpleclock_color_sekunde_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changePointerOnlyClockHourPointerColor(View view){
-        final int prevCol = clock_clock_pointeronly_color_stunde_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_pointeronlyhourpointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_pointeronly_color_stunde_color = prevCol;
-                        setColorOfTextView(clock_clock_pointeronly_color_stunde_textview, clock_clock_pointeronly_color_stunde_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_pointeronly_color_stunde_color = color;
-                setColorOfTextView(clock_clock_pointeronly_color_stunde_textview, clock_clock_pointeronly_color_stunde_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changePointerOnlyClockMinutePointerColor(View view){
-        final int prevCol = clock_clock_pointeronly_color_minute_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_pointeronlyminutepointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_pointeronly_color_minute_color = prevCol;
-                        setColorOfTextView(clock_clock_pointeronly_color_minute_textview, clock_clock_pointeronly_color_minute_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_pointeronly_color_minute_color = color;
-                setColorOfTextView(clock_clock_pointeronly_color_minute_textview, clock_clock_pointeronly_color_minute_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changePointerOnlyClockSecondPointerColor(View view){
-        final int prevCol = clock_clock_pointeronly_color_sekunde_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_pointeronlysecondpointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_pointeronly_color_sekunde_color = prevCol;
-                        setColorOfTextView(clock_clock_pointeronly_color_sekunde_textview, clock_clock_pointeronly_color_sekunde_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_pointeronly_color_sekunde_color = color;
-                setColorOfTextView(clock_clock_pointeronly_color_sekunde_textview, clock_clock_pointeronly_color_sekunde_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeParabolaClockHourMinutePointerColor(View view){
-        final int prevCol = clock_clock_parabolaclock_color_stundeminute_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_parabolastundeminutepointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_parabolaclock_color_stundeminute_color = prevCol;
-                        setColorOfTextView(clock_clock_parabolaclock_color_stundeminute_textview, clock_clock_parabolaclock_color_stundeminute_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_parabolaclock_color_stundeminute_color = color;
-                setColorOfTextView(clock_clock_parabolaclock_color_stundeminute_textview, clock_clock_parabolaclock_color_stundeminute_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
-    public void changeParabolaClockMinuteSecondPointerColor(View view){
-        final int prevCol = clock_clock_parabolaclock_color_minutesekunde_color;
-
-        AlertDialog shown = new AlertDialog.Builder(ChangeSettingsActivity.this)
-                .setTitle(R.string.changeColor_parabolaminutesekundepointercolor_title)
-                .setView(R.layout.layout_changecolor_setting)
-                .setPositiveButton(R.string.dialog_ok, null)
-                .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        clock_clock_parabolaclock_color_minutesekunde_color = prevCol;
-                        setColorOfTextView(clock_clock_parabolaclock_color_minutesekunde_textview, clock_clock_parabolaclock_color_minutesekunde_color);
-                    }
-                })
-                .show();
-
-        GradientView top = (GradientView) shown.findViewById(R.id.top);
-        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
-
-        top.setBrightnessGradientView(bottom);
-
-        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
-            @Override
-            public void onColorChanged(GradientView view, int color){
-                clock_clock_parabolaclock_color_minutesekunde_color = color;
-                setColorOfTextView(clock_clock_parabolaclock_color_minutesekunde_textview, clock_clock_parabolaclock_color_minutesekunde_color);
-            }
-        });
-
-        top.setColor(prevCol);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_changesettingsmenu, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         // Handle action bar item clicks here. The action bar will
@@ -1013,4 +1019,58 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+//    /*
+//     * Small annotation at this point, at which I'm writing all these methods to change the colors of the pointers of the clocks.
+//     * I HATE Java for not having (data-) pointers.
+//     * The method could have been so easy with pointers:
+//
+//    /**
+//     * @param tv the Textview currently showing the color
+//     * @param col the pointer to the color-attribute
+//     * @param title the R.string-constant for the title
+//     * /
+//    private void editColor(final TextView tv, final int* col, int title){
+//        final int prevCol = *col;
+//
+//        AlertDialog shown = new AlertDialog.Builder(this)
+//            .setTitle(title)
+//            .setView(R.layout.layout_dialog_changecolor)
+//            .setPositiveButton(R.string.dialog_ok, null)
+//            .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i){
+//                    *col = prevCol;
+//                    setColorOfTextView(tv, *col);
+//                }
+//            })
+//            .show();
+//
+//        GradientView top = (GradientView) shown.findViewById(R.id.top);
+//        GradientView bottom = (GradientView) shown.findViewById(R.id.bottom);
+//
+//        top.setBrightnessGradientView(bottom);
+//
+//        bottom.setOnColorChangedListener(new GradientView.OnColorChangedListener(){
+//            @Override
+//            public void onColorChanged(GradientView view, int color){
+//                *col = color;
+//                setColorOfTextView(tv, *col);
+//            }
+//        });
+//
+//        top.setColor(prevCol);
+//    }
+//
+//     *
+//     * THAT WOULD FUCKING WORK FOR ALL OF THEM!!!!
+//     * But NOOOO... I'm Java and don't want any fucking pointers... EXCEPT WITH FUCKING OBJECTS!!!!
+//     * Well fuck it... It's too late to begin over with a native Android App
+//     *
+//     * [EDIT:]
+//     * Well I decided to make a class to simply "simulate" a pointer for a int-variable.
+//     * Now I have to rewrite everything again...
+//     */
+    private static class IntegerPointer{
+        public int value;
+    }
 }
