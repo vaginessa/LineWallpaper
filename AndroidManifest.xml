@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="de.jeanpierrehotz.drawyaownwallpapers"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="de.jeanpierrehotz.drawyaownwallpapers"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         uses-sdk
@@ -52,6 +51,11 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name=".activities.ChangeSettingsActivity"
             android:label="@string/title_activity_change_settings"
             android:parentActivityName=".activities.MainActivity"
@@ -71,7 +75,8 @@
 
             <intent-filter>
 
-                <action android:name="android.service.wallpaper.WallpaperService"/>
+                <action
+                    android:name="android.service.wallpaper.WallpaperService"/>
 
             </intent-filter>
 

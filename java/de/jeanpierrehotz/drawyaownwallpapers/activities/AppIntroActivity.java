@@ -13,8 +13,17 @@ import de.jeanpierrehotz.drawyaownwallpapers.R;
  * Created by Admin on 16.06.2016.
  */
 public class AppIntroActivity extends AppIntro{
+
+    /*
+     * Since I've gotten too lazy to keep two AppIntros running I just save whether it's
+     * started from the first launch of the app.
+     */
+    private boolean firstLaunch;
+
     @Override
     public void init(@Nullable Bundle savedInstanceState){
+        firstLaunch = getIntent().getBooleanExtra(getString(R.string.appIntro_firstLaunch_setting), false);
+
         /* The slide which shows you how to change a setting */
         addSlide(
                 AppIntroFragment.newInstance(
@@ -46,7 +55,7 @@ public class AppIntroActivity extends AppIntro{
         addSlide(
                 AppIntroFragment.newInstance(
                         getString(R.string.appIntro_doneWithIntro_caption),
-                        getString(R.string.appIntro_doneWithIntro_description),
+                        getString((firstLaunch)? R.string.appIntro_doneWithIntro_description: R.string.appIntro_review_doneWithIntro_description),
                         R.drawable.appintro_donewithintropicture,
                         0xFF3F51B5
                 )
@@ -81,12 +90,16 @@ public class AppIntroActivity extends AppIntro{
     }
 
     /**
-     * This method starts the first setting
+     * This method starts the first setting if this activity was started as a result of the
+     * first app-launch
      */
     private void startFirstSetting(){
-        Intent intent = new Intent(this, de.jeanpierrehotz.drawyaownwallpapers.activities.ChangeSettingsActivity.class);
-        intent.putExtra(getString(R.string.intent_settings_index), 0);  //we need to give it the settings index
-        startActivity(intent);
-        finish();                                                       // we don't want the user to come back here
+        if(firstLaunch){
+            Intent intent = new Intent(this, de.jeanpierrehotz.drawyaownwallpapers.activities.ChangeSettingsActivity.class);
+            intent.putExtra(getString(R.string.intent_settings_index), 0);  //we need to give it the settings index
+            startActivity(intent);
+        }
+
+        finish();                                                           // we don't want the user to come back here
     }
 }

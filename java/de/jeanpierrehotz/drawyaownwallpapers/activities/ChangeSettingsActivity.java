@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import de.jeanpierrehotz.drawyaownwallpapers.R;
 import de.jeanpierrehotz.drawyaownwallpapers.utils.WallpaperPictureSelector;
+import de.jeanpierrehotz.drawyaownwallpapers.views.ColoredSnackbar;
 import de.jeanpierrehotz.drawyaownwallpapers.views.GradientView;
 import de.jeanpierrehotz.drawyaownwallpapers.wallpaper.data.line.Line;
 
@@ -44,16 +45,16 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     private WallpaperPictureSelector.Callback mWallpaperSelectorCallback = new WallpaperPictureSelector.Callback(){
         @Override
         public void onSelectedResult(String file){
-            Snackbar.make(findViewById(R.id.space), getString(R.string.bg_image_youselected) + file, Snackbar.LENGTH_SHORT).show();
+            ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), getString(R.string.bg_image_youselected) + file, Snackbar.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCropperResult(WallpaperPictureSelector.CropResult result, File srcFile, File outFile){
             if(result == WallpaperPictureSelector.CropResult.success){
                 getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putString(getString(R.string.background_picturepath_preferences), outFile.getAbsolutePath()).apply();
-                Snackbar.make(findViewById(R.id.space), R.string.bg_image_youcropped, Snackbar.LENGTH_SHORT).show();
+                ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.bg_image_youcropped, Snackbar.LENGTH_SHORT).show();
             }else{
-                Snackbar.make(findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
+                ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.bg_image_abortedSelecting, Snackbar.LENGTH_SHORT).show();
             }
         }
     };
@@ -758,9 +759,9 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                                 lines.remove(lines.size() - 1);
                             }while(lines.size() != 0);
                             Line.saveToSharedPreferences(lines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
-                            Snackbar.make(findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
+                            ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
                         }else{
-                            final Snackbar sb = Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
+                            final Snackbar sb = ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE); // Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
                             sb.setAction(R.string.dialog_ok, new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view){
@@ -786,9 +787,9 @@ public class ChangeSettingsActivity extends AppCompatActivity{
                         if(lines.size() >= 1){
                             lines.remove(lines.size() - 1);
                             Line.saveToSharedPreferences(lines, getSharedPreferences(getString(R.string.permanentlines_lineSP) + settings_index, MODE_PRIVATE), getBaseContext());
-                            Snackbar.make(findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
+                            ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.deleteLines_success, Snackbar.LENGTH_SHORT).show();
                         }else{
-                            final Snackbar sb = Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
+                            final Snackbar sb = ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);// Snackbar.make(findViewById(R.id.space), R.string.alertMessage_noPermLines, Snackbar.LENGTH_INDEFINITE);
                             sb.setAction(R.string.dialog_ok, new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view){
@@ -1006,19 +1007,16 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_selectsetting_menuitem){
+        if(id == R.id.menu_changesettings_selectsetting){
 
             if(settings_index == getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE).getInt(getString(R.string.settings_selectedSettingPreferences), 0)){
-
-                Snackbar.make(findViewById(R.id.space), R.string.changeSettings_changeindex_failed, Snackbar.LENGTH_SHORT).show();
-
+                ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.changeSettings_changeindex_failed, Snackbar.LENGTH_SHORT).show();
             }else{
                 getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE)
                         .edit()
                         .putInt(getString(R.string.settings_selectedSettingPreferences), settings_index)
                         .apply();
-
-                Snackbar.make(findViewById(R.id.space), R.string.changeSettings_changeindex_succeeded, Snackbar.LENGTH_SHORT).show();
+                ColoredSnackbar.make(Color.WHITE, findViewById(R.id.space), R.string.changeSettings_changeindex_succeeded, Snackbar.LENGTH_SHORT).show();
             }
 
             return true;

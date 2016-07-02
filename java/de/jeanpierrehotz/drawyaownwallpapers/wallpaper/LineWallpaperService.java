@@ -30,6 +30,7 @@ import de.jeanpierrehotz.drawyaownwallpapers.wallpaper.data.visualizer.Proximity
  */
 public class LineWallpaperService extends WallpaperService{
 
+    private static final boolean DEBUG = true;
     private final Handler handler = new Handler();
 
     @Override
@@ -38,42 +39,42 @@ public class LineWallpaperService extends WallpaperService{
     }
 
     private class LineWallpaper extends Engine{
-        private final Paint p;
-        private final Runnable run;
+        private final Paint             p;
+        private final Runnable          run;
 
-        private float x, y;
-        private boolean visible;
+        private float                   x, y;
+        private boolean                 visible;
 
-        private int settings_index;
+        private int                     settings_index;
 
-        private ArrayList<Line> permLines;
-        private ArrayList<Line> tempLines;
+        private ArrayList<Line>         permLines;
+        private ArrayList<Line>         tempLines;
 
-        private Clock clk;
-        private float       clk_xCoordinate;
-        private float       clk_yCoordinate;
-        private float       clk_diameter;
+        private Clock                   clk;
+        private float                   clk_xCoordinate;
+        private float                   clk_yCoordinate;
+        private float                   clk_diameter;
 
-        private Bitmap background_bitmap;
-        private boolean     background_drawPicture;
-        private int         background_color;
+        private Bitmap                  background_bitmap;
+        private boolean                 background_drawPicture;
+        private int                     background_color;
 
-        private boolean     lines_drawBalls;
-        private boolean     lines_currentlyPermanent;
-        private boolean     lines_remove;
-        private boolean     lines_fading;
-        private boolean     lines_UniColor;
-        private boolean     lines_rainbowColor;
-        private float       lines_width;
-        private float       lines_ballsRadius;
-        private int         lines_timeUntilRemoved;
-        private int         lines_timeUntilActionPerformed;
-        private int         lines_color;
-        private int         lines_rainbowSteps;
-        private Line.EatingDirection lines_eatingdirection;
+        private boolean                 lines_drawBalls;
+        private boolean                 lines_currentlyPermanent;
+        private boolean                 lines_remove;
+        private boolean                 lines_fading;
+        private boolean                 lines_UniColor;
+        private boolean                 lines_rainbowColor;
+        private float                   lines_width;
+        private float                   lines_ballsRadius;
+        private int                     lines_timeUntilRemoved;
+        private int                     lines_timeUntilActionPerformed;
+        private int                     lines_color;
+        private int                     lines_rainbowSteps;
+        private Line.EatingDirection    lines_eatingdirection;
 
-        private AudioVisualizer audiovisualizer;
-        private Visualizer audiovisualizer_helpingvisualizer;
+        private AudioVisualizer         audiovisualizer;
+        private Visualizer              audiovisualizer_helpingvisualizer;
 
         public LineWallpaper(){
             p = new Paint();
@@ -81,7 +82,7 @@ public class LineWallpaperService extends WallpaperService{
             p.setStyle(Paint.Style.FILL);
             p.setTextSize(48f);
 
-            setOffsetNotificationsEnabled(true);
+            // setOffsetNotificationsEnabled(true);
 
             tempLines = new ArrayList<>();
             permLines = new ArrayList<>();
@@ -231,17 +232,6 @@ public class LineWallpaperService extends WallpaperService{
                     if(audiovisualizer != null){
                         audiovisualizer.draw(c);
                     }
-
-//                    c.drawText("x Offset: " + xOffset + "\ny Offset: " + yOffset
-//                            + "\nx Offset step: " + xOffsetStep + "\ny Offset step: " + yOffsetStep
-//                            + "\nx Pixel offset: " + xPixelOffset + "\ny Pixel offset: " + yPixelOffset, 1000, 50, p);
-
-//                    c.drawText("x Offset: " + xOffset, 1000, 150, p);
-//                    c.drawText("y Offset: " + yOffset, 1000, 200, p);
-//                    c.drawText("x Offset step: " + xOffsetStep, 1000, 250, p);
-//                    c.drawText("y Offset step: " + yOffsetStep, 1000, 300, p);
-//                    c.drawText("x Pixel offset: " + xPixelOffset, 1000, 350, p);
-//                    c.drawText("y Pixel offset: " + yPixelOffset, 1000, 400, p);
                 }
             }finally{
                 if(c != null){
@@ -259,26 +249,6 @@ public class LineWallpaperService extends WallpaperService{
                 handler.postDelayed(run, lines_timeUntilActionPerformed);
             }
         }
-
-//        float xOffset;
-//        float yOffset;
-//        float xOffsetStep;
-//        float yOffsetStep;
-//        int xPixelOffset;
-//        int yPixelOffset;
-//
-//
-//        @Override
-//        public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset){
-//            super.onOffsetsChanged(xOffset, yOffset, xOffsetStep, yOffsetStep, xPixelOffset, yPixelOffset);
-//
-//            this.xOffset = xOffset;
-//            this.yOffset = yOffset;
-//            this.xOffsetStep = xOffsetStep;
-//            this.yOffsetStep = yOffsetStep;
-//            this.xPixelOffset = xPixelOffset;
-//            this.yPixelOffset = yPixelOffset;
-//        }
 
         @Override
         public void onTouchEvent(MotionEvent event){
@@ -372,8 +342,12 @@ public class LineWallpaperService extends WallpaperService{
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height){
             super.onSurfaceChanged(holder, format, width, height);
-            x = width;
-            y = height;
+
+            if(width < height){
+                x = width;
+                y = height;
+            }
+
             draw();
         }
 
@@ -388,6 +362,12 @@ public class LineWallpaperService extends WallpaperService{
                 audiovisualizer_helpingvisualizer.release();
             }
             handler.removeCallbacks(run);
+        }
+
+        @Override
+        public void onDesiredSizeChanged(int desiredWidth, int desiredHeight){
+            super.onDesiredSizeChanged(desiredWidth, desiredHeight);
+            System.out.println("LineWallpaperService.LineWallpaper#onSurfaceDestroyed(int, int):void -> (" + desiredWidth + ", " + desiredHeight + ")");
         }
     }
 }

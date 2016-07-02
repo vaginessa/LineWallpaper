@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,11 +24,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.jeanpierrehotz.drawyaownwallpapers.R;
+import de.jeanpierrehotz.drawyaownwallpapers.views.ColoredSnackbar;
 import de.jeanpierrehotz.drawyaownwallpapers.views.RecyclerSettingsAdapter;
 import de.jeanpierrehotz.drawyaownwallpapers.wallpaper.data.line.Line;
 
 /**
  * Created by Admin on 16.06.2016.
+ *
  */
 public class MainActivity extends AppCompatActivity{
 
@@ -45,91 +49,6 @@ public class MainActivity extends AppCompatActivity{
 
     private AlertDialog dialog;
 
-//    private ListView exampleListView;
-//    private SettingsAdapter ad;
-//
-//    private AdapterView.OnItemClickListener changeSettingListener = new AdapterView.OnItemClickListener(){
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-//            modifySetting(i);
-//        }
-//    };
-//
-//    private AdapterView.OnItemLongClickListener createContextMenuListener = new AdapterView.OnItemLongClickListener(){
-//        @Override
-//        public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l){
-//            new AlertDialog.Builder(MainActivity.this)
-//                    .setTitle(settings_caption.get(i))
-//                    .setItems(/*R.array.context_menu_items*/
-//                            new String[]{
-//                                    getString(R.string.contextMenu_selectSetting),
-//                                    getString(R.string.contextMenu_renameSetting),
-//                                    getString(R.string.contextMenu_deleteSetting)
-//                            }, new DialogInterface.OnClickListener(){
-//                        AlertDialog dialog;
-//
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int selectedMenuItem){
-//                            switch(selectedMenuItem){
-//                                case 0:
-//                                    selectedSetting = i;
-//                                    ad.selectedChangedTo(selectedSetting);
-//                                    break;
-//                                case 1:
-//                                    dialog = new AlertDialog.Builder(MainActivity.this)
-//                                            .setTitle(R.string.selectTitle_caption)
-//                                            .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
-//                                                @Override
-//                                                public void onClick(DialogInterface dialogInterface, int hay){
-//                                                    EditText newNameET = (EditText) dialog.findViewById(R.id.dialog_newsettingname_newnameEditText);
-//                                                    settings_caption.set(i, newNameET.getText().toString());
-//                                                    ad.notifyDataSetChanged();
-//                                                }
-//                                            })
-//                                            .setNegativeButton(R.string.dialog_abort, null)
-//                                            .setView(R.layout.layout_dialog_neuertitel)
-//                                            .show();
-//
-//                                    EditText newNameET = (EditText) dialog.findViewById(R.id.dialog_newsettingname_newnameEditText);
-//                                    newNameET.setText(settings_caption.get(i));
-//
-//                                    break;
-//                                case 2:
-//                                    if(i == selectedSetting){
-//                                        dialog = new AlertDialog.Builder(MainActivity.this)
-//                                                .setTitle(R.string.deleteChosenSetting_caption)
-//                                                .setMessage(R.string.deleteChosenSetting_message)
-//                                                .setPositiveButton(R.string.dialog_ok, null)
-//                                                .setNegativeButton(R.string.dialog_fuckyou, new DialogInterface.OnClickListener(){
-//                                                    @Override
-//                                                    public void onClick(DialogInterface dialogInterface, int i){
-//                                                        Snackbar.make(exampleListView, R.string.dialog_fuckyou_answer, Snackbar.LENGTH_INDEFINITE).show();
-//                                                    }
-//                                                })
-//                                                .show();
-//                                    }else{
-//                                        settings_caption.remove(i);
-//                                        settings_indexes.remove(i);
-//                                        deleted = true;
-//
-//                                        if(i < selectedSetting){
-//                                            ad.selectedChangedTo(--selectedSetting);
-//                                        }else{
-//                                            ad.notifyDataSetChanged();
-//                                        }
-//                                    }
-//                                    break;
-//                                default:
-//                            }
-//                        }
-//                    })
-//                    .show();
-//
-//            return true;
-//        }
-//    };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -141,104 +60,61 @@ public class MainActivity extends AppCompatActivity{
         settings_indexes = new ArrayList<>();
         deleted = false;
 
-//        settingsList = (RecyclerView) findViewById(R.id.settingsList);
-//        settingsLayoutManager = new LinearLayoutManager(this);
-//        settingsList.setLayoutManager(settingsLayoutManager);
-//
-//        swipeActionLayout = (SwipeActionLayout) findViewById(R.id.swipe_action_layout);
-
         if(getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE).getBoolean(getString(R.string.settings_firstTimeLaunched_Preferences), true)){
             getSharedPreferences(getString(R.string.settings_settingsPreferences), MODE_PRIVATE).edit().putBoolean(getString(R.string.settings_firstTimeLaunched_Preferences), false).apply();
 
             settings_caption.add(getString(R.string.firstSettingName));
             selectedSetting = 0;
             saveSettings();
-//            modifySetting(0);
-            startActivity(new Intent(this, AppIntroActivity.class));
+
+            Intent firstLaunchIntent = new Intent(this, AppIntroActivity.class);
+            firstLaunchIntent.putExtra(getString(R.string.appIntro_firstLaunch_setting), true);
+            startActivity(firstLaunchIntent);
         }else{
             loadSettings();
         }
 
-//        settingsAdapter = new RecyclerSettingsAdapter(this, settings_caption, selectedSetting);
-//        settingsList.setAdapter(settingsAdapter);
-//
-//        settingsAdapter.setOnItemClickListener(new RecyclerSettingsAdapter.OnItemClickListener(){
-//            @Override
-//            public void onItemClicked(RecyclerSettingsAdapter.ViewHolder vh, int pos){
-//                switch(action){
-//                    case 0:
-//                        modifySetting(pos);
-//                        break;
-//                    case 1:
-//                        selectSetting(pos);
-//                        break;
-//                    case 2:
-//                        renameSettings(pos);
-//                        break;
-//                    case 3:
-//                        deleteSetting(pos);
-//                        break;
-//                }
-//            }
-//        });
-//
-//        swipeActionLayout.setOnActionSelectedListener(new SwipeActionLayout.OnActionListener(){
-//            @Override
-//            public void onActionSelected(int index, ActionItem act){
-//                action = index;
-//                showCurrentAction();
-//            }
-//        });
-
         initializeLayout();
 
-//        exampleListView = (ListView) findViewById(R.id.settingsListView);
-//        ad = new SettingsAdapter(this, R.layout.layout_listitem_setting, settings_caption, selectedSetting);
-//
-//        exampleListView.setAdapter(ad);
-//
-//        exampleListView.setOnItemClickListener(changeSettingListener);
-//        exampleListView.setOnItemLongClickListener(createContextMenuListener);
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_main);
-        fab.setOnClickListener(new View.OnClickListener(){
-            AlertDialog dialog;
-            @Override
-            public void onClick(View view){
-                settings_caption.add("");
+        if(fab != null){
+            fab.setOnClickListener(new View.OnClickListener(){
+                AlertDialog dialog;
 
-                dialog = new AlertDialog.Builder(MainActivity.this)
-                        .setTitle(R.string.selectTitle_caption)
-                        .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int hay){
-                                EditText newNameET = (EditText) dialog.findViewById(R.id.dialog_newsettingname_newnameEditText);
-                                settings_caption.set(settings_caption.size() - 1, newNameET.getText().toString());
-//                                ad.notifyDataSetChanged();
-//
-//                                exampleListView.smoothScrollToPosition(settings_caption.size() - 1);
-                                settingsAdapter.notifyDataSetChanged();
-                                settingsList.smoothScrollToPosition(settings_caption.size() - 1);
+                @Override
+                public void onClick(View view){
+                    settings_caption.add("");
 
-                                modifySetting(settings_caption.size() - 1);
-                            }
-                        })
-                        .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i){
-                                settings_caption.remove(settings_caption.size() - 1);
-                            }
-                        })
-                        .setView(R.layout.layout_dialog_neuertitel)
-                        .show();
+                    dialog = new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(R.string.selectTitle_caption)
+                            .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int hay){
+                                    EditText newNameET = (EditText) dialog.findViewById(R.id.dialog_newsettingname_newnameEditText);
+                                    settings_caption.set(settings_caption.size() - 1, newNameET.getText().toString());
 
-            }
-        });
+                                    settingsAdapter.notifyDataSetChanged();
+                                    settingsList.smoothScrollToPosition(settings_caption.size() - 1);
+
+                                    modifySetting(settings_caption.size() - 1);
+                                }
+                            })
+                            .setNegativeButton(R.string.dialog_abort, new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i){
+                                    settings_caption.remove(settings_caption.size() - 1);
+                                }
+                            })
+                            .setView(R.layout.layout_dialog_neuertitel)
+                            .show();
+
+                }
+            });
+        }
     }
 
     public void showCurrentAction(){
-        Snackbar.make(settingsList, getActionString(), Snackbar.LENGTH_LONG).show();
+        ColoredSnackbar.make(Color.WHITE, settingsList, getActionString(), Snackbar.LENGTH_LONG).show();
     }
 
     private String getActionString(){
@@ -356,7 +232,7 @@ public class MainActivity extends AppCompatActivity{
                     .setNegativeButton(R.string.dialog_fuckyou, new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i){
-                            Snackbar.make(settingsList, R.string.dialog_fuckyou_answer, Snackbar.LENGTH_INDEFINITE).show();
+                            ColoredSnackbar.make(Color.WHITE, settingsList, R.string.dialog_fuckyou_answer, Snackbar.LENGTH_INDEFINITE).show();
                         }
                     })
                     .show();
@@ -551,25 +427,32 @@ public class MainActivity extends AppCompatActivity{
         saveSettings();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if(id == R.id.action_settings){
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if(id == R.id.menu_main_reviewappintro){
+            Intent reviewIntroIntent = new Intent(this, AppIntroActivity.class);
+            reviewIntroIntent.putExtra(getString(R.string.appIntro_firstLaunch_setting), false);
+            startActivity(reviewIntroIntent);
+
+            return true;
+        }else if(id == R.id.menu_main_about){
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
