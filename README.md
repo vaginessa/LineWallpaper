@@ -64,3 +64,13 @@ The settings contain following:
     * color of the parabola between the current minute and second
   4. Digital clock
     * let the dots between the dots blink
+
+9. Draw a visualizer in front of the background
+  * x-position of the visualizer (relative to the leftover space -> between 0 and 1)
+  * y-position of the visualizer (relative to the leftover space -> between 0 and 1)
+  * diameter of the visualizer (relative to the smaller dimension -> between 0 and 1)
+  * color of the responsive part of the visualizer
+  * whether it's waveform-dependent or frequency-dependent
+  
+  1. Proximity visualizer
+  2. Linear visualizer
