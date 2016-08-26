@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General strings affecting the app -->
-    <string name="app_name">DrawYaOwnWallpapers</string>
     <string name="title_activity_change_settings">Ändere Einstellungen</string>
 
     <!-- Strings related to Settings: see the default-strings.xml ^^ -->
@@ -75,6 +74,23 @@
     <string name="changeSettings_clock_digital_blinkingdots">Sollen die Punkte blinken?</string>
     <string name="changeSettings_changeindex_failed">Diese Einstellung ist bereit ausgewählt!</string>
     <string name="changeSettings_changeindex_succeeded">Die Einstellung wurde ausgewählt.</string>
+    <string name="changeSettings_clock_changeadditionalsettings_caption">Weitere Einstellungen ändern</string>
+    <string name="changeSettings_clock_changeposandsize_caption">Position und Größe der Uhr ändern</string>
+    <string name="changeSettings_clock_selectClock_caption">Uhrenart auswählen</string>
+    <string name="changeSettings_disappearance_eatingDirection">Aus welcher Richtung sollen sie sich fressen?</string>
+    <string name="changeSettings_disappearance_eatingDirection_back">Von hinten.</string>
+    <string name="changeSettings_disappearance_eatingDirection_both">Von beiden Seiten</string>
+    <string name="changeSettings_disappearance_eatingDirection_front">Von vorne.</string>
+    <string name="changeSettings_visualizer_caption">Visualizer-Einstellungen ändern</string>
+    <string name="changeSettings_visualizer_color_caption">Farbe des Visualizer-Graphen</string>
+    <string name="changeSettings_visualizer_diameter">Größe des Visualizers</string>
+    <string name="changeSettings_visualizer_linear_selection">Linearer Visualizer</string>
+    <string name="changeSettings_visualizer_proximity_selection">Proximity Visualizer</string>
+    <string name="changeSettings_visualizer_showvisualizer">Soll ein Visualizer gezeigt werden?</string>
+    <string name="changeSettings_visualizer_visualizationtype_fft_caption">Frequenzabhängig</string>
+    <string name="changeSettings_visualizer_visualizationtype_waveform_caption">Wellenabhängig</string>
+    <string name="changeSettings_visualizer_xposition">x-Position des Visualizers</string>
+    <string name="changeSettings_visualizer_yposition">y-Position des Visualizers</string>
 
     <!-- Strings related to the dialogs for changing colors -->
     <string name="changeColorText">Farbe ändern</string>
@@ -88,6 +104,7 @@
     <string name="changeColor_pointeronlysecondpointercolor_title">Wähle Farbe des Sekundenzeigers einer Uhr nur mit Zeigern aus</string>
     <string name="changeColor_parabolastundeminutepointercolor_title">Wähle Farbe des Stunden- und Minutenzeigers einer Parabeluhr aus</string>
     <string name="changeColor_parabolaminutesekundepointercolor_title">Wähle Farbe des Minuten- und Sekundenzeigers einer Parabeluhr aus</string>
+    <string name="changeColor_visualizercolor_title">Wähle Visualizerfarbe aus</string>
 
     <!-- Strings regarding the context menu -->
     <string name="contextMenu_selectSetting">Einstellung auswählen</string>
@@ -96,22 +113,32 @@
 
     <!-- Strings concerning the intro to the app -->
     <string name="appIntro_changeSettings_caption">Ändere Einstellungen</string>
-    <string name="appIntro_changeSettings_description">Sie können eine Einstellung ändern, indem Sie auf die Einstellung klicken, und die gewünschten Werte in dem auftauchenden Menü ändern.</string>
+    <string name="appIntro_changeSettings_description">Sie können eine Einstellung ändern, indem Sie die Verändern-Aktion auf der Einstellung ausführen, und die gewünschten Werte in dem auftauchenden Menü ändern.</string>
     <string name="appIntro_addSettings_caption">Einstellungen hinzufügen</string>
     <string name="appIntro_addSettings_description">Sie können eine Einstellung hinzufügen, indem sie den Hinzufügenknopf drücken, und einen Namen (der nicht einmalig sein muss) für die Einstellung eingeben.</string>
-    <string name="appIntro_contextMenu_caption">Einstellungen auswählen, umbenennen oder löschen</string>
-    <string name="appIntro_contextMenu_description">Sie können eine Einstellung auswählen, umbenennen oder löschen, indem sie lange auf diese drücken, und die gewünschte Aktion auswählen.\nAber bitte versuchen sie nicht die ausgewählte Einstellung zu löschen. :)</string>
+    <string name="appIntro_contextMenu_caption">Aktionen</string>
+    <string name="appIntro_contextMenu_description">Sie können eine Aktion auf einer Einstellung ausführen, indem Sie in der Einstellungenliste nach unten wischen, was alle möglichen Aktionen zeigt.\nDanach wählen Sie die gewollte Aktion aus und tppen auf die Einstellung, auf der Sie die Aktion ausführen wollen.\n\nAber bitte versuchen sie nicht die ausgewählte Einstellung zu löschen. :)</string>
     <string name="appIntro_doneWithIntro_caption">Fertig</string>
+    <string name="appIntro_backgroundImage_caption">Hintergrundbild</string>
+    <string name="appIntro_backgroundImage_description">Um Ihnen ein Hintergrundbild zur Verfügung zu stellen benötigen wir Ihre Erlaubnis das von Ihnen ausgewählte Bild zu speichern.</string>
+    <string name="appIntro_visualizer_caption">Visualizer</string>
+    <string name="appIntro_visualizer_description">Um Ihnen einen Visualizer zur Verfügung zu stellen, der auf das auf Ihrem Gerät gespielte Audio reagiert, benötigen wir Ihre Erlaubnis das Audio aufzunehmen, und einige Audioeinstellungen vorzunehmen.</string>
     <string name="appIntro_doneWithIntro_description">Sie können nun ihren eigenen Hintergrund malen!\nDazu müssen sie nur das DrawYaOwn!-Livewallpaper als ihren Hintergrund auswählen.\nSie werden nun zu einer Einstellung, die wir für sie erstellt haben, namens \"Meine erste Einstellung :)\", weitergeleitet.\nHaben sie Spaß mit unserer App :)</string>
+    <string name="appIntro_review_doneWithIntro_description">Sie können nun ihren eigenen Hintergrund malen!\nDazu müssen sie nur das DrawYaOwn!-Livewallpaper als ihren Hintergrund auswählen.\nHaben sie Spaß mit unserer App :)</string>
+
     <string name="bg_image_abortedSelecting">Sie brachen die Auswahl eines Hintergrundbilds ab!</string>
-    <string name="bg_image_youcropped">Ihr Hintergrundbild wurde erfolgreich zugeschnitten und gespeichert!</string>
     <string name="bg_image_youselected">Sie wählten folgendes Bild aus:</string>
-    <string name="changeSettings_clock_changeadditionalsettings_caption">Weitere Einstellungen ändern</string>
-    <string name="changeSettings_clock_changeposandsize_caption">Position und Größe der Uhr ändern</string>
-    <string name="changeSettings_clock_selectClock_caption">Uhrenart auswählen</string>
-    <string name="changeSettings_disappearance_eatingDirection">Aus welcher Richtung sollen sie sich fressen?</string>
-    <string name="changeSettings_disappearance_eatingDirection_back">Von hinten.</string>
-    <string name="changeSettings_disappearance_eatingDirection_both">Von beiden Seiten</string>
-    <string name="changeSettings_disappearance_eatingDirection_front">Von vorne.</string>
+    <string name="bg_image_youcropped">Ihr Hintergrundbild wurde erfolgreich zugeschnitten und gespeichert!</string>
+
+    <string name="menuitem_reviewIntro">Intro wiederholen</string>
+    <string name="title_activity_about">Rund um die App</string>
+    <string name="menuitem_about">About</string>
+
+    <string name="about_author_caption">Autor</string>
+    <string name="about_author_description">Der Autor dieser App ist Jean-Pierre Hotz.\n Sie können sich den Code der App unter github.com/JP1998/LineWallpaper anschauen.</string>
+    <string name="about_specialthanks_caption">Ausdrücklichen Dank an:</string>
+    <string name="about_specialthanks_description">Die Website https://materialdesignicons.com/ dafür, dass sie eine Vielzahl an hochauflösenden und stark anpassbaren Icons zur freien Verfügung stellen.\nFalls Sie mal Icons für ein Projekt benötigen sollten, sollten Sie sich diese Website definitiv mal anschauen.\n\nDen GitHub User sw926 ( https://github.com/sw926 ) für die Bereitstellung seiner ImageFileSelector Bibliothek ( https://github.com/sw926/ImageFileSelector ), die es Ihnen ermöglicht ein Hintergrundbild auszuwählen.\n\nDen GitHub User quentin41500 ( https://github.com/prolificinteractive ) für die Bereitstellung seiner SwipeActionLayout Bibliothek ( https://github.com/prolificinteractive/swipe-action-layout ), die die intuitive Bedienung des Main-Screens ermöglicht.\n\nDen GitHub User Paolo Rotolo ( https://github.com/paolorotolo ) für die Bereitstellung seiner AppIntro Bibliothek ( https://github.com/paolorotolo/AppIntro ), die ihnen beim ersten Start der App zeigt, wie man die App bedient.\n\nDen GitHub User Jiri Bruchanov ( https://github.com/jbruchanov ) für die Bereitstellung seiner ColorPicker Bibliothek ( https://github.com/jbruchanov/AndroidColorPicker ), die es Ihnen ermöglicht auf einfache Art und Weise eine Farbe auszuwählen.\n\nUnd zu guter Letzt auch an Sie!\nAls der User dieser App unterstützen Sie mich mehr als Sie wahrscheinlich denken!\n\nVielen herzlichen Dank Leute, ihr seid Klasse!</string>
+
+    <string name="permissionDenied">Sie haben die Erlaubnis für diese Aktion nicht gegeben. Sie können dies nachholen, indem Sie sich das AppIntro erneut anschauen, und \"Erlauben\" auswählen, wenn Sie gefragt werden.</string>
 
 </resources>
