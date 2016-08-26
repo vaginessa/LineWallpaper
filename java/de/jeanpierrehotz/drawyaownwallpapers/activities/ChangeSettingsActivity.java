@@ -1,10 +1,13 @@
 package de.jeanpierrehotz.drawyaownwallpapers.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.File;
+import java.security.Permission;
 import java.util.ArrayList;
 
 import de.jeanpierrehotz.drawyaownwallpapers.R;
@@ -68,16 +72,16 @@ public class ChangeSettingsActivity extends AppCompatActivity{
 
     private CheckBox        lines_rainbowcolor_checkbox;
     private TextView        lines_rainbowcolor_textview;
-    private SeekBar lines_rainbowcolor_seekbar;
+    private SeekBar         lines_rainbowcolor_seekbar;
 
     private SeekBar         lines_linewidth_seekbar;
     private CheckBox        lines_linesave_checkbox;
-    private Button lines_linesave_deleteLast_Button;
+    private Button          lines_linesave_deleteLast_Button;
     private Button          lines_linesave_deleteAll_Button;
     private CheckBox        lines_linedrawBall_checkbox;
     private TextView        lines_linesballsize_caption;
     private SeekBar         lines_linesballsize_seekbar;
-    private RadioButton lines_linesfadecomplete_radiobutton;
+    private RadioButton     lines_linesfadecomplete_radiobutton;
     private TextView        lines_linesfadecomplete_caption_textview;
     private SeekBar         lines_linesfadecompletetime_seekbar;
     private RadioButton     lines_linesfadeslowly_radiobutton;
@@ -219,6 +223,15 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     private CheckBox.OnCheckedChangeListener        background_backgroundpicture_checkbox_listener          = new CompoundButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                // Show that you have to grant permission
+                ColoredSnackbar.make(Color.WHITE, background_backgroundpicture_checkbox, getString(R.string.permissionDenied), Snackbar.LENGTH_LONG).show();
+                // Disable the chekbox being set and therefore also hide the button
+                // that would enable the user to select any background image
+                if(background_backgroundpicture_checkbox.isChecked())
+                    background_backgroundpicture_checkbox.setChecked(false);
+            }
+
             int pictureVis = (background_backgroundpicture_checkbox.isChecked())? View.VISIBLE: View.GONE;
             int colorVis = (background_backgroundpicture_checkbox.isChecked())? View.GONE: View.VISIBLE;
 
@@ -239,6 +252,15 @@ public class ChangeSettingsActivity extends AppCompatActivity{
     private CheckBox.OnCheckedChangeListener        visualizer_visualizerenable_checkbox_listener           = new CompoundButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_DENIED)){
+                // Show that you have to grant permission
+                ColoredSnackbar.make(Color.WHITE, background_backgroundpicture_checkbox, getString(R.string.permissionDenied), Snackbar.LENGTH_LONG).show();
+                // Disable the chekbox being set and therefore also hide the button
+                // that would enable the user to select any background image
+                if(visualizer_visualizerenable_checkbox.isChecked())
+                    visualizer_visualizerenable_checkbox.setChecked(false);
+            }
+
             int vis = (visualizer_visualizerenable_checkbox.isChecked())? View.VISIBLE: View.GONE;
 
             visualizer_visualizer_changesettings_btn.setVisibility(vis);
@@ -332,9 +354,9 @@ public class ChangeSettingsActivity extends AppCompatActivity{
         lines_linedrawBall_checkbox.setChecked(true);
         lines_linesfadecomplete_radiobutton.setChecked(true);
         lines_linesfadeparasite_direction_seekbar.setProgress(1);
-        background_backgroundpicture_checkbox.setChecked(true);
+//        background_backgroundpicture_checkbox.setChecked(true);
         clock_clockenable_checkbox.setChecked(true);
-        visualizer_visualizerenable_checkbox.setChecked(true);
+//        visualizer_visualizerenable_checkbox.setChecked(true);
 
         if(getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).getBoolean("firstTime", true)){
             getSharedPreferences(getString(R.string.settings_settingsAt) + settings_index, MODE_PRIVATE).edit().putBoolean("firstTime", false).apply();
@@ -360,6 +382,10 @@ public class ChangeSettingsActivity extends AppCompatActivity{
 
             background_backgroundpicture_checkbox.setChecked(false);
             background_backgroundcolor_color.value = Color.rgb(243, 168, 168);
+            int pictureVis = (background_backgroundpicture_checkbox.isChecked())? View.VISIBLE: View.GONE;
+            int colorVis = (background_backgroundpicture_checkbox.isChecked())? View.GONE: View.VISIBLE;
+            background_backgroundpicture_button.setVisibility(pictureVis);
+            background_backgroundcolor_colortextview.setVisibility(colorVis);
 
             clock_clockenable_checkbox.setChecked(false);
 
@@ -400,6 +426,8 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             visualizer_visualizationtype_fft = false;
             visualizer_visualizationtype_waveform = true;
 
+            visualizer_visualizer_changesettings_btn.setVisibility(View.GONE);
+
         }else{
 
             /*
@@ -430,6 +458,19 @@ public class ChangeSettingsActivity extends AppCompatActivity{
 
             background_backgroundpicture_checkbox.setChecked(prefs.getBoolean(getString(R.string.background_pictureshown_preferences), false));
             background_backgroundcolor_color.value = prefs.getInt(getString(R.string.background_alternateColor_preferences), 0xF3A8A8);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                // Disable the chekbox being set and therefore also hide the button
+                // that would enable the user to select any background image
+                if(background_backgroundpicture_checkbox.isChecked())
+                    background_backgroundpicture_checkbox.setChecked(false);
+            }
+
+            int pictureVis = (background_backgroundpicture_checkbox.isChecked())? View.VISIBLE: View.GONE;
+            int colorVis = (background_backgroundpicture_checkbox.isChecked())? View.GONE: View.VISIBLE;
+
+            background_backgroundpicture_button.setVisibility(pictureVis);
+            background_backgroundcolor_colortextview.setVisibility(colorVis);
 
             clock_clockenable_checkbox.setChecked(prefs.getBoolean(getString(R.string.clock_drawClock_preferences), false));
 
@@ -465,6 +506,16 @@ public class ChangeSettingsActivity extends AppCompatActivity{
             visualizer_diameter = prefs.getFloat(getString(R.string.visualizer_diameter_preferences), 0.8f);;
             visualizer_visualizationtype_fft = prefs.getBoolean(getString(R.string.visualizer_visualizationtype_fft_preferences), false);
             visualizer_visualizationtype_waveform = prefs.getBoolean(getString(R.string.visualizer_visualizationtype_waveform_preferences), true);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_DENIED)){
+                // Disable the chekbox being set and therefore also hide the button
+                // that would enable the user to select any background image
+                if(visualizer_visualizerenable_checkbox.isChecked())
+                    visualizer_visualizerenable_checkbox.setChecked(false);
+            }
+
+            int visualizer_visibility = (visualizer_visualizerenable_checkbox.isChecked())? View.VISIBLE: View.GONE;
+            visualizer_visualizer_changesettings_btn.setVisibility(visualizer_visibility);
 
         }
 

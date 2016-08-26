@@ -9,7 +9,7 @@
     -->
 
     <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission
         android:name="android.permission.RECORD_AUDIO"/>
@@ -57,6 +57,18 @@
 
         <activity
             android:name=".activities.ChangeSettingsActivity"
+            android:label="@string/title_activity_change_settings"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"/>
+
+        </activity>
+
+        <activity
+            android:name=".activities.ChangeSettingsMaterialTryHard"
             android:label="@string/title_activity_change_settings"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

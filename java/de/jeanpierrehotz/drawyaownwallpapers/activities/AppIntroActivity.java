@@ -1,5 +1,6 @@
 package de.jeanpierrehotz.drawyaownwallpapers.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,9 @@ public class AppIntroActivity extends AppIntro{
     @Override
     public void init(@Nullable Bundle savedInstanceState){
         firstLaunch = getIntent().getBooleanExtra(getString(R.string.appIntro_firstLaunch_setting), false);
+
+        if(firstLaunch)
+            showSkipButton(false);
 
         /* The slide which shows you how to change a setting */
         addSlide(
@@ -51,6 +55,24 @@ public class AppIntroActivity extends AppIntro{
                         0xFF3F51B5
                 )
         );
+        /* The slide which tells you about the background image */ // writestorage - 4
+        addSlide(
+                AppIntroFragment.newInstance(
+                        getString(R.string.appIntro_backgroundImage_caption),
+                        getString(R.string.appIntro_backgroundImage_description),
+                        R.drawable.appintro_backgroundimagepicture,
+                        0xFF3F51B5
+                )
+        );
+        /* The slide which tells you about the visualizers */ // audio and shit - 5
+        addSlide(
+                AppIntroFragment.newInstance(
+                        getString(R.string.appIntro_visualizer_caption),
+                        getString(R.string.appIntro_visualizer_description),
+                        R.drawable.appintro_visualizerpicture,
+                        0xFF3F51B5
+                )
+        );
         /* The slide which shows you that you're done with the intro */
         addSlide(
                 AppIntroFragment.newInstance(
@@ -61,7 +83,11 @@ public class AppIntroActivity extends AppIntro{
                 )
         );
 
-        /* MAke it look all nice */
+        /* Ask for the needed permissions in the app */
+        askForPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
+        askForPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS}, 5);
+
+        /* Make it look all nice */
         setBarColor(0xFF303F9F);
         showStatusBar(false);
         setZoomAnimation();

@@ -452,6 +452,10 @@ public class MainActivity extends AppCompatActivity{
             startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
+//        else if(id == R.id.menu_main_show_material){
+//            startActivity(new Intent(this, ChangeSettingsMaterialTryHard.class));
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

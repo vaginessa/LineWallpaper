@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="context_menu_items">
 
-        <item>Auswählen</item>
-        <item>Umbenennen</item>
-        <item>Löschen</item>
+    <string-array name="lines_disappearance_keys">
+        <item>complete line</item>
+        <item>fading out</item>
+        <item>eating itself</item>
+    </string-array>
 
+    <string-array name="lines_disappearance_descriptions">
+        <item>The complete line disappears after a certain time.</item>
+        <item>The line fades out slowly.</item>
+        <item>The line eats itself.</item>
     </string-array>
 
 </resources>
